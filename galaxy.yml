@@ -1,0 +1,23 @@
+---
+namespace: stdevel
+name: uyuni
+version: 0.0.1
+readme: README.md
+authors:
+  - Christian Stankowic <info@cstan.io>
+description: Collection of modules to manage Uyuni / SUSE Manager
+license:
+  - Apache-2.0
+
+tags:
+  - systemsmanagement
+  - uyuni
+  - suse
+  - manager
+
+dependencies: {}
+
+repository: https://github.com/stdevel/ansible-collection-uyuni
+documentation: https://github.com/stdevel/ansible-collection-uyuni/blob/main/README.md
+homepage: https://github.com/stdevel/ansible-collection-uyuni
+issues: https://github.com/stdevel/ansible-collection-uyuni/issues
