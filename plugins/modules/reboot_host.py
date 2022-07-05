@@ -13,7 +13,7 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: uyuni_reboot_host
+module: reboot_host
 short_description: Reboot a managed host
 description:
   - Reboot a managed host
@@ -29,7 +29,7 @@ options:
 
 EXAMPLES = '''
 - name: Reboot host
-    stdevel.uyuni.uyuni_reboot_host:
+    stdevel.uyuni.reboot_host:
     uyuni_host: 192.168.1.1
     uyuni_user: admin
     uyuni_password: admin
