@@ -9,7 +9,6 @@ from datetime import datetime
 from xmlrpc.client import DateTime, Fault, ServerProxy
 
 from .utilities import split_rpm_filename
-from .connector import BaseConnector
 from .exceptions import (
     APILevelNotSupportedException,
     EmptySetException,
@@ -20,7 +19,7 @@ from .exceptions import (
 )
 
 
-class UyuniAPIClient(BaseConnector):
+class UyuniAPIClient:
     """
     Class for communicating with the Uyuni API
 
@@ -76,7 +75,10 @@ class UyuniAPIClient(BaseConnector):
 
         # start session and check API version if Uyuni API
         self._api_key = None
-        super().__init__(username, password)
+        self._username = username
+        self._password = password
+        self._session = None
+        self._connect()
         self.validate_api_support()
 
     def _connect(self):
