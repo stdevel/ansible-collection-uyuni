@@ -511,24 +511,24 @@ class UyuniAPIClient(BaseConnector):
         # ensure that only integers are given
         # TODO: remove???
         # patches = [x for x in patches if isinstance(x, int)]
-        if patches is None:
-            patches = host.patches  # installing all patches
+        # if patches is None:
+        #     patches = host.patches  # installing all patches
 
         # if not patches:
         #     raise EmptySetException(
         #         "No patches supplied - use patch IDs"
         #     )
 
-        try:
-            patches = [errata.id for errata in patches]
-        except AttributeError as atterr:
-            raise EmptySetException("Unable to get patch IDs") from atterr
+        # try:
+        #     patches = [errata.id for errata in patches]
+        # except AttributeError as atterr:
+        #     raise EmptySetException("Unable to get patch IDs") from atterr
 
-        system_id = host.management_id
+        # system_id = host.management_id
 
         try:
             action_id = self._session.system.scheduleApplyErrata(
-                self._api_key, system_id, patches
+                self._api_key, host, patches
             )
             return action_id
         except Fault as err:

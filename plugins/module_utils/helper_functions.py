@@ -16,6 +16,15 @@ def get_host_id(target, api_client):
     return api_client.get_host_id(target)
 
 
+def get_patch_id(patch, api_client):
+    """
+    Ensure that a patch ID is returned
+    """
+    if isinstance(patch, int) or patch.isdigit():
+        return int(patch)
+    return api_client.get_patch_by_name(patch)
+
+
 def _configure_connection(connection_params):
     """
     Configures API connection
