@@ -83,7 +83,7 @@ def _install_patches(module, api_instance):
             patches = [x["id"] for x in all_patches]
 
         # install patches
-        api_instance.install_plain_patches(
+        api_instance.install_patches(
             get_host_id(
                 module.params.get('name'),
                 api_instance

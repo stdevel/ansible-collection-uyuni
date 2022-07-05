@@ -18,7 +18,6 @@ from .exceptions import (
     SSLCertVerificationError,
     CustomVariableExistsException
 )
-from .host import Upgrade
 
 
 class UyuniAPIClient(BaseConnector):
@@ -498,37 +497,19 @@ class UyuniAPIClient(BaseConnector):
                 f"Generic remote communication error: {err.faultString!r}"
             )
 
-    def install_plain_patches(self, host, patches=None):
+    def install_patches(self, system_id, patches=None):
         """
         Install patches on a given system
 
-        :param host: The host on which to install updates
-        :type host: Host
+        :param system_id: profile ID
+        :type system_id: int
         :param patches: If given only installs the given patches.
         :type patches: list
         """
-        # system_id = host.management_id
-        # ensure that only integers are given
-        # TODO: remove???
-        # patches = [x for x in patches if isinstance(x, int)]
-        # if patches is None:
-        #     patches = host.patches  # installing all patches
-
-        # if not patches:
-        #     raise EmptySetException(
-        #         "No patches supplied - use patch IDs"
-        #     )
-
-        # try:
-        #     patches = [errata.id for errata in patches]
-        # except AttributeError as atterr:
-        #     raise EmptySetException("Unable to get patch IDs") from atterr
-
-        # system_id = host.management_id
 
         try:
             action_id = self._session.system.scheduleApplyErrata(
-                self._api_key, host, patches
+                self._api_key, system_id, patches
             )
             return action_id
         except Fault as err:
@@ -544,22 +525,21 @@ class UyuniAPIClient(BaseConnector):
                 f"Generic remote communication error: {err.faultString!r}"
             )
 
-    def install_plain_upgrades(self, host, upgrades=None):
+    def install_upgrades(self, system_id, upgrades=None):
         """
         Install package upgrades on a given system
 
-        :param host: The host to upgrade
-        :type host: Host
+        :param system_id: profile ID
+        :type system_id: int
         :param upgrades: Specific upgrades to install
         :type upgrades: list
         """
-        system_id = host.management_id
-
         if upgrades is None:
             upgrades = self.get_host_upgrades(system_id)
-            upgrades = [Upgrade.from_dict(package) for package in upgrades]
+            # TODO: required?
+            # upgrades = [Upgrade.from_dict(package) for package in upgrades]
         if not upgrades:
-            self.LOGGER.debug("No upgrades for %s", host)
+            self.LOGGER.debug("No upgrades for %s", system_id)
             return  # Nothing to do
 
         upgrade_ids = []
@@ -595,58 +575,16 @@ class UyuniAPIClient(BaseConnector):
                 f"Generic remote communication error: {err.faultString!r}"
             )
 
-    def reboot_host(self, host):
+    def reboot_host(self, system_id):
         """
         Reboots a system
 
-        :param host: host to reboot
-        :type host: host object
+        :param system_id: profile ID
+        :type system_id: int
         """
-        if not (host.reboot_pre_script or host.reboot_post_script):
-            # simply reboot host
-            return self.plain_reboot_host(host)
-
-        # We have pre-script or post-script
-        system_id = host.management_id
-        chain_label = f"{system_id}_patch"
-        action_ids = []
-        if host.reboot_pre_script:
-            action_ids.append(
-                self.reboot_pre_script(host, chain_label)
-            )
-
-        # add reboot
-        action_ids.append(
-            self.actionchain_add_reboot(chain_label, system_id)
-        )
-
-        if host.reboot_post_script:
-            action_ids.append(
-                self.reboot_post_script(host, chain_label)
-            )
-
-        # schedule execution
-        self.run_actionchain(chain_label)
-
-        return action_ids
-
-    def plain_reboot_host(self, host):
-        """
-        Reboots a system
-
-        :param host: host to reboot
-        :type host: host object
-        """
-        try:
-            system_id = host
-        except AttributeError as attrerr:
-            raise EmptySetException(
-                f"Unable to get management id from {host}"
-            ) from attrerr
-
         if not isinstance(system_id, int):
             raise EmptySetException(
-                f"No system found - use system profile IDs {host}"
+                f"No system found - use system profile IDs {system_id}"
             )
 
         earliest_execution = DateTime(datetime.now().timetuple())
@@ -765,19 +703,19 @@ class UyuniAPIClient(BaseConnector):
         # does not support any kind of locations
         return self.get_organization()
 
-    def is_reboot_required(self, host):
+    def is_reboot_required(self, system_id):
         """
         Checks whether a particular host requires a reboot
 
-        :param host: host
-        :type host: host object
+        :param system_id: profile ID
+        :type system_id: int
         """
         try:
             systems = self._session.system.listSuggestedReboot(
                 self._api_key
             )
 
-            return any(system["id"] == host.management_id for system in systems)
+            return any(system["id"] == system_id for system in systems)
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
@@ -1265,151 +1203,3 @@ class UyuniAPIClient(BaseConnector):
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             )
-
-    def install_patches(self, host, patches):
-        """
-        Installs patches
-
-        :param host: host on which to install updates
-        :type host: host object
-        :param patches: patch IDs
-        :type patches: int array
-        """
-        if not (host.patch_pre_script or host.patch_post_script):
-            return self.install_plain_patches(host, patches)
-
-        # We have a pre or post-script and work with an action chain
-        system_id = host.management_id
-        chain_label = f"{system_id}_patch"
-        self.add_actionchain(chain_label)
-        action_ids = []
-
-        if host.patch_pre_script:
-            action_ids.append(
-                self.install_pre_script(host, chain_label)
-            )
-
-        # add patches
-        action_ids.append(
-            self.actionchain_add_patches(chain_label, system_id, [p.id for p in patches])
-        )
-
-        if host.patch_post_script:
-            action_ids.append(
-                self.install_post_script(host, chain_label)
-            )
-
-        # schedule execution
-        self.run_actionchain(chain_label)
-
-        return action_ids
-
-    def install_upgrades(self, host, upgrades):
-        """
-        Installs upgrades
-
-        :param system_id: profile ID
-        :type system_id: int
-        :param upgrades: package IDs
-        :type upgrade: int array
-        """
-        if not (host.patch_pre_script or host.patch_post_script):
-            # simply install patches
-            return self.install_plain_upgrades(host, upgrades)
-
-        # We have pre-script or post-script
-        system_id = host.management_id
-        chain_label = f"{system_id}_upgrade"
-        self.add_actionchain(chain_label)
-        action_ids = []
-        if host.patch_pre_script:
-            action_ids.append(
-                self.install_pre_script(host, chain_label)
-            )
-
-        # add upgrades
-        try:
-            action_ids.append(
-                self.actionchain_add_upgrades(chain_label, system_id, upgrades)
-            )
-        except EmptySetException as err:
-            if err == "No upgrades defined":
-                pass
-
-        if host.patch_post_script:
-            action_ids.append(
-                self.install_post_script(host, chain_label)
-            )
-
-        # schedule execution
-        self.run_actionchain(chain_label)
-
-        return action_ids
-
-    def install_pre_script(self, host, chain_label):
-        """
-        Runs the install pre-script
-
-        :param system_id: profile ID
-        :type system_id: int
-        :param chain_label: chain label
-        :type chain_label: str
-        """
-        return self.actionchain_add_command(
-            chain_label,
-            host.management_id,
-            host.patch_pre_script,
-            user=host.patch_pre_script_user,
-            group=host.patch_pre_script_group
-        )
-
-    def install_post_script(self, host, chain_label):
-        """
-        Runs the install post-script
-
-        :param system_id: profile ID
-        :type system_id: int
-        :param chain_label: chain label
-        :type chain_label: str
-        """
-        return self.actionchain_add_command(
-            chain_label,
-            host.management_id,
-            host.patch_post_script,
-            user=host.patch_post_script_user,
-            group=host.patch_post_script_group
-        )
-
-    def reboot_pre_script(self, host, chain_label):
-        """
-        Runs the reboot pre-script
-
-        :param system_id: profile ID
-        :type system_id: int
-        :param chain_label: chain label
-        :type chain_label: str
-        """
-        return self.actionchain_add_command(
-            chain_label,
-            host.management_id,
-            host.reboot_pre_script,
-            user=host.reboot_pre_script_user,
-            group=host.reboot_pre_script_group
-        )
-
-    def reboot_post_script(self, host, chain_label):
-        """
-        Runs the reboot post-script
-
-        :param system_id: profile ID
-        :type system_id: int
-        :param chain_label: chain label
-        :type chain_label: str
-        """
-        return self.actionchain_add_command(
-            chain_label,
-            host.management_id,
-            host.reboot_post_script,
-            user=host.reboot_post_script_user,
-            group=host.reboot_post_script_group
-        )
