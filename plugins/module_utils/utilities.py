@@ -1,3 +1,8 @@
+#!/usr/bin/env python
+"""
+Shared functions
+"""
+
 from collections import namedtuple
 
 NVREA = namedtuple("NVREA", "name version release epoch architecture")
