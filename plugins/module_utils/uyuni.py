@@ -71,7 +71,7 @@ class UyuniAPIClient(BaseConnector):
 
         # set connection information
         self.LOGGER.debug("Set hostname to '%s'", hostname)
-        self.url = "https://{0}:{1}/rpc/api".format(hostname, port)
+        self.url = f"https://{hostname}:{port}/rpc/api"
         self.verify = verify
 
         # start session and check API version if Uyuni API
@@ -101,10 +101,10 @@ class UyuniAPIClient(BaseConnector):
             if err.faultCode == 2950:
                 raise InvalidCredentialsException(
                     f"Wrong credentials supplied: {err.faultString!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def validate_api_support(self):
         """
@@ -128,7 +128,7 @@ class UyuniAPIClient(BaseConnector):
             self.LOGGER.error(err)
             raise APILevelNotSupportedException(
                 "Unable to verify API version"
-            )
+            ) from err
 
     def get_hosts(self):
         """
@@ -146,7 +146,7 @@ class UyuniAPIClient(BaseConnector):
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_hosts_by_organization(self, organization):
         """
@@ -154,6 +154,10 @@ class UyuniAPIClient(BaseConnector):
         """
         # filter not implemented by Uyuni API
         # simply return _all_ the hosts
+        self.LOGGER.debug(
+            "Just printing %s so that pylint shuts up",
+            organization
+        )
         return self.get_hosts()
 
     def get_hosts_by_location(self, location):
@@ -162,6 +166,10 @@ class UyuniAPIClient(BaseConnector):
         """
         # filter not implemented by Uyuni API
         # simply return _all_ the hosts
+        self.LOGGER.debug(
+            "Just printing %s so that pylint shuts up",
+            location
+        )
         return self.get_hosts()
 
     def get_hosts_by_hostgroup(self, hostgroup):
@@ -181,10 +189,10 @@ class UyuniAPIClient(BaseConnector):
             if "unable to locate" in err.faultString.lower():
                 raise EmptySetException(
                     "No systems found"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_id(self, hostname):
         """
@@ -206,10 +214,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise EmptySetException(
                     f"System not found: {hostname!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_hostname_by_id(self, system_id):
         """
@@ -227,10 +235,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise EmptySetException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_params(self, system_id):
         """
@@ -253,10 +261,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_owner(self, system_id):
         """
@@ -268,10 +276,10 @@ class UyuniAPIClient(BaseConnector):
         host_params = self.get_host_params(system_id)
         try:
             return host_params['katprep_owner']
-        except KeyError:
+        except KeyError as err:
             raise SessionException(
                 f"Owner not found for {system_id!r}"
-            )
+            ) from err
 
     def get_host_custom_variables(self, system_id):
         """
@@ -294,10 +302,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_patches(self, system_id):
         """
@@ -320,10 +328,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_patch_by_name(self, patch_name):
         """
@@ -378,10 +386,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such package" in err.faultString.lower():
                 raise EmptySetException(
                     f"Package not found: {file_name!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_upgrades(self, system_id):
         """
@@ -414,10 +422,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_groups(self, system_id):
         """
@@ -440,10 +448,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_details(self, system_id):
         """
@@ -466,10 +474,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_network(self, system_id):
         """
@@ -492,10 +500,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def install_patches(self, system_id, patches=None):
         """
@@ -516,14 +524,14 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             if "invalid errata" in err.faultString.lower():
                 raise EmptySetException(
                     f"Errata not found: {err.faultString!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def install_upgrades(self, system_id, upgrades=None):
         """
@@ -547,7 +555,7 @@ class UyuniAPIClient(BaseConnector):
             for upgrade in upgrades:
                 package_id = upgrade.package_id
                 if package_id is None:
-                    raise ValueError("{!r} has no valid package id set!".format(upgrade))
+                    raise ValueError(f"{upgrade} has no valid package id set!")
 
                 upgrade_ids.append(package_id)
         except (TypeError, AttributeError, ValueError) as conversion_error:
@@ -566,14 +574,14 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             if "cannot find package" in err.faultString.lower():
                 raise EmptySetException(
                     f"Upgrade not found: {err.faultString!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def reboot_host(self, system_id):
         """
@@ -597,10 +605,10 @@ class UyuniAPIClient(BaseConnector):
             if "could not find server" in err.faultString.lower():
                 raise EmptySetException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_action(self, system_id, task_id):
         """
@@ -631,10 +639,10 @@ class UyuniAPIClient(BaseConnector):
             if "action not found" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action not found: {task_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_host_actions(self, system_id):
         """
@@ -657,10 +665,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_user(self, user_name):
         """
@@ -684,10 +692,10 @@ class UyuniAPIClient(BaseConnector):
             if "could not find user" in err.faultString.lower():
                 raise EmptySetException(
                     f"User not found: {user_name!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_organization(self):
         """
@@ -719,7 +727,7 @@ class UyuniAPIClient(BaseConnector):
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_action_by_type(self, system_id, action_type):
         """
@@ -744,10 +752,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_errata_task_status(self, system_id):
         """
@@ -789,7 +797,7 @@ class UyuniAPIClient(BaseConnector):
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def create_custom_variable(self, label, description):
         """
@@ -808,10 +816,10 @@ class UyuniAPIClient(BaseConnector):
             if "already exists" in err.faultString.lower():
                 raise CustomVariableExistsException(
                     f"Key already exists: {label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def update_custom_variable(self, label, description):
         """
@@ -830,10 +838,10 @@ class UyuniAPIClient(BaseConnector):
             if "does not exist" in err.faultString.lower():
                 raise EmptySetException(
                     f"Key does not exist: {label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def delete_custom_variable(self, label):
         """
@@ -850,10 +858,10 @@ class UyuniAPIClient(BaseConnector):
             if "does not exist" in err.faultString.lower():
                 raise EmptySetException(
                     f"Key does not exist: {label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def host_add_custom_variable(self, system_id, label, value):
         """
@@ -880,10 +888,10 @@ class UyuniAPIClient(BaseConnector):
             if "was not defined" in err.faultString.lower():
                 raise EmptySetException(
                     f"Custom Variable does not exist: {label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def host_update_custom_variable(self, system_id, label, value):
         """
@@ -921,10 +929,10 @@ class UyuniAPIClient(BaseConnector):
             if "was not defined" in err.faultString.lower():
                 raise EmptySetException(
                     f"Custom Variable does not exist: {label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def host_run_command(self, system_id, command, user="root", group="root"):
         """
@@ -959,10 +967,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such system" in err.faultString.lower():
                 raise EmptySetException(
                     f"System not found: {system_id!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_actionchains(self):
         """
@@ -975,7 +983,7 @@ class UyuniAPIClient(BaseConnector):
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def get_actionchain_actions(self, chain_label):
         """
@@ -994,7 +1002,7 @@ class UyuniAPIClient(BaseConnector):
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def add_actionchain(self, label):
         """
@@ -1012,10 +1020,10 @@ class UyuniAPIClient(BaseConnector):
             if "is missing" in err.faultString.lower():
                 raise EmptySetException(
                     "Label missing"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def run_actionchain(self, chain_label):
         """
@@ -1034,10 +1042,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such action chain" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action chain not found: {chain_label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def delete_actionchain(self, chain_label):
         """
@@ -1054,10 +1062,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such action chain" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action chain not found: {chain_label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def actionchain_add_patches(self, chain_label, system_id, patches):
         """
@@ -1084,14 +1092,14 @@ class UyuniAPIClient(BaseConnector):
             if "no such action chain" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action chain not found: {chain_label!r}"
-                )
+                ) from err
             if "could not find errata" in err.faultString.lower():
                 raise EmptySetException(
                     f"At least one patch not found: {patches!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def actionchain_add_upgrades(self, chain_label, system_id, upgrades):
         """
@@ -1123,14 +1131,14 @@ class UyuniAPIClient(BaseConnector):
             if "no such action chain" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action chain not found: {chain_label!r}"
-                )
+                ) from err
             if "invalid package" in err.faultString.lower():
                 raise EmptySetException(
                     f"At least one package upgrade not found: {upgrades!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def actionchain_add_command(self, chain_label, system_id, command, user="root", group="root"):
         """
@@ -1171,10 +1179,10 @@ class UyuniAPIClient(BaseConnector):
             if "no such action chain" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action chain not found: {chain_label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
 
     def actionchain_add_reboot(self, chain_label, system_id):
         """
@@ -1199,7 +1207,7 @@ class UyuniAPIClient(BaseConnector):
             if "no such action chain" in err.faultString.lower():
                 raise EmptySetException(
                     f"Action chain not found: {chain_label!r}"
-                )
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
-            )
+            ) from err
