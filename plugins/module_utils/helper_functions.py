@@ -7,7 +7,19 @@ import logging
 from .uyuni import UyuniAPIClient
 from .exceptions import SSLCertVerificationError
 
+def get_host_id(target, api_client):
+    """
+    Ensures that a host ID is returned
+    """
+    if isinstance(target, int) or target.isdigit():
+        return int(target)
+    return api_client.get_host_id(target)
+
+
 def _configure_connection(connection_params):
+    """
+    Configures API connection
+    """
     # try to create API instance
     try:
         api_instance = UyuniAPIClient(

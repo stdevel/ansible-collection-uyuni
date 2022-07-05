@@ -5,7 +5,7 @@ Ansible Module for rebooting a managed host
 
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
-from ..module_utils.helper_functions import _configure_connection
+from ..module_utils.helper_functions import _configure_connection, get_host_id
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -23,7 +23,7 @@ extends_documentation_fragment:
   - stdevel.uyuni.uyuni_auth
 options:
   name:
-    description: Name of the managed host
+    description: Name or profile ID of the managed host
     required: True
 '''
 
@@ -33,7 +33,7 @@ EXAMPLES = '''
     uyuni_host: 192.168.1.1
     uyuni_user: admin
     uyuni_password: admin
-    name: 1000010000
+    name: server.localdomain.loc
 '''
 
 def _reboot_host(module, api_instance):
@@ -42,7 +42,10 @@ def _reboot_host(module, api_instance):
     """
     try:
         api_instance.plain_reboot_host(
-            int(module.params.get('name'))
+            get_host_id(
+                module.params.get('name'),
+                api_instance
+            )
         )
         module.exit_json(changed=True)
     except SSLCertVerificationError:
