@@ -545,33 +545,18 @@ class UyuniAPIClient:
 
         :param system_id: profile ID
         :type system_id: int
-        :param upgrades: Specific upgrades to install
-        :type upgrades: list
+        :param upgrades: Specific upgrade IDs to install
+        :type upgrades: list with ints
         """
-        if upgrades is None:
-            upgrades = self.get_host_upgrades(system_id)
-            # TODO: required?
-            # upgrades = [Upgrade.from_dict(package) for package in upgrades]
         if not upgrades:
             self.LOGGER.debug("No upgrades for %s", system_id)
-            return  # Nothing to do
-
-        upgrade_ids = []
-        try:
-            for upgrade in upgrades:
-                package_id = upgrade.package_id
-                if package_id is None:
-                    raise ValueError(f"{upgrade} has no valid package id set!")
-
-                upgrade_ids.append(package_id)
-        except (TypeError, AttributeError, ValueError) as conversion_error:
-            raise EmptySetException("Invalid package type") from conversion_error
+            raise EmptySetException("No patches supplied")
 
         earliest_execution = DateTime(datetime.now().timetuple())
 
         try:
             action_id = self._session.system.schedulePackageInstall(
-                self._api_key, system_id, upgrade_ids, earliest_execution
+                self._api_key, system_id, upgrades, earliest_execution
             )
 
             # returning an array to be consistent with install_patches
