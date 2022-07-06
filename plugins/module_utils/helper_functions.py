@@ -56,6 +56,18 @@ def get_recently_installed_patches(system_id, api_client):
     return [api_client.get_patch_by_name(x) for x in errata]
 
 
+def is_blocklisted(upgrade: str, blacklist: list):
+    """
+    This function checks whether a patch is matched by an exclude pattern
+
+    :param upgrade: Hostname
+    :type upgrade: str
+    :param blacklist: List of blacklisted terms
+    :type blacklist: [str, ]
+    """
+    return any(entry in upgrade for entry in blacklist)
+
+
 def _configure_connection(connection_params):
     """
     Configures API connection
