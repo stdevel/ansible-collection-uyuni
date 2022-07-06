@@ -41,7 +41,7 @@ def _reboot_host(module, api_instance):
     Reboots the host
     """
     try:
-        api_instance.plain_reboot_host(
+        api_instance.reboot_host(
             get_host_id(
                 module.params.get('name'),
                 api_instance
