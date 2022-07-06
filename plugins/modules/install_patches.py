@@ -59,6 +59,8 @@ def _install_patches(module, api_instance):
         include_patches = None
     except TypeError:
         include_patches = None
+    except EmptySetException:
+        module.fail_json(msg="Patch not found or applicable")
 
     try:
         exclude_patches = [get_patch_id(x, api_instance)["id"] for x in module.params.get('exclude_patches')]
@@ -66,6 +68,8 @@ def _install_patches(module, api_instance):
         exclude_patches = None
     except TypeError:
         exclude_patches = None
+    except EmptySetException:
+        module.fail_json(msg="Patch not found or applicable")
 
     # bail out if both include/exclude patches is selected
     if include_patches and exclude_patches:
@@ -105,8 +109,6 @@ def _install_patches(module, api_instance):
         module.fail_json(msg="Patch(es) not found or applicable")
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
-    except EmptySetException as err:
-        module.fail_json(msg=f"Exception when calling UyuniAPI->install_patches: {err}")
 
 
 def _main():
