@@ -74,11 +74,6 @@ def _install_upgrades(module, api_instance):
                         upgrades.append(upgrade["to_package_id"])
 
         elif include_upgrades:
-            # abort in case of included upgrades don't exist
-            invalid_upgrades = [x for x in include_upgrades if x not in all_upgrades]
-            if invalid_upgrades:
-                module.fail_json(msg=f"Invalid package upgrade(s): {' '.join(invalid_upgrades)}")
-
             for upgrade in all_upgrades:
                 # ignore the misleading function name here pls
                 if is_blocklisted(upgrade["name"], include_upgrades):
