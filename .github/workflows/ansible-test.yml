@@ -1,0 +1,130 @@
+name: CI
+on:
+  # Run CI against all pushes (direct commits, also merged PRs), Pull Requests
+  push:
+  pull_request:
+  # Run CI once per day (at 06:00 UTC)
+  # This ensures that even if there haven't been commits that we are still testing against latest version of ansible-test for each ansible-base version
+  schedule:
+    - cron: '0 6 * * *'
+env:
+  NAMESPACE: stdevel
+  COLLECTION_NAME: uyuni
+
+jobs:
+  sanity:
+    name: Sanity (Ⓐ${{ matrix.ansible }})
+    strategy:
+      matrix:
+        ansible:
+          - stable-2.9
+          - stable-2.10
+          - stable-2.11
+          - stable-2.12
+          - stable-2.13
+          - devel
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Perform sanity testing with ansible-test
+        uses: ansible-community/ansible-test-gh-action@release/v1
+        with:
+          ansible-core-version: ${{ matrix.ansible }}
+          testing-type: sanity
+        
+
+  # units:
+  #   runs-on: ubuntu-latest
+  #   name: Units (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
+  #   strategy:
+  #     # As soon as the first unit test fails, cancel the others to free up the CI queue
+  #     fail-fast: true
+  #     matrix:
+  #       ansible:
+  #         - stable-2.9 # Only if your collection supports Ansible 2.9
+  #         - stable-2.10
+  #         - stable-2.11
+  #         - stable-2.12
+  #         - stable-2.13
+  #         - devel
+  #       python:
+  #         - 2.6
+  #         - 2.7
+  #         - 3.5
+  #         - 3.6
+  #         - 3.7
+  #         - 3.8
+  #         - 3.9
+  #       exclude:
+  #         # Because ansible-test doesn't support python3.9 for Ansible 2.9
+  #         - ansible: stable-2.9
+  #           python: 3.9
+  #         - ansible: devel
+  #           python: 2.6
+  #         - ansible: stable-2.13
+  #           python: 2.6
+
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+
+  #     - name: Perform unit testing with ansible-test
+  #       uses: ansible-community/ansible-test-gh-action@release/v1
+  #       with:
+  #         ansible-core-version: ${{ matrix.ansible }}
+  #         target-python-version: ${{ matrix.python }}
+  #         python-version: 3.8
+  #         testing-type: units
+  #         test-deps: >-
+  #           ansible.netcommon
+  #           ansible.utils
+
+
+  # integration:
+  #   runs-on: ubuntu-latest
+  #   name: I (Ⓐ${{ matrix.ansible }}+py${{ matrix.python }})
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       ansible:
+  #         - stable-2.9 # Only if your collection supports Ansible 2.9
+  #         - stable-2.10
+  #         - stable-2.11
+  #         - stable-2.12
+  #         - stable-2.13
+  #         - devel
+  #       python:
+  #         - 2.6
+  #         - 2.7
+  #         - 3.5
+  #         - 3.6
+  #         - 3.7
+  #         - 3.8
+  #         - 3.9
+  #       exclude:
+  #         # Because ansible-test doesn't support python3.9 for Ansible 2.9
+  #         - ansible: stable-2.9
+  #           python: 3.9
+  #         - ansible: devel
+  #           python: 2.6
+
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+
+  #     - name: Perform integration testing with ansible-test
+  #       uses: ansible-community/ansible-test-gh-action@release/v1
+  #       with:
+  #         ansible-core-version: ${{ matrix.ansible }}
+  #         python-version: 3.8
+  #         pre-test-cmd: >-
+  #           mkdir -p tests/output/
+  #           touch tests/output/coverage
+  #         target-python-version: ${{ matrix.python }}
+  #         testing-type: integration
+  #         test-deps: >-
+  #           ansible.netcommon
+  #           ansible.utils

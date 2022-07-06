@@ -37,7 +37,7 @@ options:
 
 EXAMPLES = '''
 - name: Reboot host
-    stdevel.uyuni.install_upgrades:
+  stdevel.uyuni.install_upgrades:
     uyuni_host: 192.168.1.1
     uyuni_user: admin
     uyuni_password: admin
