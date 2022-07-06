@@ -55,18 +55,14 @@ def _install_patches(module, api_instance):
     host =  get_host_id(module.params.get('name'), api_instance)
     try:
         include_patches = [get_patch_id(x, api_instance)["id"] for x in module.params.get('include_patches')]
-    except UnboundLocalError:
-        include_patches = None
-    except TypeError:
+    except (UnboundLocalError, TypeError):
         include_patches = None
     except EmptySetException:
         module.fail_json(msg="Patch not found or applicable")
 
     try:
         exclude_patches = [get_patch_id(x, api_instance)["id"] for x in module.params.get('exclude_patches')]
-    except UnboundLocalError:
-        exclude_patches = None
-    except TypeError:
+    except (UnboundLocalError, TypeError):
         exclude_patches = None
     except EmptySetException:
         module.fail_json(msg="Patch not found or applicable")
