@@ -527,6 +527,10 @@ class UyuniAPIClient:
                 raise SessionException(
                     f"System not found: {system_id!r}"
                 ) from err
+            if "no errata to apply" in err.faultString.lower():
+                raise EmptySetException(
+                    f"No applicable errata to apply: {err.faultString!r}"
+                )
             if "invalid errata" in err.faultString.lower():
                 raise EmptySetException(
                     f"Errata not found: {err.faultString!r}"

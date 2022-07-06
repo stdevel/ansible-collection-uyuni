@@ -25,6 +25,37 @@ def get_patch_id(patch, api_client):
     return api_client.get_patch_by_name(patch)
 
 
+def patch_already_installed(system_id, patches, api_client):
+    """
+    Checks whether specific patches are already installed
+    """
+    # get recently installed patches
+    _installed = [x['id'] for x in get_recently_installed_patches(system_id, api_client)]
+    # check if patches aren't installed
+    for patch in patches:
+        if patch not in _installed:
+            return False
+    return True
+
+
+def get_recently_installed_patches(system_id, api_client):
+    """
+    Get all recently installed patches
+    """
+    # find already installed errata by searching actions
+    actions = api_client.get_host_actions(
+        system_id
+    )
+    errata = [
+        x["additional_info"][0]["detail"].split(' ', 1)[0] for x in actions
+        if ("name" in x
+            and "patch update" in x["name"].lower()
+            and x["successful_count"] == 1)
+    ]
+    # return errata IDs
+    return [api_client.get_patch_by_name(x) for x in errata]
+
+
 def _configure_connection(connection_params):
     """
     Configures API connection

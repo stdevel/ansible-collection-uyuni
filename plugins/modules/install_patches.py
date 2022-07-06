@@ -5,7 +5,7 @@ Ansible Module for installing patches on a managed host
 
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
-from ..module_utils.helper_functions import _configure_connection, get_host_id, get_patch_id
+from ..module_utils.helper_functions import _configure_connection, get_host_id, get_patch_id, patch_already_installed
 
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
@@ -92,7 +92,17 @@ def _install_patches(module, api_instance):
         )
         module.exit_json(changed=True)
     except EmptySetException:
-        module.fail_json(msg="Patch(es) not found")
+        # check if already installed
+        if patch_already_installed(
+            get_host_id(
+                module.params.get('name'),
+                api_instance
+            ),
+            patches,
+            api_instance
+        ):
+            module.exit_json(changed=False)
+        module.fail_json(msg="Patch(es) not found or applicable")
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
     except EmptySetException as err:
