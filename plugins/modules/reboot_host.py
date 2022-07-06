@@ -29,7 +29,7 @@ options:
 
 EXAMPLES = '''
 - name: Reboot host
-    stdevel.uyuni.reboot_host:
+  stdevel.uyuni.reboot_host:
     uyuni_host: 192.168.1.1
     uyuni_user: admin
     uyuni_password: admin
