@@ -71,6 +71,7 @@ entity:
   returned: success
 '''
 
+
 def _install_upgrades(module, api_instance):
     """
     Installs upgrades on the host

@@ -72,6 +72,7 @@ entity:
   returned: success
 '''
 
+
 def _install_patches(module, api_instance):
     """
     Installs patches on the host

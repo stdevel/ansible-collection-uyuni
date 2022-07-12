@@ -61,6 +61,7 @@ entity:
   returned: success
 '''
 
+
 def _reboot_host(module, api_instance):
     """
     Reboots the host
