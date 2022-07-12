@@ -66,6 +66,12 @@ EXAMPLES = '''
       - openSUSE-SLE-15.3-2022-2118
 '''
 
+RETURN = '''
+entity:
+  description: State whether patch installation was scheduled successfully
+  returned: success
+'''
+
 def _install_patches(module, api_instance):
     """
     Installs patches on the host

@@ -55,6 +55,12 @@ EXAMPLES = '''
     name: server.localdomain.loc
 '''
 
+RETURN = '''
+entity:
+  description: State whether reboot was scheduled successfully
+  returned: success
+'''
+
 def _reboot_host(module, api_instance):
     """
     Reboots the host

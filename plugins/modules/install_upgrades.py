@@ -65,6 +65,11 @@ EXAMPLES = '''
       - kernel-default
 '''
 
+RETURN = '''
+entity:
+  description: State whether package installation was scheduled successfully
+  returned: success
+'''
 
 def _install_upgrades(module, api_instance):
     """
