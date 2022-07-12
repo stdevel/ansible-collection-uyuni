@@ -31,6 +31,8 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@v2
+        with:
+          ref: 'feat-linting'
 
       - name: Perform sanity testing with ansible-test
         uses: ansible-community/ansible-test-gh-action@release/v1
