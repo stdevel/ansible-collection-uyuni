@@ -43,6 +43,7 @@ options:
   name:
     description: Name or profile ID of the managed host
     required: True
+    type: str
 '''
 
 EXAMPLES = '''
