@@ -16,11 +16,11 @@ options:
   uyuni_port:
     description: Uyuni API endpoint port
     default: 443
-    type: int
+    type: <class 'int'>
   uyuni_verify_ssl:
     description: Verify SSL certificate
     default: True
-    type: bool
+    type: <class 'bool'>
   uyuni_user:
     description: Uyuni login user
     required: True
