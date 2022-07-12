@@ -28,6 +28,7 @@ options:
   name:
     description: Name or profile ID of the managed host
     required: True
+    type: str
   include_upgrades:
     description: List of package names to install
     type: list
@@ -115,11 +116,11 @@ def _main():
         uyuni_host=dict(required=True, default=None),
         uyuni_user=dict(required=True, default=None),
         uyuni_password=dict(required=True, default=None, no_log=True),
-        uyuni_port=dict(default=443, type=int),
-        uyuni_verify_ssl=dict(default=True, type=bool),
+        uyuni_port=dict(default=443, type='int'),
+        uyuni_verify_ssl=dict(default=True, type='bool'),
         name=dict(required=True, default=None),
-        include_upgrades=dict(default=None, type=list),
-        exclude_upgrades=dict(default=None, type=list)
+        include_upgrades=dict(default=None, type='list', elements='str'),
+        exclude_upgrades=dict(default=None, type='list', elements='str')
     )
 
     module = AnsibleModule(argument_spec=argument_spec)
