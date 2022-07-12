@@ -59,6 +59,7 @@ RETURN = '''
 entity:
   description: State whether reboot was scheduled successfully
   returned: success
+  type: bool
 '''
 
 

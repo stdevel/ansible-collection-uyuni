@@ -70,6 +70,7 @@ RETURN = '''
 entity:
   description: State whether patch installation was scheduled successfully
   returned: success
+  type: bool
 '''
 
 

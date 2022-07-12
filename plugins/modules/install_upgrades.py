@@ -69,6 +69,7 @@ RETURN = '''
 entity:
   description: State whether package installation was scheduled successfully
   returned: success
+  type: bool
 '''
 
 
