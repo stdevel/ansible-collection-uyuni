@@ -8,6 +8,7 @@ from .uyuni import UyuniAPIClient
 from .exceptions import SSLCertVerificationError
 __metaclass__ = type
 
+
 def get_host_id(target, api_client):
     """
     Ensures that a host ID is returned

@@ -353,8 +353,10 @@ class UyuniAPIClient:
         except Fault as err:
             def missing_patch(error_message):
                 message = error_message.lower()
-                if ("no such patch" in message or
-                    ("the patch" in message and "cannot be found" in message)):
+                if (
+                    "no such patch" in message or
+                    ("the patch" in message and "cannot be found" in message)
+                ):
                     return True
 
                 return False
