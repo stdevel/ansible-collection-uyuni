@@ -2,6 +2,7 @@
 Exceptions used by the management classes
 """
 from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 
 
 class SessionException(Exception):
@@ -10,7 +11,6 @@ class SessionException(Exception):
 
     .. class:: SessionException
     """
-    __metaclass__ = type
 
 
 class InvalidCredentialsException(Exception):
@@ -19,7 +19,6 @@ class InvalidCredentialsException(Exception):
 
     .. class:: InvalidCredentialsException
     """
-    __metaclass__ = type
 
 
 class APILevelNotSupportedException(Exception):
@@ -28,7 +27,6 @@ class APILevelNotSupportedException(Exception):
 
     .. class:: APILevelNotSupportedException
     """
-    __metaclass__ = type
 
 
 class UnsupportedRequestException(Exception):
@@ -37,7 +35,6 @@ class UnsupportedRequestException(Exception):
 
     .. class:: UnsupportedRequest
     """
-    __metaclass__ = type
 
 
 class InvalidHostnameFormatException(Exception):
@@ -46,7 +43,6 @@ class InvalidHostnameFormatException(Exception):
 
     .. class:: InvalidHostnameFormatException
     """
-    __metaclass__ = type
 
 
 class UnsupportedFilterException(Exception):
@@ -55,7 +51,6 @@ class UnsupportedFilterException(Exception):
 
     .. class:: UnsupportedFilterException
     """
-    __metaclass__ = type
 
 
 class EmptySetException(Exception):
@@ -64,7 +59,6 @@ class EmptySetException(Exception):
 
     .. class:: EmptySetException
     """
-    __metaclass__ = type
 
 
 class CustomVariableExistsException(Exception):
@@ -73,7 +67,6 @@ class CustomVariableExistsException(Exception):
 
     .. class:: CustomVariableExistsException
     """
-    __metaclass__ = type
 
 
 class SnapshotExistsException(Exception):
@@ -82,7 +75,6 @@ class SnapshotExistsException(Exception):
 
     .. class:: SnapshotExistsException
     """
-    __metaclass__ = type
 
 
 class UnauthenticatedError(RuntimeError):
@@ -91,7 +83,6 @@ class UnauthenticatedError(RuntimeError):
 
     .. class:: UnauthenticatedError
     """
-    __metaclass__ = type
 
 
 class SSLCertVerificationError(Exception):
@@ -100,4 +91,3 @@ class SSLCertVerificationError(Exception):
 
     .. class:: SSLCertVerificationError
     """
-    __metaclass__ = type

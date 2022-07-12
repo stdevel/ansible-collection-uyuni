@@ -20,6 +20,8 @@ from .exceptions import (
     CustomVariableExistsException
 )
 
+__metaclass__ = type
+
 
 class UyuniAPIClient:
     """

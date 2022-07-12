@@ -8,6 +8,8 @@ from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
 from ..module_utils.helper_functions import _configure_connection, get_host_id, is_blocklisted
 
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
