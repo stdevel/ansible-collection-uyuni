@@ -129,14 +129,14 @@ def _install_patches(module, api_instance):
 
 def _main():
     argument_spec = dict(
-        uyuni_host=dict(required=True, default=None),
-        uyuni_user=dict(required=True, default=None),
-        uyuni_password=dict(required=True, default=None, no_log=True),
-        uyuni_port=dict(default=443, type=int),
-        uyuni_verify_ssl=dict(default=True, type=bool),
-        name=dict(required=True, default=None),
-        include_patches=dict(default=None, type=list),
-        exclude_patches=dict(default=None, type=list)
+        uyuni_host=dict(required=True),
+        uyuni_user=dict(required=True),
+        uyuni_password=dict(required=True, no_log=True),
+        uyuni_port=dict(default=443, type='int'),
+        uyuni_verify_ssl=dict(default=True, type='bool'),
+        name=dict(required=True),
+        include_patches=dict(type='list', elements='str'),
+        exclude_patches=dict(type='list', elements='str')
     )
 
     module = AnsibleModule(argument_spec=argument_spec)
