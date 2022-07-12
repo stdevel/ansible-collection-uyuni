@@ -21,6 +21,12 @@ jobs:
           - stable-2.11
           - stable-2.12
           - stable-2.13
+        python:
+          - 3.6
+          - 3.7
+          - 3.8
+          - 3.9
+          - 3.10
     runs-on: ubuntu-latest
     steps:
 
@@ -31,6 +37,7 @@ jobs:
         uses: ansible-community/ansible-test-gh-action@release/v1
         with:
           ansible-core-version: ${{ matrix.ansible }}
+          target-python-version: ${{ matrix.python }}
           testing-type: sanity
         
 
