@@ -2,6 +2,7 @@
 Uyuni XMLRPC API client
 """
 
+from __future__ import (absolute_import, division, print_function)
 import logging
 import ssl
 import base64
@@ -17,6 +18,8 @@ from .exceptions import (
     SSLCertVerificationError,
     CustomVariableExistsException
 )
+
+__metaclass__ = type
 
 
 class UyuniAPIClient:
@@ -350,8 +353,10 @@ class UyuniAPIClient:
         except Fault as err:
             def missing_patch(error_message):
                 message = error_message.lower()
-                if ("no such patch" in message or
-                    ("the patch" in message and "cannot be found" in message)):
+                if (
+                    "no such patch" in message or
+                    ("the patch" in message and "cannot be found" in message)
+                ):
                     return True
 
                 return False
@@ -530,7 +535,7 @@ class UyuniAPIClient:
             if "no errata to apply" in err.faultString.lower():
                 raise EmptySetException(
                     f"No applicable errata to apply: {err.faultString!r}"
-                )
+                ) from err
             if "invalid errata" in err.faultString.lower():
                 raise EmptySetException(
                     f"Errata not found: {err.faultString!r}"

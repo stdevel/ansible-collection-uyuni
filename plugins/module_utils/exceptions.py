@@ -1,6 +1,8 @@
 """
 Exceptions used by the management classes
 """
+from __future__ import (absolute_import, division, print_function)
+__metaclass__ = type
 
 
 class SessionException(Exception):
@@ -67,7 +69,6 @@ class CustomVariableExistsException(Exception):
     """
 
 
-
 class SnapshotExistsException(Exception):
     """
     Exception for already existing snapshots
@@ -75,12 +76,14 @@ class SnapshotExistsException(Exception):
     .. class:: SnapshotExistsException
     """
 
+
 class UnauthenticatedError(RuntimeError):
     """
     Exception for showing that a client wasn't able to authenticate itself
 
     .. class:: UnauthenticatedError
     """
+
 
 class SSLCertVerificationError(Exception):
     """

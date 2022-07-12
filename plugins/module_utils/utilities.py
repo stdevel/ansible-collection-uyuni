@@ -1,9 +1,10 @@
-#!/usr/bin/env python
 """
 Shared functions
 """
 
+from __future__ import (absolute_import, division, print_function)
 from collections import namedtuple
+__metaclass__ = type
 
 NVREA = namedtuple("NVREA", "name version release epoch architecture")
 
