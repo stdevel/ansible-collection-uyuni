@@ -36,7 +36,7 @@ short_description: Reboot a managed host
 description:
   - Reboot a managed host
 author:
-  - "Christian Stankowic (info@cstan.io)"
+  - "Christian Stankowic (@stdevel)"
 extends_documentation_fragment:
   - stdevel.uyuni.uyuni_auth
 options:
@@ -76,12 +76,12 @@ def _reboot_host(module, api_instance):
 
 def _main():
     argument_spec = dict(
-        uyuni_host=dict(required=True, default=None),
-        uyuni_user=dict(required=True, default=None),
-        uyuni_password=dict(required=True, default=None, no_log=True),
+        uyuni_host=dict(required=True),
+        uyuni_user=dict(required=True),
+        uyuni_password=dict(required=True, no_log=True),
         uyuni_port=dict(default=443, type=int),
         uyuni_verify_ssl=dict(default=True, type=bool),
-        name=dict(required=True, default=None)
+        name=dict(required=True)
     )
 
     module = AnsibleModule(argument_spec=argument_spec)
