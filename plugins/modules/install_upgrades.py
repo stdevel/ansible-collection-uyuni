@@ -82,10 +82,6 @@ def _install_upgrades(module, api_instance):
     include_upgrades = module.params.get('include_upgrades')
     exclude_upgrades = module.params.get('exclude_upgrades')
 
-    # bail out if both include/exclude patches is selected
-    if include_upgrades and exclude_upgrades:
-        module.fail_json(msg="Only supply include_upgrades OR exclude_upgrades")
-
     upgrades = []
     try:
         # get _all_ the upgrades
@@ -134,6 +130,9 @@ def _install_upgrades(module, api_instance):
 
 
 def main():
+    """
+    Main functions
+    """
     argument_spec = dict(
         uyuni_host=dict(required=True),
         uyuni_user=dict(required=True),
@@ -141,11 +140,15 @@ def main():
         uyuni_port=dict(default=443, type='int'),
         uyuni_verify_ssl=dict(default=True, type='bool'),
         name=dict(required=True),
-        include_upgrades=dict(type='list', elements='str'),
-        exclude_upgrades=dict(type='list', elements='str')
+        include_upgrades=dict(type='list', elements='str', required=False),
+        exclude_upgrades=dict(type='list', elements='str', required=False)
     )
 
-    module = AnsibleModule(argument_spec=argument_spec)
+    module = AnsibleModule(argument_spec=argument_spec,
+        required_one_of=[('include_upgrades', 'exclude_upgrades')],
+        mutually_exclusive=[('include_upgrades', 'exclude_upgrades')],
+        supports_check_mode=False
+    )
 
     module_params = dict(
         host=module.params.get('uyuni_host'),

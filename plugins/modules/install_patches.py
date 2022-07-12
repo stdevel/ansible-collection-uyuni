@@ -94,10 +94,6 @@ def _install_patches(module, api_instance):
     except EmptySetException:
         module.fail_json(msg="Patch not found or applicable")
 
-    # bail out if both include/exclude patches is selected
-    if include_patches and exclude_patches:
-        module.fail_json(msg="Only supply include_patches OR exclude_patches")
-
     try:
         # get _all_ the patches
         all_patches = api_instance.get_host_patches(host)
@@ -135,6 +131,9 @@ def _install_patches(module, api_instance):
 
 
 def main():
+    """
+    Main function
+    """
     argument_spec = dict(
         uyuni_host=dict(required=True),
         uyuni_user=dict(required=True),
@@ -142,11 +141,15 @@ def main():
         uyuni_port=dict(default=443, type='int'),
         uyuni_verify_ssl=dict(default=True, type='bool'),
         name=dict(required=True),
-        include_patches=dict(type='list', elements='str'),
-        exclude_patches=dict(type='list', elements='str')
+        include_patches=dict(type='list', elements='str', required=False),
+        exclude_patches=dict(type='list', elements='str', required=False)
     )
 
-    module = AnsibleModule(argument_spec=argument_spec)
+    module = AnsibleModule(argument_spec=argument_spec,
+        required_one_of=[('include_patches', 'exclude_patches')],
+        mutually_exclusive=[('include_patches', 'exclude_patches')],
+        supports_check_mode=False
+    )
 
     module_params = dict(
         host=module.params.get('uyuni_host'),
