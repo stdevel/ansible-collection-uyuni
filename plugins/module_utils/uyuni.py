@@ -3,6 +3,7 @@
 Uyuni XMLRPC API client
 """
 
+from __future__ import (absolute_import, division, print_function)
 import logging
 import ssl
 import base64
@@ -531,7 +532,7 @@ class UyuniAPIClient:
             if "no errata to apply" in err.faultString.lower():
                 raise EmptySetException(
                     f"No applicable errata to apply: {err.faultString!r}"
-                )
+                ) from err
             if "invalid errata" in err.faultString.lower():
                 raise EmptySetException(
                     f"Errata not found: {err.faultString!r}"

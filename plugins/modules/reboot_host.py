@@ -3,6 +3,7 @@
 Ansible Module for rebooting a managed host
 """
 
+from __future__ import (absolute_import, division, print_function)
 from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
 from ..module_utils.helper_functions import _configure_connection, get_host_id
