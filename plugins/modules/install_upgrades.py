@@ -144,7 +144,8 @@ def main():
         exclude_upgrades=dict(type='list', elements='str', required=False)
     )
 
-    module = AnsibleModule(argument_spec=argument_spec,
+    module = AnsibleModule(
+        argument_spec=argument_spec,
         required_one_of=[('include_upgrades', 'exclude_upgrades')],
         mutually_exclusive=[('include_upgrades', 'exclude_upgrades')],
         supports_check_mode=False
