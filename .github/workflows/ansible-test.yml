@@ -24,8 +24,10 @@ jobs:
           - stable-2.13
           - devel
         exclude:
-          - python: stable-2.7
-          - python: stable-3.5
+          - ansible: devel
+            python: stable-2.7
+          - ansible: devel
+            python: stable-3.5
     runs-on: ubuntu-latest
     steps:
 
