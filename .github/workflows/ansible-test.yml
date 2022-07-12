@@ -23,6 +23,9 @@ jobs:
           - stable-2.12
           - stable-2.13
           - devel
+        exclude:
+          - ansible: stable-2.7
+          - ansible: stable-3.5
     runs-on: ubuntu-latest
     steps:
 
