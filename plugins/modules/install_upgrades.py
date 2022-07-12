@@ -133,7 +133,7 @@ def _install_upgrades(module, api_instance):
         module.fail_json(msg="Failed to verify SSL certificate")
 
 
-def _main():
+def main():
     argument_spec = dict(
         uyuni_host=dict(required=True),
         uyuni_user=dict(required=True),
@@ -162,4 +162,4 @@ def _main():
 
 
 if __name__ == '__main__':
-    _main()
+    main()

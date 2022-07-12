@@ -81,7 +81,7 @@ def _reboot_host(module, api_instance):
         module.fail_json(msg=f"Exception when calling UyuniAPI->reboot_host: {err}")
 
 
-def _main():
+def main():
     argument_spec = dict(
         uyuni_host=dict(required=True),
         uyuni_user=dict(required=True),
@@ -106,4 +106,4 @@ def _main():
 
 
 if __name__ == '__main__':
-    _main()
+    main()
