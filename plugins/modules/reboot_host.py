@@ -79,8 +79,8 @@ def _main():
         uyuni_host=dict(required=True),
         uyuni_user=dict(required=True),
         uyuni_password=dict(required=True, no_log=True),
-        uyuni_port=dict(default=443, type=int),
-        uyuni_verify_ssl=dict(default=True, type=bool),
+        uyuni_port=dict(default=443, type='int'),
+        uyuni_verify_ssl=dict(default=True, type='bool'),
         name=dict(required=True)
     )
 
