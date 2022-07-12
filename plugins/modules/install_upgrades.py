@@ -18,6 +18,13 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+from __future__ import (absolute_import, division, print_function)
+from ansible.module_utils.basic import AnsibleModule
+from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
+from ..module_utils.helper_functions import _configure_connection, get_host_id, is_blocklisted
+
+__metaclass__ = type
+
 ANSIBLE_METADATA = {'metadata_version': '1.1',
                     'status': ['preview'],
                     'supported_by': 'community'}
@@ -57,13 +64,6 @@ EXAMPLES = '''
     exclude_upgrades:
       - kernel-default
 '''
-
-from __future__ import (absolute_import, division, print_function)
-from ansible.module_utils.basic import AnsibleModule
-from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
-from ..module_utils.helper_functions import _configure_connection, get_host_id, is_blocklisted
-
-__metaclass__ = type
 
 
 def _install_upgrades(module, api_instance):
