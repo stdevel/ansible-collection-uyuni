@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 """
 Ansible Module for installing upgrades on a managed host
 """

@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """
 Uyuni XMLRPC API client
 """
