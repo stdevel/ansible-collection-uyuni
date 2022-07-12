@@ -48,12 +48,13 @@ EXAMPLES = '''
       - openSUSE-SLE-15.3-2022-2118
 '''
 
+
 def _install_patches(module, api_instance):
     """
     Installs patches on the host
     """
     # get parameters
-    host =  get_host_id(module.params.get('name'), api_instance)
+    host = get_host_id(module.params.get('name'), api_instance)
     try:
         include_patches = [get_patch_id(x, api_instance)["id"] for x in module.params.get('include_patches')]
     except (UnboundLocalError, TypeError):

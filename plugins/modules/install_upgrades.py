@@ -47,12 +47,13 @@ EXAMPLES = '''
       - kernel-default
 '''
 
+
 def _install_upgrades(module, api_instance):
     """
     Installs upgrades on the host
     """
     # get parameters
-    host =  get_host_id(module.params.get('name'), api_instance)
+    host = get_host_id(module.params.get('name'), api_instance)
     include_upgrades = module.params.get('include_upgrades')
     exclude_upgrades = module.params.get('exclude_upgrades')
 

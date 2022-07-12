@@ -37,6 +37,7 @@ EXAMPLES = '''
     name: server.localdomain.loc
 '''
 
+
 def _reboot_host(module, api_instance):
     """
     Reboots the host
