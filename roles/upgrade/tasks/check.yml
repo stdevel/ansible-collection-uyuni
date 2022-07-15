@@ -1,0 +1,24 @@
+---
+- name: Ensure that Uyuni is already installed
+  block:
+    - name: Check for installed Uyuni pattern
+      command: "rpm -qi {{ uyuni_pattern }}"
+      register: rpm
+      changed_when: false
+      failed_when: false
+    - name: Ensure having Uyuni installed
+      fail:
+        msg: "Uyuni isn't installed, yet."
+      when: "rpm.rc != 0 and 'not installed' in rpm.stdout"
+
+- name: Ensure having higher target version
+  block:
+    - name: Check installed release
+      command: "rpm -qi {{ uyuni_package_release }}|grep Version|cut -d: -f2|tr -d ' '"
+      register: release
+      changed_when: false
+      failed_when: false
+    - name: Ensure having a higher target version
+      fail:
+        msg: "Installed release ({{ release.stdout }}) is equal or newer than target release ({{ uyuni_release }})"
+      when: "uyuni_release is version(release.stdout, '>=')"
