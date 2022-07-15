@@ -1,5 +1,6 @@
 """PyTest Fixtures."""
 from __future__ import absolute_import
+__metaclass__ = type
 
 import os
 

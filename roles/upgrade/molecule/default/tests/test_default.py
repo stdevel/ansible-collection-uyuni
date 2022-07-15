@@ -1,8 +1,12 @@
-"""Role testing files using testinfra."""
+"""
+Role testing files using testinfra
+__metaclass__ = type"""
 
 
 def test_hosts_file(host):
-    """Validate /etc/hosts file."""
+    """
+    Validate /etc/hosts file
+    """
     f = host.file("/etc/hosts")
 
     assert f.exists
