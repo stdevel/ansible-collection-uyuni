@@ -1,3 +1,2 @@
 ---
-uyuni_pattern:
-  - patterns-suma_server
+uyuni_pattern: patterns-suma_server

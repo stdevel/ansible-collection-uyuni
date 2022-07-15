@@ -16,8 +16,3 @@
   when:
     - uyuni_suma_release == 4.3
     - ansible_distribution_version != '15.4'
-
-- name: Ensure that SUMA is already installed
-  command: "rpm -qpi {{ uyuni_pattern }}"
-  register: rpm
-  failed_when: rpm.rc != 0

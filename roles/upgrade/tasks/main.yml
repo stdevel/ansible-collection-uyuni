@@ -5,5 +5,8 @@
 - include_tasks: "check_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
   tags: prepare
 
+- include_tasks: check.yml
+  tags: prepare
+
 # - include_tasks: "prepare_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
 #   tags: prepare

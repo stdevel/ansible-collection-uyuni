@@ -1,3 +1,2 @@
 ---
-uyuni_pattern:
-  - patterns-uyuni_server
+uyuni_pattern: patterns-uyuni_server

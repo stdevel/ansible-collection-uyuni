@@ -1,2 +1,3 @@
 ---
-# defaults file for upgrade
+# default SUMA release to upgrade to
+uyuni_suma_release: 4.3

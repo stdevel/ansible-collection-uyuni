@@ -5,3 +5,5 @@
     - name: "Include upgrade"
       include_role:
         name: "upgrade"
+      vars:
+        uyuni_release: '2022.06'

@@ -18,8 +18,3 @@
     - "ansible_distribution_version != '15.2'"
     - "uyuni_release is version('2020.07', '>=')"
     - "uyuni_release is version('2021.06', '<')"
-
-- name: Ensure that Uyuni is already installed
-  command: "rpm -qpi {{ uyuni_pattern }}"
-  register: rpm
-  failed_when: rpm.rc != 0
