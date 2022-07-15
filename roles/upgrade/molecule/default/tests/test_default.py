@@ -1,6 +1,7 @@
 """
 Role testing files using testinfra
-__metaclass__ = type"""
+"""
+__metaclass__ = type
 
 
 def test_hosts_file(host):
