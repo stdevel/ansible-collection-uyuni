@@ -1,0 +1,23 @@
+---
+- name: Ensure having supported SP release for SUMA 4.1
+  fail: msg="Please upgrade to SP2"
+  when:
+    - uyuni_suma_release == 4.1
+    - ansible_distribution_version != '15.2'
+
+- name: Ensure having supported SP release for SUMA 4.2
+  fail: msg="Please upgrade to SP3"
+  when:
+    - uyuni_suma_release == 4.2
+    - ansible_distribution_version != '15.3'
+
+- name: Ensure having supported SP release for SUMA 4.3
+  fail: msg="Please upgrade to SP4"
+  when:
+    - uyuni_suma_release == 4.3
+    - ansible_distribution_version != '15.4'
+
+- name: Ensure that SUMA is already installed
+  command: "rpm -qpi {{ uyuni_pattern }}"
+  register: rpm
+  failed_when: rpm.rc != 0

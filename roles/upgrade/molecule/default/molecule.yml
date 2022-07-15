@@ -1,0 +1,14 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+platforms:
+  - name: leap154
+    box: generic/opensuse15
+    cpus: 2
+    memory: 8192
+provisioner:
+  name: ansible
+verifier:
+  name: testinfra
