@@ -153,6 +153,60 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
+    def get_all_hosts(self):
+        """
+        Returns all system names and IDs
+        """
+        try:
+            hosts = self._session.system.listSystems(
+                self._api_key
+            )
+            if hosts:
+                return hosts
+            raise EmptySetException(
+                "No systems found"
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_all_hostgroups(self):
+        """
+        Returns all hostgroups
+        """
+        try:
+            groups = self._session.systemgroup.listAllGroups(
+                self._api_key
+            )
+            if groups:
+                return [x["name"] for x in groups]
+            raise EmptySetException(
+                "No groups found"
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_hostgroups_by_host(self, system_id):
+        """
+        Returns all groups for a specific host
+        """
+        try:
+            groups = self._session.system.listGroups(
+                self._api_key, system_id
+            )
+            if groups:
+                return [x["system_group_name"] for x in groups if x["subscribed"] == 1]
+            raise EmptySetException(
+                "No groups found"
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
     def get_hosts_by_organization(self, organization):
         """
         Returns all systems by organisation
@@ -195,6 +249,22 @@ class UyuniAPIClient:
                 raise EmptySetException(
                     "No systems found"
                 ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_hosts_by_required_reboot(self):
+        """
+        Returns all systems requiring a reboot
+        """
+        try:
+            hosts = self._session.system.listSuggestedReboot(
+                self._api_key
+            )
+
+            if hosts:
+                return [x["name"] for x in hosts]
+        except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
