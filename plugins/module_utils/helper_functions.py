@@ -88,5 +88,5 @@ def _configure_connection(connection_params):
     except SSLCertVerificationError as err:
         raise BaseException("Failed to verify SSL certificate") from err
     except Exception as err:
-        raise BaseException("Failed to create API connection") from err
+        raise BaseException(f"Failed to create API connection: {err}") from err
     return api_instance
