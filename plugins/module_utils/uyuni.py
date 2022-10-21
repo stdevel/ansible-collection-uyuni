@@ -153,7 +153,6 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
-
     def get_all_hosts(self):
         """
         Returns all system names and IDs
@@ -171,7 +170,6 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
-
 
     def get_all_hostgroups(self):
         """

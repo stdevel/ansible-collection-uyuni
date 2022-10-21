@@ -31,8 +31,6 @@ DOCUMENTATION = '''
         - "Uses a configuration file as an inventory source, it must end in
           C(.uyuni.yml) or C(.uyuni.yaml)."
     options:
-      groups:
-        version_added: 4.4.0
       plugin:
         description: Name of the plugin.
         required: true
@@ -87,9 +85,7 @@ ipv6_only: true
 from ansible.plugins.inventory import (
     BaseInventoryPlugin, Constructable, Cacheable
 )
-from ..module_utils.helper_functions import (
-  _configure_connection
-)
+from ..module_utils.helper_functions import _configure_connection
 
 
 class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
