@@ -25,7 +25,7 @@ DOCUMENTATION = '''
     name: inventory
     short_description: Uyuni inventory source
     author:
-        - Christian Stankowic (info@cstan.io)
+        - Christian Stankowic (@stdevel)
     description:
         - Get inventory hosts from the Uyuni API.
         - "Uses a configuration file as an inventory source, it must end in
