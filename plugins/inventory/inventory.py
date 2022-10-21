@@ -68,6 +68,10 @@ DOCUMENTATION = '''
         description: Lists defined custom parameters and values
         type: boolean
         default: false
+      groups:
+        description: Limits to specific names groups
+        type: list
+        required: false
 '''
 
 EXAMPLES = r'''
@@ -80,6 +84,9 @@ password: admin
 verify_ssl: false
 show_custom_values: true
 ipv6_only: true
+groups:
+  - dev
+  - demo
 '''
 
 from ansible.plugins.inventory import (
@@ -139,18 +146,33 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
     def _populate(self):
         # get groups and hosts
-        groups = self.api_instance.get_all_hostgroups()
+        all_groups = self.api_instance.get_all_hostgroups()
         hosts = self.api_instance.get_all_hosts()
 
-        # add _all_ the groups
+        if self.get_option('groups'):
+            # limit to group selection
+            groups = [x for x in all_groups if x in self.get_option('groups')]
+        else:
+            # all groups
+            groups = all_groups
+
         for group in groups:
+            # add selected/all groups
             self.inventory.add_group(group)
 
         # add _all_ the hosts
         for host in hosts:
-            # TODO: only add if online?
-            # TODO: only add if in filtered group?
-            self.inventory.add_host(host['name'])
+            # get host groups
+            _groups = self.api_instance.get_hostgroups_by_host(int(host['id']))
+
+            if self.get_option('groups'):
+                # only add if host is filtered groups
+                if any(x in _groups for x in self.get_option('groups')):
+                    self.inventory.add_host(host['name'])
+                else:
+                    continue
+            else:
+                self.inventory.add_host(host['name'])
 
             # get IP address
             _network = self.api_instance.get_host_network(int(host['id']))
@@ -171,10 +193,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                         host['name'], param, _params[param]
                     )
 
-            # find hostgroups
-            _groups = self.api_instance.get_hostgroups_by_host(int(host['id']))
+            # add hostgroups
             for _group in _groups:
-                self.inventory.add_child(_group, host['name'])
+                if _group in groups:
+                    self.inventory.add_child(_group, host['name'])
 
     def parse(self, inventory, loader, path, cache=True):
         """
