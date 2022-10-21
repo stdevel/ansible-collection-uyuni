@@ -72,6 +72,10 @@ DOCUMENTATION = '''
         description: Limits to specific names groups
         type: list
         required: false
+      pending_reboot_only:
+        description: Limits to systems requiring a reboot only
+        type: boolean
+        default: false
 '''
 
 EXAMPLES = r'''
@@ -160,6 +164,9 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # add selected/all groups
             self.inventory.add_group(group)
 
+        # get systems requiring reboot
+        _reboot = self.api_instance.get_hosts_by_required_reboot()
+
         # add _all_ the hosts
         for host in hosts:
             # get host groups
@@ -167,12 +174,19 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
 
             if self.get_option('groups'):
                 # only add if host is filtered groups
-                if any(x in _groups for x in self.get_option('groups')):
-                    self.inventory.add_host(host['name'])
-                else:
+                if not any(x in _groups for x in self.get_option('groups')):
                     continue
-            else:
-                self.inventory.add_host(host['name'])
+
+            # check if reboot required
+            if self.get_option('pending_reboot_only'):
+                try:
+                    if host not in _reboot:
+                        continue
+                except TypeError:
+                    continue
+
+            # add host
+            self.inventory.add_host(host['name'])
 
             # get IP address
             _network = self.api_instance.get_host_network(int(host['id']))

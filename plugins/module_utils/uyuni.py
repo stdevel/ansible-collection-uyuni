@@ -253,6 +253,22 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
+    def get_hosts_by_required_reboot(self):
+        """
+        Returns all systems requiring a reboot
+        """
+        try:
+            hosts = self._session.system.listSuggestedReboot(
+                self._api_key
+            )
+
+            if hosts:
+                return [x["name"] for x in hosts]
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
     def get_host_id(self, hostname):
         """
         Returns the profile ID of a particular system
