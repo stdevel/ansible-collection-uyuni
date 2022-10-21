@@ -184,7 +184,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     if host['name'] not in _reboot:
                         continue
                 except TypeError:
-                    continue 
+                    continue
 
             # add host
             self.inventory.add_host(host['name'])
