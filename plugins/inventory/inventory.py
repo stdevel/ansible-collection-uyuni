@@ -71,6 +71,7 @@ DOCUMENTATION = '''
       groups:
         description: Limits to specific names groups
         type: list
+        elements: str
         required: false
       pending_reboot_only:
         description: Limits to systems requiring a reboot only
