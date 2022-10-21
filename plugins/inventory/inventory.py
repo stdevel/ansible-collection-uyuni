@@ -174,7 +174,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # find hostgroups
             _groups = self.api_instance.get_hostgroups_by_host(int(host['id']))
             for _group in _groups:
-              self.inventory.add_child(_group, host['name'])
+                self.inventory.add_child(_group, host['name'])
 
     def parse(self, inventory, loader, path, cache=True):
         """
