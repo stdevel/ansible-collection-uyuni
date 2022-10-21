@@ -181,10 +181,10 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
             # check if reboot required
             if self.get_option('pending_reboot_only'):
                 try:
-                    if host not in _reboot:
+                    if host['name'] not in _reboot:
                         continue
                 except TypeError:
-                    continue
+                    continue 
 
             # add host
             self.inventory.add_host(host['name'])
