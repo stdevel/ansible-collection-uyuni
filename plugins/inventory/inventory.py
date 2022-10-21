@@ -149,6 +149,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
         # add _all_ the hosts
         for host in hosts:
             # TODO: only add if online?
+            # TODO: only add if in filtered group?
             self.inventory.add_host(host['name'])
 
             # get IP address
@@ -169,6 +170,11 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
                     self.inventory.set_variable(
                         host['name'], param, _params[param]
                     )
+
+            # find hostgroups
+            _groups = self.api_instance.get_hostgroups_by_host(int(host['id']))
+            for _group in _groups:
+              self.inventory.add_child(_group, host['name'])
 
     def parse(self, inventory, loader, path, cache=True):
         """

@@ -189,6 +189,24 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
+    def get_hostgroups_by_host(self, system_id):
+        """
+        Returns all groups for a specific host
+        """
+        try:
+            groups = self._session.system.listGroups(
+                self._api_key, system_id
+            )
+            if groups:
+                return [x["system_group_name"] for x in groups]
+            raise EmptySetException(
+                "No groups found"
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
     def get_hosts_by_organization(self, organization):
         """
         Returns all systems by organisation
