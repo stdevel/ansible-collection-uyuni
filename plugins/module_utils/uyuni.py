@@ -198,7 +198,7 @@ class UyuniAPIClient:
                 self._api_key, system_id
             )
             if groups:
-                return [x["system_group_name"] for x in groups]
+                return [x["system_group_name"] for x in groups if x["subscribed"] == 1]
             raise EmptySetException(
                 "No groups found"
             )
