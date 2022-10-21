@@ -147,7 +147,6 @@ def main():
 
     module = AnsibleModule(
         argument_spec=argument_spec,
-        required_one_of=[('include_patches', 'exclude_patches')],
         mutually_exclusive=[('include_patches', 'exclude_patches')],
         supports_check_mode=False
     )

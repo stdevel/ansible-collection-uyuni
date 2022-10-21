@@ -146,7 +146,6 @@ def main():
 
     module = AnsibleModule(
         argument_spec=argument_spec,
-        required_one_of=[('include_upgrades', 'exclude_upgrades')],
         mutually_exclusive=[('include_upgrades', 'exclude_upgrades')],
         supports_check_mode=False
     )
