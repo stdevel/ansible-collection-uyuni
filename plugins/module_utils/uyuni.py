@@ -1277,3 +1277,33 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
+
+    def schedule_openscap_run(self, system_id, document, arguments=None):
+        """
+        Install patches on a given system
+
+        :param system_id: profile ID
+        :type system_id: int
+        :param document: document path
+        :type document: str
+        :param arguments: If given appends command-line arguments
+        :type patches: str
+        """
+        if not isinstance(system_id, list):
+            system_id = [system_id]
+        if not arguments:
+            arguments = ""
+
+        try:
+            action_id = self._session.system.scap.scheduleXccdfScan(
+                self._api_key, system_id, document, arguments
+            )
+            return action_id
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise SessionException(
+                    f"System not found: {system_id!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
