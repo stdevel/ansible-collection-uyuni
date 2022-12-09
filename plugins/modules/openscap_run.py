@@ -41,7 +41,7 @@ options:
     required: True
     type: str
   document:
-    name: XCCDF document path
+    description: XCCDF document path
     required: True
     type: str
   arguments:
