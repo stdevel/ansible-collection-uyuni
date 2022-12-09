@@ -32,10 +32,14 @@ short_description: Schedule OpenSCAP runs
 description:
   - Schedule OpenSCAP runs
 author:
-  - "Christian Stankowic (info@cstan.io)"
+  - "Christian Stankowic (@stdevel)"
 extends_documentation_fragment:
   - stdevel.uyuni.uyuni_auth
 options:
+  name:
+    description: Name or profile ID of the managed host
+    required: True
+    type: str
   document:
     name: XCCDF document path
     required: True
@@ -99,7 +103,7 @@ def main():
         uyuni_port=dict(default=443, type='int'),
         uyuni_verify_ssl=dict(default=True, type='bool'),
         name=dict(required=True),
-        document=dict(type='str'),
+        document=dict(type='str', required=True),
         arguments=dict(type='str')
     )
 
