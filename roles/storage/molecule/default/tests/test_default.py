@@ -2,7 +2,6 @@
 Molecule unit tests
 """
 import os
-import configparser
 import testinfra.utils.ansible_runner
 
 TESTINFRA_HOSTS = testinfra.utils.ansible_runner.AnsibleRunner(
