@@ -1,0 +1,16 @@
+---
+uyuni_vg: vg_uyuni
+uyuni_pv: /dev/sdb
+uyuni_filesystems:
+  - name: lv_uyuni
+    type: xfs
+    mountpoint: /var/spacewalk
+    size: 10240
+  - name: lv_pgsql
+    type: xfs
+    mountpoint: /var/lib/pgsql
+    size: 10240
+  - name: lv_cache
+    type: xfs
+    mountpoint: /var/cache/rhn
+    size: 10240

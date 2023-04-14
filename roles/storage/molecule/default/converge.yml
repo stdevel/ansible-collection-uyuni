@@ -1,0 +1,20 @@
+---
+- name: Converge machines
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Install packages
+      community.general.zypper:
+        name:
+          - xfsprogs
+
+    - name: Set disk for KVM
+      ansible.builtin.set_fact:
+        uyuni_pv: /dev/vdb
+      when: ansible_virtualization_type == 'kvm'
+
+    - name: Include vars
+      ansible.builtin.include_vars: vars/main.yml
+
+  roles:
+    - role: storage
