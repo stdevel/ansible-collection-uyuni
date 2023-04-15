@@ -82,7 +82,7 @@ DOCUMENTATION = '''
 EXAMPLES = r'''
 ---
 # my.uyuni.yml
-plugin: stdevel.uyuni.uyuni_inventory
+plugin: stdevel.uyuni.inventory
 host: 192.168.180.1
 user: admin
 password: admin
@@ -105,7 +105,7 @@ class InventoryModule(BaseInventoryPlugin, Constructable, Cacheable):
     Host inventory parser for ansible using Uyuni
     """
 
-    NAME = 'stdevel.uyuni.uyuni_inventory'
+    NAME = 'stdevel.uyuni.inventory'
 
     def __init__(self):
         """
