@@ -1,0 +1,39 @@
+---
+- name: Check system registration
+  ansible.builtin.command: SUSEConnect --status
+  changed_when: false
+  register: scc_registration
+  when: uyuni_scc_check_registration or uyuni_scc_check_modules
+  become: true
+
+- name: Prepare JeOS
+  become: true
+  block:
+    - name: Remove SLES release
+      ansible.builtin.command: 'rpm -e --nodeps sles-release'
+      args:
+        removes: /etc/products.d/SLES.prod
+    - name: Alter zypp configuration
+      ansible.builtin.lineinfile:
+        path: /etc/zypp/zypp.conf
+        regexp: '^solver.onlyRequires'
+        line: 'solver.onlyRequires = false'
+
+- name: Register system
+  ansible.builtin.command: "SUSEConnect --url {{ uyuni_scc_url }} -p SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }} -r {{ uyuni_scc_reg_code }} -e {{ uyuni_scc_mail }}"
+  when:
+    - uyuni_scc_check_registration
+    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+  vars:
+    query_filter: "[?identifier == 'SUSE-Manager-Server'].status"
+  become: true
+
+- name: Enable modules
+  ansible.builtin.command: "SUSEConnect --url {{ uyuni_scc_url }} -p {{ item.identifier }}"
+  loop: "{{ uyuni_sles_modules }}"
+  when:
+    - uyuni_scc_check_modules
+    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+  vars:
+    query_filter: "[?identifier == '{{ item.name }}'].status"
+  become: true

@@ -1,0 +1,102 @@
+---
+# required core packages
+uyuni_core_packages:
+  - xfsprogs
+  - lvm2
+  - man
+  - firewalld
+
+uyuni_gpg:
+  - https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repodata/repomd.xml.key
+  - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Patches/openSUSE_Leap_{{ ansible_distribution_version }}/repodata/repomd.xml.key"
+
+uyuni_repos:
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-{{ ansible_architecture }}-Media1"
+    name: uyuni-server-stable
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Patches/openSUSE_Leap_{{ ansible_distribution_version }}/"
+    name: uyuni-server-patches
+
+uyuni_repo_gpg:
+  - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Snapshots:/{{ uyuni_release }}/images/repodata/repomd.xml.key"
+
+uyuni_repo_release:
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Snapshots:/{{ uyuni_release }}/images/"
+    name: uyuni-server-stable
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Patches/openSUSE_Leap_{{ ansible_distribution_version }}/"
+    name: uyuni-server-patches
+
+uyuni_packages:
+  - spacewalk-utils
+  - spacecmd
+
+uyuni_suma_release: 4.3
+
+uyuni_scc_url: https://scc.suse.com
+uyuni_scc_check_registration: true
+uyuni_scc_check_modules: true
+
+# Uyuni configuration
+uyuni_mail: "root@localhost"
+uyuni_db_name: "uyuni"
+uyuni_db_user: "uyuni"
+uyuni_db_pass: "Uyuni1337"
+uyuni_cert_city: "Darmstadt"
+uyuni_cert_country: "DE"
+uyuni_cert_mail: "root@localhost"
+uyuni_cert_o: "Darmstadt"
+uyuni_cert_ou: "Darmstadt"
+uyuni_cert_state: "Hessen"
+uyuni_cert_pass: "uyuni"
+uyuni_org_name: "Demo"
+uyuni_org_login: "admin"
+uyuni_org_password: "admin"
+uyuni_org_mail: "root@localhost"
+uyuni_org_first_name: "Anton"
+uyuni_org_last_name: "Administrator"
+
+# additional settings
+uyuni_use_repo: true
+
+# firewall settings
+uyuni_firewall_config: true
+uyuni_firewall_default_zone: internal
+uyuni_firewall_services:
+  - suse-manager-server
+uyuni_firewall_ports: []
+uyuni_firewall_ports_monitoring:
+  - 5556/tcp
+  - 5557/tcp
+  - 9100/tcp
+  - 9187/tcp
+  - 9800/tcp
+
+# content settings
+uyuni_cefs_setup: false
+uyuni_cefs_setup_cronjob: false
+uyuni_cefs_path: "/opt/errata-import"
+uyuni_cefs_packages:
+  - perl
+  - perl-Text-Unidecode
+  - perl-XML-Simple
+  - perl-TimeDate
+  - cron
+uyuni_channels: []
+# create dict items like this:
+# - {"name": "centos7", "arch": "x86_64"}
+# - {"name": "centos7-updates", "arch": "x86_64"}
+uyuni_sync_channels: false
+uyuni_bootstrap_repos: false
+
+# monitoring settings
+uyuni_enable_monitoring: false
+uyuni_monitoring_packages:
+  - golang-github-prometheus-node_exporter
+  - prometheus-postgres_exporter
+  - prometheus-jmx_exporter
+  - golang-github-lusitaniae-apache_exporter
+  - prometheus-jmx_exporter-tomcat
+uyuni_install_monitoring_formulas: false
+uyuni_monitoring_formulas_packages:
+  - grafana-formula
+  - prometheus-formula
+  - prometheus-exporters-formula

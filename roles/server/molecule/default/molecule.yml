@@ -1,0 +1,18 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: vagrant
+lint: |
+    yamllint .
+    ansible-lint
+    flake8
+platforms:
+  - name: opensuse-leap15
+    box: opensuse/Leap-15.4.x86_64
+    cpus: 2
+    memory: 8192
+provisioner:
+  name: ansible
+verifier:
+  name: testinfra
