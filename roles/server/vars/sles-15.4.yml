@@ -1,0 +1,21 @@
+---
+uyuni_pattern:
+  - patterns-suma_server
+
+# The 'Desktop Applications' and 'Development Tools'
+# modules are required for CEFS!
+uyuni_sles_modules:
+  - name: sle-module-basesystem
+    identifier: "sle-module-basesystem/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
+  - name: sle-module-python3
+    identifier: "sle-module-python3/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
+  - name: sle-module-server-applications
+    identifier: "sle-module-server-applications/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
+  - name: sle-module-web-scripting
+    identifier: "sle-module-web-scripting/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
+  - name: sle-module-desktop-applications
+    identifier: "sle-module-desktop-applications/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
+  - name: sle-module-development-tools
+    identifier: "sle-module-development-tools/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
+  - name: sle-module-suse-manager-server
+    identifier: "sle-module-suse-manager-server/{{ uyuni_suma_release }}/{{ ansible_architecture }}"

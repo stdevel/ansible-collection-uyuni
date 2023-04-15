@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  role_name: uyuni
+  author: Christian Stankowic
+  namespace: stdevel
+  description: Prepares, installs and configures Uyuni or SUSE Manager
+  issue_tracker_url: https://github.com/stdevel/ansible-uyuni/issues
+  license: GPL-3.0-only
+
+  min_ansible_version: "2.4"
+
+  platforms:
+    - name: opensuse
+      versions:
+        - "15.3"
+    - name: SLES
+      versions:
+        - "15"
+
+  galaxy_tags:
+    - systemsmanagement
+    - uyuni
+    - suse
+    - manager
+
+dependencies: []

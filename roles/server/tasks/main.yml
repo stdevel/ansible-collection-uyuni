@@ -1,0 +1,36 @@
+---
+- name: Include variables
+  ansible.builtin.include_vars: "{{ lookup('ansible.builtin.first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ ansible_distribution_version }}.yml"
+        - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+        - main.yml
+      paths:
+        - 'vars'
+
+- name: Include check tasks
+  ansible.builtin.include_tasks: "check_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+  tags: prepare
+
+- name: Include preparation tasks (distribution-specific)
+  ansible.builtin.include_tasks: "prepare_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+  tags: prepare
+
+- name: Include preparation tasks
+  ansible.builtin.include_tasks: prepare.yml
+  tags: prepare
+
+- name: Include install tasks
+  ansible.builtin.include_tasks: install.yml
+  tags: install
+
+- name: Include content tasks
+  ansible.builtin.include_tasks: content.yml
+  tags: content
+
+- name: Include monitoring tasks
+  ansible.builtin.include_tasks: monitoring.yml
+  tags: monitoring
+  when: uyuni_enable_monitoring | bool

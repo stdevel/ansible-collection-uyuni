@@ -1,0 +1,6 @@
+---
+- name: Install core utilities
+  community.general.zypper:
+    name: "{{ uyuni_core_packages }}"
+    state: present
+  become: true
