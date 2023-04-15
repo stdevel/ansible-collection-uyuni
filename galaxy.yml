@@ -1,13 +1,13 @@
 ---
 namespace: stdevel
 name: uyuni
-version: 0.0.1
+version: 0.1.0
 readme: README.md
 authors:
   - Christian Stankowic <info@cstan.io>
 description: Collection of modules to manage Uyuni / SUSE Manager
 license:
-  - Apache-2.0
+  - GPL-3.0-only
 
 tags:
   - systemsmanagement

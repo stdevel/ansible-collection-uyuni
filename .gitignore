@@ -2,3 +2,5 @@ TODO*
 *.pyc
 credentials*.yml
 *.uyuni.yml
+ansible.cfg
+*.tar.gz
