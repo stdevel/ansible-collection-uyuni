@@ -1,0 +1,14 @@
+---
+- name: Check CPU
+  ansible.builtin.fail:
+    msg: "Please ensure having at least 4 CPUs"
+  when:
+    - ansible_processor_vcpus < 4
+    - uyuni_check_requirements
+
+- name: Check memory
+  ansible.builtin.fail:
+    msg: "Please ensure having at least 8 GB of memory"
+  when:
+    - ansible_memtotal_mb < 7941
+    - uyuni_check_requirements
