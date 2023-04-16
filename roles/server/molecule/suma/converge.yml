@@ -16,15 +16,17 @@
             line: '127.0.0.1 suma.vagrant.loc suma'
 
   roles:
-    - role: server
+    - role: stdevel.uyuni.server
       uyuni_scc_reg_code: "<insert code here>"
       uyuni_scc_mail: "<insert SCC mail here>"
       uyuni_cefs_setup: true
       uyuni_cefs_setup_cronjob: true
       uyuni_channels:
-        - name: centos7
+        - name: almalinux9
           arch: x86_64
-        - name: centos7-updates
+        - name: almalinux9-appstream
+          arch: x86_64
+        - name: almalinux9-uyuni-client
           arch: x86_64
       uyuni_enable_monitoring: true
       uyuni_install_monitoring_formulas: true

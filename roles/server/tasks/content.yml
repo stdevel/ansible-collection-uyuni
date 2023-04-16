@@ -16,7 +16,7 @@
         state: directory
         owner: root
         group: root
-        mode: 0755
+        mode: "0755"
     - name: Download errata-import
       ansible.builtin.get_url:
         url: https://github.com/stevemeier/cefs/raw/master/errata-import.pl
@@ -58,6 +58,7 @@
 
 - name: Sync software channels
   ansible.builtin.command: spacewalk-repo-sync -c {{ item }}
+  changed_when: false
   loop: "{{ software_channels.stdout.split('\n')  }}"
   become: true
   when: uyuni_sync_channels | bool
@@ -71,6 +72,7 @@
 
 - name: Create bootstrap repositories
   ansible.builtin.command: "mgr-create-bootstrap-repo -f -c {{ item | regex_replace('^[0-9].', '') }}"
+  changed_when: false
   loop: "{{ bootstrap_distributions.stdout.split('\n') }}"
   become: true
   when: uyuni_bootstrap_repos | bool

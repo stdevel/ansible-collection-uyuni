@@ -17,4 +17,4 @@
       ansible.builtin.include_vars: vars/main.yml
 
   roles:
-    - role: storage
+    - role: stdevel.uyuni.storage

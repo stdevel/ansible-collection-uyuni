@@ -1,4 +1,5 @@
 ---
 - name: Restart Uyuni
   ansible.builtin.command: spacewalk-service restart
+  changed_when: false
   become: true
