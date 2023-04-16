@@ -40,8 +40,11 @@
 - name: Include content tasks
   ansible.builtin.include_tasks: content.yml
   tags: content
+  when: "uyuni_type == 'server'"
 
 - name: Include monitoring tasks
   ansible.builtin.include_tasks: monitoring.yml
   tags: monitoring
-  when: uyuni_enable_monitoring | bool
+  when:
+    - "uyuni_type == 'server'"
+    - uyuni_enable_monitoring | bool
