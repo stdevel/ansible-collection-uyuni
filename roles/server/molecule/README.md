@@ -15,10 +15,12 @@ Ensure to the following installed:
 
 ## Environment
 
-The test environment consists of two test scenarios:
+The test environment consists of four test scenarios:
 
-- `default` - default scenario with VM running openSUSE Leap 15.2
-- `suma` - SUSE Manager 4.x scenario with VM running SUSE Linux Enterprise Server 15 SP1 or SP2
+- `uyuni` - Uyuni server scenario
+- `uyuni_proxy` - Uyuni proxy scenario
+- `suma` - SUSE Manager 4.x server scenario
+- `suma_proxy` - SUSE Manager 4.x proxy scenario
 
 ### SUSE hints
 
