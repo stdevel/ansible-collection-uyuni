@@ -4,7 +4,9 @@
   vars:
     params:
       files:
+        - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ ansible_distribution_version }}-{{ uyuni_type }}.yml"
         - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ ansible_distribution_version }}.yml"
+        - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ uyuni_type }}.yml"
         - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
         - main.yml
       paths:

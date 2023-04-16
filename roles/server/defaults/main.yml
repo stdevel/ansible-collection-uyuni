@@ -1,4 +1,6 @@
 ---
+uyuni_type: server
+
 # check hardware requirements
 uyuni_check_requirements: true
 
