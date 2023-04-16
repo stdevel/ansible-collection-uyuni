@@ -32,6 +32,11 @@
   ansible.builtin.include_tasks: install.yml
   tags: install
 
+- name: Include firewall taks
+  ansible.builtin.include_tasks: firewall.yml
+  tags: install
+  when: uyuni_firewall_config | bool
+
 - name: Include content tasks
   ansible.builtin.include_tasks: content.yml
   tags: content

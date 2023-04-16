@@ -13,3 +13,9 @@ uyuni_sles_modules:
     identifier: "sle-module-web-scripting/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
   - name: sle-module-suse-manager-proxy
     identifier: "sle-module-suse-manager-proxy/{{ uyuni_suma_release }}/{{ ansible_architecture }}"
+
+uyuni_firewall_services:
+  - http
+  - https
+  - salt-master
+uyuni_firewall_ports: []

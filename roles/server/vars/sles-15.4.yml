@@ -19,3 +19,7 @@ uyuni_sles_modules:
     identifier: "sle-module-development-tools/{{ ansible_distribution_version }}/{{ ansible_architecture }}"
   - name: sle-module-suse-manager-server
     identifier: "sle-module-suse-manager-server/{{ uyuni_suma_release }}/{{ ansible_architecture }}"
+
+uyuni_firewall_services:
+  - suse-manager-server
+uyuni_firewall_ports: []

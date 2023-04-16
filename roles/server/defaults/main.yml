@@ -65,9 +65,6 @@ uyuni_use_repo: true
 # firewall settings
 uyuni_firewall_config: true
 uyuni_firewall_default_zone: internal
-uyuni_firewall_services:
-  - suse-manager-server
-uyuni_firewall_ports: []
 uyuni_firewall_ports_monitoring:
   - 5556/tcp
   - 5557/tcp

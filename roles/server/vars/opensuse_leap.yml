@@ -1,3 +1,7 @@
 ---
 uyuni_pattern:
   - patterns-uyuni_server
+
+uyuni_firewall_services:
+  - suse-manager-server
+uyuni_firewall_ports: []

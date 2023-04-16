@@ -1,0 +1,42 @@
+---
+- name: Enable and configure firewall
+  become: true
+  block:
+    - name: Enable and start firewall
+      ansible.builtin.service:
+        name: firewalld
+        state: started
+        enabled: true
+    # Yes, we're using command as the firewalld
+    # ressource is only available on Red Hat-like systems :(
+    - name: Set default zone
+      ansible.builtin.command: "firewall-cmd --set-default-zone={{ uyuni_firewall_default_zone }}"
+      changed_when: "set_zone.stdout|lower == 'success'"
+      register: set_zone
+
+    - name: Set ports
+      ansible.builtin.set_fact:
+        firewall_ports: "{{ uyuni_firewall_ports }}"
+
+    - name: Set monitoring ports
+      ansible.builtin.set_fact:
+        firewall_ports: "{{ firewall_ports + uyuni_firewall_ports_monitoring }}"
+      when: uyuni_enable_monitoring | bool
+
+    - name: Enable services
+      ansible.builtin.command: "firewall-cmd --zone={{ uyuni_firewall_default_zone }} --add-service={{ item }} --permanent"
+      register: set_services
+      changed_when: "set_services.stdout|lower == 'success'"
+      with_items: "{{ uyuni_firewall_services }}"
+
+    - name: Enable ports
+      ansible.builtin.command: "firewall-cmd --zone={{ uyuni_firewall_default_zone }} --add-port={{ item }} --permanent"
+      register: set_ports
+      changed_when: "set_ports.stdout|lower == 'success'"
+      with_items: "{{ firewall_ports }}"
+
+    - name: Restart firewall
+      ansible.builtin.service:
+        name: firewalld
+        state: restarted
+      when: set_zone.changed or set_services.changed

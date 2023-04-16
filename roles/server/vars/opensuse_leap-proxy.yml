@@ -1,3 +1,9 @@
 ---
 uyuni_pattern:
   - patterns-uyuni_proxy
+
+uyuni_firewall_services:
+  - http
+  - https
+  - salt-master
+uyuni_firewall_ports: []
