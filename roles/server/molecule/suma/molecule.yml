@@ -10,7 +10,7 @@ lint: |
 platforms:
   - name: suma4
     box: sles15-sp4
-    cpus: 2
+    cpus: 4
     memory: 8192
 provisioner:
   name: ansible

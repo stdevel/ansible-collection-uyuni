@@ -10,7 +10,7 @@ lint: |
 platforms:
   - name: opensuse-leap15
     box: opensuse/Leap-15.4.x86_64
-    cpus: 2
+    cpus: 4
     memory: 8192
 provisioner:
   name: ansible
