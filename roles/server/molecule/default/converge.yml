@@ -30,7 +30,7 @@
           - snapper-zypp-plugin
 
   roles:
-    - role: server
+    - role: stdevel.uyuni.server
       uyuni_cefs_setup: true
       uyuni_cefs_setup_cronjob: true
       uyuni_channels:

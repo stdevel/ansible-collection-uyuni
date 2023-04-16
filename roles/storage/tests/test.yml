@@ -1,6 +1,7 @@
 ---
-- hosts: localhost
+- name: Run role
+  hosts: localhost
   remote_user: root
   roles:
-    - role: storage
+    - role: stdevel.uyuni.storage
       use_lvm: false

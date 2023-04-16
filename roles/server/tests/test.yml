@@ -1,6 +1,7 @@
 ---
-- hosts: localhost
+- name: Run role
+  hosts: localhost
   remote_user: root
   roles:
-    - role: server
+    - role: stdevel.uyuni.server
       use_lvm: false
