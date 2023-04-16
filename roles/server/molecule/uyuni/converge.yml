@@ -43,4 +43,3 @@
       uyuni_enable_monitoring: true
       uyuni_install_monitoring_formulas: true
       # uyuni_release: '2023.03'
-      uyuni_firewall_config: true
