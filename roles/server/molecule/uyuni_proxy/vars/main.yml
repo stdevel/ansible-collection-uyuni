@@ -1,0 +1,18 @@
+---
+# packages
+uyuni_core_packages:
+  - xfsprogs
+  - lvm2
+  - man
+uyuni_repos:
+  "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Snapshots:/{{ uyuni_release }}/images/repo/Uyuni-Proxy-POOL-{{ ansible_architecture }}-Media1/"
+uyuni_packages:
+  - patterns-uyuni_proxy
+
+# firewall settings
+uyuni_firewall_config: true
+uyuni_firewall_default_zone: internal
+uyuni_firewall_services:
+  - http
+  - https
+  - salt-master

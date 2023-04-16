@@ -1,0 +1,35 @@
+---
+- name: Converge machines
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Set hostname
+      block:
+        - name: Set (short) hostname
+          ansible.builtin.hostname:
+            name: uyuni-proxy
+
+        - name: Update /etc/hosts
+          ansible.builtin.lineinfile:
+            path: /etc/hosts
+            regexp: '^127.0.0.1'
+            line: '127.0.0.1 localhost uyuni-proxy.vagrant.loc uyuni-proxy'
+
+    - name: Remove package manager locks (required for Vagrantbox)
+      ansible.builtin.command: zypper rl "{{ item }}"
+      register: zypper_out
+      changed_when: "'successfully removed' in zypper_out.stdout"
+      loop:
+        - snapper
+        - snapper-zypp-plugin
+
+    - name: Install required packages
+      community.general.zypper:
+        name:
+          - snapper
+          - snapper-zypp-plugin
+
+  roles:
+    - role: stdevel.uyuni.server
+      uyuni_type: proxy
+      uyuni_release: '2023.03'
