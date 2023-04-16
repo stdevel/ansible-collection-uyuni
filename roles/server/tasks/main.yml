@@ -28,8 +28,8 @@
   ansible.builtin.include_tasks: prepare.yml
   tags: prepare
 
-- name: Include install tasks
-  ansible.builtin.include_tasks: install.yml
+- name: Include install tasks (type-specific)
+  ansible.builtin.include_tasks: "install_{{ uyuni_type }}.yml"
   tags: install
 
 - name: Include firewall taks

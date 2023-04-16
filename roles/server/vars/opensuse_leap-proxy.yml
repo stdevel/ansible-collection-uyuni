@@ -2,6 +2,14 @@
 uyuni_pattern:
   - patterns-uyuni_proxy
 
+uyuni_repos:
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Proxy-POOL-{{ ansible_architecture }}-Media1"
+    name: uyuni-proxy-stable
+
+uyuni_repo_release:
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Snapshots:/{{ uyuni_release }}/images/repo/Uyuni-Proxy-POOL-{{ ansible_architecture }}-Media1/"
+    name: uyuni-proxy-stable
+
 uyuni_firewall_services:
   - http
   - https

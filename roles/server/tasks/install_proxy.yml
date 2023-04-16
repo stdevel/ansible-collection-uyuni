@@ -1,0 +1,5 @@
+---
+- name: Install Uyuni pattern
+  community.general.zypper:
+    name: "{{ uyuni_pattern }}"
+  become: true
