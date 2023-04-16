@@ -1,0 +1,14 @@
+---
+- name: Check CPU
+  ansible.builtin.fail:
+    msg: "Please ensure having at least 2 CPUs"
+  when:
+    - ansible_processor_vcpus < 2
+    - uyuni_check_requirements
+
+- name: Check memory
+  ansible.builtin.fail:
+    msg: "Please ensure having at least 2 GB of memory"
+  when:
+    - ansible_memtotal_mb < 1967
+    - uyuni_check_requirements

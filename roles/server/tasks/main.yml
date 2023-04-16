@@ -17,7 +17,7 @@
   tags: prepare
 
 - name: Include check tasks
-  ansible.builtin.include_tasks: check.yml
+  ansible.builtin.include_tasks: "check_{{ uyuni_type }}.yml"
   tags: prepare
 
 - name: Include preparation tasks (distribution-specific)
