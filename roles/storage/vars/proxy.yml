@@ -1,8 +1,10 @@
 ---
 uyuni_filesystems:
+  - name: lv_www
+    type: xfs
+    mountpoint: /srv/www
+    size: 102400
   - name: lv_squid
     type: xfs
     mountpoint: /var/cache/squid
     size: 102400
-
-# TODO: /srv
