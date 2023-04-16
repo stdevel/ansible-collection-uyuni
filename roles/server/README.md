@@ -12,6 +12,7 @@ The system needs access to the internet. Also, you will need an openSUSE Leap 15
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
+| `uyuni_check_requirements` | `true` | Check for hardware requirements |
 | `uyuni_suma_release` | `4.3` | SUSE Manager release to install (*4.2 to 4.3*) |
 | `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2023.03`*) |
 | `uyuni_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
