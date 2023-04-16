@@ -10,6 +10,7 @@ No requirements.
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
+| `uyuni_type` | `server` | Server type (`server`, `proxy`) |
 | `uyuni_vg` | `uyuni` | LVM volume group to create for Docker data |
 | `uyuni_pv` | `/dev/sdb` | Disk to use for LVM |
 | `uyuni_filesystems` | see [defaults/main.yml](defaults/main.yml) | LVs, filesystems and mount points to create |
@@ -36,15 +37,12 @@ Set variables if required, e.g.:
   remote_user: root
   roles:
     - role: stdevel.uyuni.storage
+      uyuni_type: proxy
       uyuni_vg: /dev/vdb
       uyuni_filesystems:
-        - name: lv_uyuni
+        - name: lv_squid
           type: xfs
-          mountpoint: /var/spacewalk
-          size: 10240
-        - name: lv_pgsql
-          type: xfs
-          mountpoint: /var/lib/pgsql
+          mountpoint: /var/cache/squid
           size: 10240
 ```
 
