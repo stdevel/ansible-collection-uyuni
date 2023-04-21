@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  role_name: uyuni
+  role_name: server
   author: Christian Stankowic
   namespace: stdevel
   description: Prepares, installs and configures Uyuni or SUSE Manager
