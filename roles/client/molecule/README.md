@@ -27,6 +27,15 @@ In order to create the test environment execute the following command:
 $ molecule create
 ```
 
+Edit [`client_default/converge.yml`](client_default/converge.yml) and enter a valid Uyuni server:
+
+```yaml
+...
+  roles:
+    - role: stdevel.uyuni.client
+      uyuni_server: uyuni.evilcorp.lan
+```
+
 Run the Ansible role:
 
 ```shell
