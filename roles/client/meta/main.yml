@@ -1,0 +1,25 @@
+---
+galaxy_info:
+  role_name: client
+  author: Christian Stankowic
+  namespace: stdevel
+  description: Bootstraps Uyuni or SUSE Manager clients
+  issue_tracker_url: https://github.com/stdevel/ansible-collection-uyuni/issues
+  license: GPL-3.0-only
+
+  min_ansible_version: "2.4"
+
+  platforms:
+    - name: opensuse
+    - name: SLES
+    - name: Debian
+    - name: Ubuntu
+    - name: EL
+
+  galaxy_tags:
+    - systemsmanagement
+    - uyuni
+    - suse
+    - manager
+
+dependencies: []

@@ -1,0 +1,2 @@
+---
+uyuni_repo_file: /etc/zypp/repos.d/susemanager:channels.repo

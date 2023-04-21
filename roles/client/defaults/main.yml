@@ -1,0 +1,3 @@
+---
+uyuni_bootstrap_filename: "bootstrap-{{ ansible_distribution | regex_replace(' ', '_') | lower }}{{ ansible_distribution_version }}.sh"
+uyuni_bootstrap_folder: /opt
