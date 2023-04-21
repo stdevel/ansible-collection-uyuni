@@ -19,6 +19,7 @@ def test_salt(host):
     )
     assert minion or minion_venv
 
+
 def test_repo(host):
     """
     Test if repository was created
@@ -26,10 +27,16 @@ def test_repo(host):
     # get OS family
     os = host.ansible("setup")["ansible_facts"]["ansible_os_family"].lower()
     if os == "debian":
-        repo_file = host.file("/etc/apt/sources.list.d/susemanager:channels.list")
+        repo_file = host.file(
+            "/etc/apt/sources.list.d/susemanager:channels.list"
+        )
     elif os == "redhat":
-        repo_file = host.file("/etc/yum.repos.d/susemanager:channels.repo")
+        repo_file = host.file(
+            "/etc/yum.repos.d/susemanager:channels.repo"
+        )
     elif os == "suse":
-        repo_file = host.file("/etc/zypp/repos.d/susemanager:channels.repo")
+        repo_file = host.file(
+            "/etc/zypp/repos.d/susemanager:channels.repo"
+        )
     assert repo_file.exists
     assert repo_file.size > 100
