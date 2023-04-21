@@ -2,17 +2,15 @@
 - name: Include distribution-specific variables
   ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yml"
 
-- name: Download Uyuni bootstrap script
-  ansible.builtin.get_url:
-    url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
-    dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
-    owner: root
-    group: root
-    mode: '0755'
-  become: true
+- name: Check client state
+  ansible.builtin.fail:
+    msg: Set uyuni_client_state to either 'present' or 'absent'
+  when: uyuni_client_state not in ['present', 'absent']
 
-- name: Register with Uyuni
-  ansible.builtin.command: /opt/bootstrap.sh
-  args:
-    creates: "{{ uyuni_repo_file }}"
-  become: true
+- name: Import bootstrap tasks
+  ansible.builtin.include_tasks: bootstrap.yml
+  when: uyuni_client_state == 'present'
+
+- name: Import removal tasks
+  ansible.builtin.include_tasks: removal.yml
+  when: uyuni_client_state == 'absent'
