@@ -4,3 +4,4 @@ credentials*.yml
 *.uyuni.yml
 ansible.cfg
 *.tar.gz
+__pycache__

@@ -1,0 +1,16 @@
+---
+- name: Include distribution-specific variables
+  ansible.builtin.include_vars: "{{ ansible_os_family | lower }}.yml"
+
+- name: Check client state
+  ansible.builtin.fail:
+    msg: Set uyuni_client_state to either 'present' or 'absent'
+  when: uyuni_client_state not in ['present', 'absent']
+
+- name: Import bootstrap tasks
+  ansible.builtin.include_tasks: bootstrap.yml
+  when: uyuni_client_state == 'present'
+
+- name: Import removal tasks
+  ansible.builtin.include_tasks: removal.yml
+  when: uyuni_client_state == 'absent'

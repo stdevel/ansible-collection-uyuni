@@ -1,0 +1,9 @@
+---
+- name: Converge machines
+  hosts: all
+  become: true
+
+  roles:
+    - role: stdevel.uyuni.client
+      uyuni_server: CHANGEME
+      # uyuni_client_state: absent

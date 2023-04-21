@@ -6,6 +6,7 @@ Ansible Collection for managing Uyuni / SUSE Manager installations and ressource
 
 - [`storage`](roles/storage) - Prepares LVM storage for Uyuni or SUSE Manager
 - [`server`](roles/server) - Prepares, installs and configures Uyuni or SUSE Manager
+- [`client`](roles/client) - Bootstraps Uyuni or SUSE Manager clients
 
 ## Plugins
 

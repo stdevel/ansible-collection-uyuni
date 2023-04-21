@@ -1,0 +1,20 @@
+---
+- name: Check if Uyuni server was set
+  ansible.builtin.fail:
+    msg: Set uyuni_server to a valid server hostname/FQDN
+  when: uyuni_server is undefined
+
+- name: Download Uyuni bootstrap script
+  ansible.builtin.get_url:
+    url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
+    dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    owner: root
+    group: root
+    mode: '0755'
+  become: true
+
+- name: Register with Uyuni
+  ansible.builtin.command: /opt/bootstrap.sh
+  args:
+    creates: "{{ uyuni_repo_file }}"
+  become: true

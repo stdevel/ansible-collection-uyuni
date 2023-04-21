@@ -1,0 +1,9 @@
+---
+uyuni_repo_file: /etc/yum.repos.d/susemanager:channels.repo
+
+uyuni_client_packages:
+  - venv-salt-minion
+uyuni_minion_service: venv-salt-minion
+uyuni_client_directories:
+  - /etc/venv-salt-minion
+  - /var/cache/venv-salt-minion
