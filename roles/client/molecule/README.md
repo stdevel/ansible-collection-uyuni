@@ -27,7 +27,7 @@ In order to create the test environment execute the following command:
 $ molecule create
 ```
 
-Edit [`client_default/converge.yml`](default/converge.yml) and enter a valid Uyuni server:
+Edit [`default/converge.yml`](default/converge.yml) and enter a valid Uyuni server:
 
 ```yaml
 ...
