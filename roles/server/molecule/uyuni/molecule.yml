@@ -8,8 +8,8 @@ lint: |
     ansible-lint
     flake8
 platforms:
-  - name: suma4
-    box: sles15-sp4
+  - name: opensuse-leap15
+    box: opensuse/Leap-15.4.x86_64
     cpus: 4
     memory: 8192
 provisioner:

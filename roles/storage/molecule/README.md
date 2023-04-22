@@ -17,7 +17,7 @@ Ensure to the following installed:
 
 The test environment consists of one test scenario:
 
-- `default` - default scenario with VM running openSUSE Leap 15.2
+- `storage_default` - default scenario with VM running openSUSE Leap 15.2
 
 ## Usage
 

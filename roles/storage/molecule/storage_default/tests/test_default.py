@@ -16,7 +16,7 @@ def test_lvm(host):
     # get variables from file
     ansible_vars = host.ansible(
         "include_vars",
-        "file=molecule/default/vars/main.yml"
+        "file=molecule/storage_default/vars/main.yml"
     )
     # check file systems
     for filesys in ansible_vars["ansible_facts"]["uyuni_filesystems"]:

@@ -11,7 +11,7 @@ platforms:
   - name: opensuse-leap15
     box: opensuse/Leap-15.4.x86_64
     cpus: 2
-    memory: 8192
+    memory: 2048
 provisioner:
   name: ansible
 verifier:

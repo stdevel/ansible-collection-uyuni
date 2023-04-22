@@ -1,29 +1,6 @@
 ---
-- name: Create a volume group for Uyuni
-  community.general.lvg:
-    vg: "{{ uyuni_vg }}"
-    pvs: "{{ uyuni_pv }}"
-  become: true
+- name: Include server type variables
+  ansible.builtin.include_vars: "vars/{{ uyuni_type }}.yml"
 
-- name: Create logical volumes, file systems and mount points
-  become: true
-  block:
-    - name: Create logical volumes
-      community.general.lvol:
-        vg: "{{ uyuni_vg }}"
-        lv: "{{ item.name }}"
-        size: "{{ item.size }}"
-      with_items: "{{ uyuni_filesystems }}"
-    - name: Create file systems
-      community.general.filesystem:
-        fstype: "{{ item.type }}"
-        dev: "/dev/mapper/{{ uyuni_vg }}-{{ item.name }}"
-      with_items: "{{ uyuni_filesystems }}"
-    - name: Create mount points
-      ansible.posix.mount:
-        path: "{{ item.mountpoint }}"
-        src: "/dev/mapper/{{ uyuni_vg }}-{{ item.name }}"
-        fstype: "{{ item.type }}"
-        opts: auto
-        state: mounted
-      with_items: "{{ uyuni_filesystems }}"
+- name: Include storage tasks
+  ansible.builtin.include_tasks: storage.yml
