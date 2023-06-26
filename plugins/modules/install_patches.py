@@ -51,7 +51,7 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Reboot host
+- name: Install patches
   stdevel.uyuni.install_patches:
     uyuni_host: 192.168.1.1
     uyuni_user: admin

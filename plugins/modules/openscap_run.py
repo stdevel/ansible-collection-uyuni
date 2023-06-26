@@ -50,7 +50,7 @@ options:
 '''
 
 EXAMPLES = '''
-- name: Create project
+- name: Check compliance
   stdevel.uyuni.openscap_run:
     uyuni_host: 192.168.1.1
     uyuni_user: admin
