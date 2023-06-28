@@ -17,3 +17,7 @@ Ansible Collection for managing Uyuni / SUSE Manager installations and ressource
 - [`reboot_host`](plugins/modules/reboot_host.py) - Reboots a managed hosts
 
 Check-out [issues](https://github.com/stdevel/ansible-collection-uyuni/issues) for known issues, missing and upcoming functionality.
+
+## Demonstration
+
+See [the following GitHub repository](https://github.com/stdevel/susecon-suma-aap-demo) for a demonstration of using this collection with AWX.
