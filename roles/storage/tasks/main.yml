@@ -1,4 +1,10 @@
 ---
+- name: Install core utilities
+  community.general.zypper:
+    name: "{{ uyuni_storage_packages }}"
+    state: present
+  become: true
+
 - name: Create a volume group for Uyuni
   community.general.lvg:
     vg: "{{ uyuni_vg }}"
