@@ -1307,3 +1307,114 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
+
+    def get_activationkeys(self):
+        """
+        Returns all defined activation keys
+        """
+        try:
+            return self._session.activationkey.listActivationKeys(
+                self._api_key
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_activationkey(
+            self, key, description,
+            basechannel=None, usage=None, entitlements=None,
+            universal_default=None
+        ):
+        """
+        Creates a new activation key
+
+        :param key: key name
+        :type key: str
+        :param description: key description
+        :type description: str
+        :param basechannel: assigned software basechannel
+        :type basechannel: str
+        :param usage: key usage limit
+        :type usage: int
+        :param entitlements: key entitlements
+        :type entitlements: list (str)
+        :param universal_default: flag whether key is universal default
+        :type universal_default: bool
+        """
+        # TODO
+        print("TODO")
+
+    def activationkey_set_child_channels(self, key, child_channels):
+        """
+        Assigns child channels to an activation key
+
+        :param key: key name
+        :type key: str
+        :param child_channels: child channel labels
+        :type child_channels: list (str)
+        """
+        # TODO
+        print("remove child channels")
+        print("add child channels")
+
+    def activationkey_set_details(
+        self, key, description,
+        basechannel, usage, universal_default,
+        contact_method
+    ):
+        """
+        Sets a activation keys details
+
+        :param key: key name
+        :type key: str
+        :param description: key description
+        :type description: str
+        :param basechannel: assigned software basechannel
+        :type basechannel: str
+        :param usage: key usage limit
+        :type usage: int
+        :param universal_default: flag whether key is universal default
+        :type universal_default: bool
+        :param contact_method: machine contact method
+        :type contact_method: str
+        """
+        # TODO
+        print("TODO")
+
+    def activationkey_set_config_channels(self, key, child_channels):
+        """
+        Assigns config channels to an activation key
+
+        :param key: key name
+        :type key: str
+        :param config_channels: config channel labels
+        :type config_channels: list (str)
+        """
+        # TODO
+        print("TODO: remove config channels")
+        print("TODO: add config channels")
+
+    def activationkey_set_packages(self, key, packages):
+        """
+        Assigns packages to an activation key
+
+        :param key: key name
+        :type key: str
+        :param packages: software packages
+        :type packages: list (str)
+        """
+        print("TODO: remove packages")
+        print("TODO: add packages")
+
+    def activationkey_set_hostgroups(self, key, hostgroups):
+        """
+        Assigns hostgroups to an activation key
+
+        :param key: key name
+        :type key: str
+        :param hostgroups: hostgroup names
+        :type hostgroups: list (str)
+        """
+        print("TODO: remove hostgroups")
+        print("TODO: add hostgroups")
