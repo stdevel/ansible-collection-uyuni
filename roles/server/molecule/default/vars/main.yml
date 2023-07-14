@@ -1,9 +1,8 @@
 ---
 # packages
 uyuni_core_packages:
-  - xfsprogs
-  - lvm2
   - man
+  - firewalld
 uyuni_repos:
   - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-x86_64-Media1/"
   - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Patches/openSUSE_Leap_{{ ansible_distribution_version }}/systemsmanagement:Uyuni:Stable:Patches.repo"

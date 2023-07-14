@@ -1,6 +1,9 @@
 ---
 uyuni_vg: vg_uyuni
 uyuni_pv: /dev/sdb
+uyuni_storage_packages:
+  - xfsprogs
+  - lvm2
 uyuni_filesystems:
   - name: lv_uyuni
     type: xfs

@@ -4,8 +4,6 @@ uyuni_check_requirements: true
 
 # required core packages
 uyuni_core_packages:
-  - xfsprogs
-  - lvm2
   - man
   - firewalld
 
