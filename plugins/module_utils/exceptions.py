@@ -91,3 +91,10 @@ class SSLCertVerificationError(Exception):
 
     .. class:: SSLCertVerificationError
     """
+
+class AlreadyExistsException(Exception):
+    """
+    Exception for already existing content
+
+    .. class:: AlreadyExistsException
+    """

@@ -16,7 +16,8 @@ from .exceptions import (
     InvalidCredentialsException,
     SessionException,
     SSLCertVerificationError,
-    CustomVariableExistsException
+    CustomVariableExistsException,
+    AlreadyExistsException
 )
 
 __metaclass__ = type
@@ -189,6 +190,89 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
+    def add_system_group(self, name, description):
+        """
+        Creates a system group
+
+        :param name: group name
+        :type name: str
+        :param description: group description
+        :type description: str
+        """
+        try:
+            return self._session.systemgroup.create(
+                self._api_key, name, description
+            )
+            return
+        except Fault as err:
+            if "already exists" in err.faultString.lower():
+                raise AlreadyExistsException(
+                    f"System group already exists: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def update_system_group(self, name, description):
+        """
+        Updates a system group
+
+        :param name: group name
+        :type name: str
+        :param description: group description
+        :type description: str
+        """
+        try:
+            return self._session.systemgroup.update(
+                self._api_key, name, description
+            )
+            return
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def remove_system_group(self, name):
+        """
+        Removes a system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.delete(
+                self._api_key, name
+            )
+            return
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_system_group_details(self, name):
+        """
+        Retrives details about a particular system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.getDetails(
+                self._api_key, name
+            )
+            return
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
     def get_hostgroups_by_host(self, system_id):
         """
         Returns all groups for a specific host
