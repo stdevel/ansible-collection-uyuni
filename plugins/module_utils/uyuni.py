@@ -269,6 +269,127 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
+
+    def get_system_group_admins(self, name):
+        """
+        Retrieves admins from a particular system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.listAdministrators(
+                self._api_key, name
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_or_remove_system_group_admins(self, name, admins, mode=1):
+        """
+        Adds/removes system group admins
+
+        :param name: group name
+        :type name: str
+        :param admins: admins
+        :type admins: list(str)
+        :type mode: add (1) or remove (0)
+        :param mode: int
+        """
+        if not isinstance(admins, list):
+            raise EmptySetException(
+                "Format error - use list of usernames"
+            )
+        try:
+            return self._session.systemgroup.addOrRemoveAdmins(
+                self._api_key, name, admins, mode
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_system_group_config_channels(self, ):
+        """
+        Retrieves configuration channels from a particular system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.listAssignedConfigChannels(
+                self._api_key, name
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_system_group_config_channels(self, name, channels):
+        """
+        Adds system group configuration channels
+
+        :param name: group name
+        :type name: str
+        :param channels: configuration channels
+        :type channels: list(str)
+        """
+        if not isinstance(admins, list):
+            raise EmptySetException(
+                "Format error - use list of configuration channels"
+            )
+        try:
+            return self._session.systemgroup.subscribeConfigChannel(
+                self._api_key, name, channels
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def remove_system_group_config_channels(self, ):
+        """
+        Removes system group configuration channels
+
+        :param name: group name
+        :type name: str
+        :param channels: configuration channels
+        :type channels: list(str)
+        """
+        if not isinstance(admins, list):
+            raise EmptySetException(
+                "Format error - use list of configuration channels"
+            )
+        try:
+            return self._session.systemgroup.unsubscribeConfigChannel(
+                self._api_key, name, channels
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
     def get_hostgroups_by_host(self, system_id):
         """
         Returns all groups for a specific host

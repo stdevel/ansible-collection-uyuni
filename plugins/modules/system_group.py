@@ -117,22 +117,46 @@ from ..module_utils.exceptions import EmptySetException, SSLCertVerificationErro
 from ..module_utils.helper_functions import _configure_connection, get_host_id
 
 
-# def _reboot_host(module, api_instance):
-#     """
-#     Reboots the host
-#     """
-#     try:
-#         api_instance.reboot_host(
-#             get_host_id(
-#                 module.params.get('name'),
-#                 api_instance
-#             )
-#         )
-#         module.exit_json(changed=True)
-#     except SSLCertVerificationError:
-#         module.fail_json(msg="Failed to verify SSL certificate")
-#     except EmptySetException as err:
-#         module.fail_json(msg=f"Exception when calling UyuniAPI->reboot_host: {err}")
+def _manage_system_group_assignments(module, api_instance):
+    """
+    Manage system, admin and configuration channel assignments
+    """
+    # get current assignments
+    _admins = api_instance.get_system_group_admins(
+        module.params.get('name')
+    )
+    _configs = api_instance.get_system_group_config_channels(
+        module.params.get('name')
+    )
+
+    if module.params.get('append_admins') == False:
+        # remove non-matched admins
+        _delete = [x for x in _admins if x not in module.params.get('admins')]
+        api_instance.add_or_remove_system_group_admins(
+            module.params.get('name'),
+            _delete,
+            mode=0
+        )
+    if module.params.get('append_config_channels') == False:
+        # remove non-matched config channels
+        _delete = [x for x in _configs if x not in module.params.get('config_channels')]
+        api_instance.remove_system_group_config_channels(
+            module.params.get('name'),
+            _delete
+        )
+
+    # add missing admins
+    _add = [x for x in module.params.get('admins') if x not in _admins]
+    api_instance.add_or_remove_system_group_admins(
+        module.params.get('name'),
+        _add
+    )
+    # add missing config channels
+    _add = [x for x in module.params.get('config_channels') if x not in _configs]
+    api_instance.add_system_group_channels(
+        module.params.get('name'),
+        _add
+    )
 
 def _create_system_group(module, api_instance):
     """
@@ -143,6 +167,8 @@ def _create_system_group(module, api_instance):
           module.params.get('name'),
           module.params.get('description')
         )
+        # manage systems, admins and configuration channels
+        _manage_system_group_assignments(module, api_instance)
         module.exit_json(changed=True)
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
@@ -154,10 +180,13 @@ def _update_system_group(module, api_instance):
     Update a system group
     """
     try:
+        # update group
         api_instance.update_system_group(
           module.params.get('name'),
           module.params.get('description')
         )
+        # manage systems, admins and configuration channels
+        _manage_system_group_assignments(module, api_instance)
         module.exit_json(changed=True)
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
@@ -223,17 +252,12 @@ def main():
       _create_system_group(module, api_instance)
     except AlreadyExistsException:
       # update only if necessary
-      _current = api_instance.get_system_group_details(
+      _details = api_instance.get_system_group_details(
         module.params.get('name')
       )
-      if _current['description'] != module.params.get('description'):
+      if _details['description'] != module.params.get('description'):
         _update_system_group(module, api_instance)
-
-    # TODO: append/replace admins if requested
-    # TODO: append/replace systems if requested
-    # TODO: append/replace config channels if requested
-
-    module.exit_json(changed=False)
+      module.exit_json(changed=False)
 
 if __name__ == '__main__':
     main()
