@@ -203,7 +203,6 @@ class UyuniAPIClient:
             return self._session.systemgroup.create(
                 self._api_key, name, description
             )
-            return
         except Fault as err:
             if "already exists" in err.faultString.lower():
                 raise AlreadyExistsException(
@@ -226,7 +225,6 @@ class UyuniAPIClient:
             return self._session.systemgroup.update(
                 self._api_key, name, description
             )
-            return
         except Fault as err:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
@@ -243,7 +241,6 @@ class UyuniAPIClient:
             return self._session.systemgroup.delete(
                 self._api_key, name
             )
-            return
         except Fault as err:
             if "unable to locate or access server group" in err.faultString.lower():
                 raise EmptySetException(
@@ -255,7 +252,7 @@ class UyuniAPIClient:
 
     def get_system_group_details(self, name):
         """
-        Retrives details about a particular system group
+        Retrieves details about a particular system group
 
         :param name: group name
         :type name: str
@@ -264,7 +261,6 @@ class UyuniAPIClient:
             return self._session.systemgroup.getDetails(
                 self._api_key, name
             )
-            return
         except Fault as err:
             if "unable to locate or access server group" in err.faultString.lower():
                 raise EmptySetException(
