@@ -1,0 +1,24 @@
+---
+- name: Reboot hosts requiring reboots
+  hosts: all
+  sources:
+    - name: Match all messages
+      stdevel.uyuni.requires_reboot:
+        delay: 1
+
+  rules:
+    - name: Show if hosts require a reboot (true)
+      condition: event.requires_reboot == True
+      action:
+        run_module:
+          name: ansible.builtin.debug
+          module_args:
+            msg: "Hosts requires reboot"
+
+    - name: Show if hosts require a reboot (false)
+      condition: event.requires_reboot == False
+      action:
+        run_module:
+          name: ansible.builtin.debug
+          module_args:
+            msg: "Hosts does NOT require a reboot"

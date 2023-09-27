@@ -5,3 +5,4 @@ credentials*.yml
 ansible.cfg
 *.tar.gz
 __pycache__
+demo_*.*
