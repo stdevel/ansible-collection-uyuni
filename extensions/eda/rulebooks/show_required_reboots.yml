@@ -4,7 +4,12 @@
   sources:
     - name: Match all messages
       stdevel.uyuni.requires_reboot:
-        delay: 1
+        hostname: 192.168.1.10
+        username: admin
+        password: admin
+        delay: 5
+        hosts:
+          - myserver.giertz.loc
 
   rules:
     - name: Show if hosts require a reboot (true)
@@ -14,6 +19,13 @@
           name: ansible.builtin.debug
           module_args:
             msg: "Hosts requires reboot"
+
+    # - name: Reboot hosts if required
+    #   condition: event.requires_reboot == True
+    #   action:
+    #     run_playbook:
+    #       name: stdevel.uyuni.reboot
+    #       post_events: true
 
     - name: Show if hosts require a reboot (false)
       condition: event.requires_reboot == False
