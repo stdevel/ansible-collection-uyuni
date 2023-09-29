@@ -318,6 +318,14 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
+    # def get_system_group_systems(self, ):
+    #     """
+    #     """
+
+    # def add_or_remove_system_group_systems(self,):
+    #     """
+    #     """
+
     def get_system_group_config_channels(self, ):
         """
         Retrieves configuration channels from a particular system group
