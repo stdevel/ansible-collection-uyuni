@@ -18,3 +18,8 @@
   args:
     creates: "{{ uyuni_repo_file }}"
   become: true
+
+- name: Remove downloded bootsrap script
+  ansible.builtin.file:
+    path: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    state: absent
