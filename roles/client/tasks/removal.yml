@@ -18,7 +18,7 @@
 
 - name: Remove directories
   ansible.builtin.file:
-    path: /tmp/somedir
+    path: "{{ item }}"
     state: absent
   become: true
   loop: "{{ uyuni_client_directories }}"
