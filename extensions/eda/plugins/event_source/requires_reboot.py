@@ -53,9 +53,9 @@ async def main(queue: asyncio.Queue, args: Dict[str, Any]):
         port,
         verify
     )
-    _systems = list_systems_requiring_reboot(api_client)
 
     while True:
+        _systems = list_systems_requiring_reboot(api_client)
         for host in hosts:
             print(f"checking host {host}")
             _flag = True if host in _systems else False
