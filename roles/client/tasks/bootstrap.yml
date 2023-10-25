@@ -14,7 +14,7 @@
   become: true
 
 - name: Register with Uyuni
-  ansible.builtin.command: /opt/bootstrap.sh
+  ansible.builtin.command: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
   args:
     creates: "{{ uyuni_repo_file }}"
   become: true
