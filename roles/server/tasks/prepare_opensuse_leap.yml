@@ -40,14 +40,3 @@
     - uyuni_cefs_setup
     - "ansible_distribution_version == '15.4'"
   become: true
-
-
-  # Disable patch repos as long as no patch repo for 15.5 exists
-- name: Disable Patch Repo for openSUSE 15.5 as long no patch is available
-  community.general.zypper_repository:
-    repo: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Patches/openSUSE_Leap_{{ ansible_distribution_version }}/"
-    name: uyuni-server-patches
-    enabled: False
-  when:
-    - "ansible_distribution_version == '15.5'"
-  become: true
