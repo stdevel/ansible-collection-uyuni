@@ -3,8 +3,8 @@
   ansible.builtin.fail:
     msg: "Please ensure having SP5"
   when:
-    - uyuni_release is defined
     - "ansible_distribution_version != '15.5'"
+    - uyuni_release is defined
     - "uyuni_release is version('2023.09', '>=')"
 
 - name: Ensure having 15 SP4 release
@@ -12,6 +12,7 @@
     msg: "Please ensure having SP4"
   when:
     - "ansible_distribution_version != '15.4'"
+    - uyuni_release is defined
     - "uyuni_release is version('2023.04', '>=')"
     - "uyuni_release is version('2022.06', '<')"
 
@@ -19,8 +20,8 @@
   ansible.builtin.fail:
     msg: "Please ensure having SP3"
   when:
-    - uyuni_release is defined
     - "ansible_distribution_version != '15.3'"
+    - uyuni_release is defined
     - "uyuni_release is version('2021.06', '>=')"
     - "uyuni_release is version('2022.06', '<')"
 
@@ -28,7 +29,7 @@
   ansible.builtin.fail:
     msg: "Please ensure having SP2"
   when:
-    - uyuni_release is defined
     - "ansible_distribution_version != '15.2'"
+    - uyuni_release is defined
     - "uyuni_release is version('2020.07', '>=')"
     - "uyuni_release is version('2021.06', '<')"
