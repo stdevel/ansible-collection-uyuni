@@ -16,7 +16,8 @@ from .exceptions import (
     InvalidCredentialsException,
     SessionException,
     SSLCertVerificationError,
-    CustomVariableExistsException
+    CustomVariableExistsException,
+    AlreadyExistsException
 )
 
 __metaclass__ = type
@@ -185,6 +186,214 @@ class UyuniAPIClient:
                 "No groups found"
             )
         except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_system_group(self, name, description):
+        """
+        Creates a system group
+
+        :param name: group name
+        :type name: str
+        :param description: group description
+        :type description: str
+        """
+        try:
+            return self._session.systemgroup.create(
+                self._api_key, name, description
+            )
+        except Fault as err:
+            if "already exists" in err.faultString.lower():
+                raise AlreadyExistsException(
+                    f"System group already exists: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def update_system_group(self, name, description):
+        """
+        Updates a system group
+
+        :param name: group name
+        :type name: str
+        :param description: group description
+        :type description: str
+        """
+        try:
+            return self._session.systemgroup.update(
+                self._api_key, name, description
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def remove_system_group(self, name):
+        """
+        Removes a system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.delete(
+                self._api_key, name
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_system_group_details(self, name):
+        """
+        Retrieves details about a particular system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.getDetails(
+                self._api_key, name
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def get_system_group_admins(self, name):
+        """
+        Retrieves admins from a particular system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.listAdministrators(
+                self._api_key, name
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_or_remove_system_group_admins(self, name, admins, mode=1):
+        """
+        Adds/removes system group admins
+
+        :param name: group name
+        :type name: str
+        :param admins: admins
+        :type admins: list(str)
+        :type mode: add (1) or remove (0)
+        :param mode: int
+        """
+        if not isinstance(admins, list):
+            raise EmptySetException(
+                "Format error - use list of usernames"
+            )
+        try:
+            return self._session.systemgroup.addOrRemoveAdmins(
+                self._api_key, name, admins, mode
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    # def get_system_group_systems(self, ):
+    #     """
+    #     """
+
+    # def add_or_remove_system_group_systems(self,):
+    #     """
+    #     """
+
+    def get_system_group_config_channels(self, ):
+        """
+        Retrieves configuration channels from a particular system group
+
+        :param name: group name
+        :type name: str
+        """
+        try:
+            return self._session.systemgroup.listAssignedConfigChannels(
+                self._api_key, name
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_system_group_config_channels(self, name, channels):
+        """
+        Adds system group configuration channels
+
+        :param name: group name
+        :type name: str
+        :param channels: configuration channels
+        :type channels: list(str)
+        """
+        if not isinstance(admins, list):
+            raise EmptySetException(
+                "Format error - use list of configuration channels"
+            )
+        try:
+            return self._session.systemgroup.subscribeConfigChannel(
+                self._api_key, name, channels
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def remove_system_group_config_channels(self, ):
+        """
+        Removes system group configuration channels
+
+        :param name: group name
+        :type name: str
+        :param channels: configuration channels
+        :type channels: list(str)
+        """
+        if not isinstance(admins, list):
+            raise EmptySetException(
+                "Format error - use list of configuration channels"
+            )
+        try:
+            return self._session.systemgroup.unsubscribeConfigChannel(
+                self._api_key, name, channels
+            )
+        except Fault as err:
+            if "unable to locate or access server group" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System group not found: {name!r}"
+                ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
@@ -1307,3 +1516,114 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
+
+    def get_activationkeys(self):
+        """
+        Returns all defined activation keys
+        """
+        try:
+            return self._session.activationkey.listActivationKeys(
+                self._api_key
+            )
+        except Fault as err:
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def add_activationkey(
+            self, key, description,
+            basechannel=None, usage=None, entitlements=None,
+            universal_default=None
+        ):
+        """
+        Creates a new activation key
+
+        :param key: key name
+        :type key: str
+        :param description: key description
+        :type description: str
+        :param basechannel: assigned software basechannel
+        :type basechannel: str
+        :param usage: key usage limit
+        :type usage: int
+        :param entitlements: key entitlements
+        :type entitlements: list (str)
+        :param universal_default: flag whether key is universal default
+        :type universal_default: bool
+        """
+        # TODO
+        print("TODO")
+
+    def activationkey_set_child_channels(self, key, child_channels):
+        """
+        Assigns child channels to an activation key
+
+        :param key: key name
+        :type key: str
+        :param child_channels: child channel labels
+        :type child_channels: list (str)
+        """
+        # TODO
+        print("remove child channels")
+        print("add child channels")
+
+    def activationkey_set_details(
+        self, key, description,
+        basechannel, usage, universal_default,
+        contact_method
+    ):
+        """
+        Sets a activation keys details
+
+        :param key: key name
+        :type key: str
+        :param description: key description
+        :type description: str
+        :param basechannel: assigned software basechannel
+        :type basechannel: str
+        :param usage: key usage limit
+        :type usage: int
+        :param universal_default: flag whether key is universal default
+        :type universal_default: bool
+        :param contact_method: machine contact method
+        :type contact_method: str
+        """
+        # TODO
+        print("TODO")
+
+    def activationkey_set_config_channels(self, key, child_channels):
+        """
+        Assigns config channels to an activation key
+
+        :param key: key name
+        :type key: str
+        :param config_channels: config channel labels
+        :type config_channels: list (str)
+        """
+        # TODO
+        print("TODO: remove config channels")
+        print("TODO: add config channels")
+
+    def activationkey_set_packages(self, key, packages):
+        """
+        Assigns packages to an activation key
+
+        :param key: key name
+        :type key: str
+        :param packages: software packages
+        :type packages: list (str)
+        """
+        print("TODO: remove packages")
+        print("TODO: add packages")
+
+    def activationkey_set_hostgroups(self, key, hostgroups):
+        """
+        Assigns hostgroups to an activation key
+
+        :param key: key name
+        :type key: str
+        :param hostgroups: hostgroup names
+        :type hostgroups: list (str)
+        """
+        print("TODO: remove hostgroups")
+        print("TODO: add hostgroups")
