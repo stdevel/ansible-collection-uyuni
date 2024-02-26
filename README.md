@@ -16,6 +16,10 @@ Ansible Collection for managing Uyuni / SUSE Manager installations and ressource
 - [`openscap_run`](plugins/modules/openscap_run.py) - Schedules OpenSCAP runson managed hosts
 - [`reboot_host`](plugins/modules/reboot_host.py) - Reboots a managed hosts
 
+### Event-driven Ansible
+
+- [`requires_reboot`](extensions/eda/plugins/event_source/requires_reboot.py) - Checks whether a particular system requires a reboot
+
 Check-out [issues](https://github.com/stdevel/ansible-collection-uyuni/issues) for known issues, missing and upcoming functionality.
 
 ## Demonstration
