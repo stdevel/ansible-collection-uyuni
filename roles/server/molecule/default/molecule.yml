@@ -9,9 +9,9 @@ lint: |
     flake8
 platforms:
   - name: opensuse-leap15
-    box: opensuse/Leap-15.4.x86_64
-    cpus: 2
-    memory: 8192
+    box: opensuse/Leap-15.5.x86_64
+    cpus: 4
+    memory: 16384
 provisioner:
   name: ansible
 verifier:

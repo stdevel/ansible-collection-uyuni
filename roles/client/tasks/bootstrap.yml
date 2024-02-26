@@ -11,10 +11,17 @@
     owner: root
     group: root
     mode: '0755'
+    force: true
   become: true
 
 - name: Register with Uyuni
-  ansible.builtin.command: /opt/bootstrap.sh
+  ansible.builtin.command: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
   args:
     creates: "{{ uyuni_repo_file }}"
+  become: true
+
+- name: Remove downloded bootsrap script
+  ansible.builtin.file:
+    path: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    state: absent
   become: true

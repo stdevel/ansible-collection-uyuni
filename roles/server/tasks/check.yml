@@ -8,7 +8,7 @@
 
 - name: Check memory
   ansible.builtin.fail:
-    msg: "Please ensure having at least 8 GB of memory"
+    msg: "Please ensure having at least 16 GB of memory"
   when:
-    - ansible_memtotal_mb < 7941
+    - ansible_memtotal_mb < 15990
     - uyuni_check_requirements
