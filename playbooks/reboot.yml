@@ -1,0 +1,20 @@
+---
+- name: Rebooting hosts
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    # - name: Print all defined variables
+    #   ansible.builtin.debug:
+    #     msg: "{{ hostvars[inventory_hostname] }}"
+
+    - name: Show system that will be rebooted
+      ansible.builtin.debug:
+        msg: "Host to be rebooted: {{ ansible_eda.event.host }}"
+
+    - name: Reboot system
+      stdevel.uyuni.reboot_host:
+        uyuni_host: 192.168.1.10
+        uyuni_user: admin
+        uyuni_password: admin
+        uyuni_verify_ssl:
+        name: "{{ ansible_eda.event.host }}"
