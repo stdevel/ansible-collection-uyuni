@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.0
+
+- inventory plugin: add environment variable passthrough
+
 ## 0.1.0 (15.04.2023)
 
 - initial release

@@ -37,21 +37,36 @@ DOCUMENTATION = '''
         type: string
         choices: ['stdevel.uyuni.inventory']
       host:
-        description: Hostname/IP address of the Uyuni server.
+        description:
+          - Hostname/IP address of the Uyuni server.
+          - If the value is not specified in the inventory configuration, the value of environment variable C(UYUNI_HOST) will be used instead.
         type: string
         required: true
+        env:
+          - name: UYUNI_HOST
+            version_added: 0.2.0
       user:
-        description: Username to query the API.
+        description:
+          - Username to query the API with.
+          - If the value is not specified in the inventory configuration, the value of environment variable C(UYUNI_USER) will be used instead.
         type: string
         required: true
+        env:
+          - name: UYUNI_USER
+            version_added: 0.2.0
       port:
         description: API port
         type: int
         default: 443
       password:
-        description: Password to query the API.
+        description:
+          - Password to query the API with.
+          - If the value is not specified in the inventory configuration, the value of environment variable C(UYUNI_PASSWORD) will be used instead.
         type: string
         required: true
+        env:
+          - name: UYUNI_PASSWORD
+            version_added: 0.2.0
       verify_ssl:
         description: Enables or disables SSL certificate verification.
         type: boolean
@@ -92,6 +107,14 @@ ipv6_only: true
 groups:
   - dev
   - demo
+...
+
+---
+# for use in AWX / AAP (Inventory Source "Sourced from a Project"),
+# together with a custom credential that injects environment variables UYUNI_HOST, UYUNI_USER, UYUNI_PASSWORD
+plugin: stdevel.uyuni.inventory
+show_custom_values: true
+...
 '''
 
 from ansible.plugins.inventory import (
