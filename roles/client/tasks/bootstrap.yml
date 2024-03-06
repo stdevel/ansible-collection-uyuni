@@ -25,7 +25,7 @@
 
 
 - name: Accept Salt-key on Uyuni Server
-  when: uyuni_removal_cleanup_minion == 'True'
+  when: uyuni_bootstrap_accept_minion_key == 'True'
   block:
     - name: Login to uyuni api
       ansible.builtin.uri:

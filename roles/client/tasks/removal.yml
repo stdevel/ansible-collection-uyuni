@@ -27,7 +27,7 @@
 
 
 - name: Delete System from Uyuni/SUMA Server
-  when: uyuni_bootstrap_accept_minion_key == 'True'
+  when: uyuni_removal_cleanup_minion == 'True'
   block:
     - name: Login to Uyuni REST API
       ansible.builtin.uri:
