@@ -1,4 +1,6 @@
 ---
 uyuni_bootstrap_filename: "bootstrap-{{ ansible_distribution | regex_replace(' ', '_') | lower }}{{ ansible_distribution_version }}.sh"
 uyuni_bootstrap_folder: /opt
+uyuni_bootstrap_accept_minion_key: False
 uyuni_client_state: present
+uyuni_removal_cleanup_minion: False
