@@ -1,24 +1,57 @@
 ---
-- name: Stop services
-  ansible.builtin.service:
-    name: "{{ uyuni_minion_service }}"
-    state: stopped
-    enabled: false
-  register: service_stop
-  failed_when:
-    - service_stop.failed
-    - "'not find' not in service_stop.msg"
-  become: true
+- name: Delete Venv Salt Minion from Host
+  block:
+    - name: Stop services
+      ansible.builtin.service:
+        name: "{{ uyuni_minion_service }}"
+        state: stopped
+        enabled: false
+      register: service_stop
+      failed_when:
+        - service_stop.failed
+        - "'not find' not in service_stop.msg"
+      become: true
 
-- name: Remove packages
-  ansible.builtin.package:
-    name: "{{ uyuni_client_packages }}"
-    state: absent
-  become: true
+    - name: Remove packages
+      ansible.builtin.package:
+        name: "{{ uyuni_client_packages }}"
+        state: absent
+      become: true
 
-- name: Remove directories
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: absent
-  become: true
-  loop: "{{ uyuni_client_directories }}"
+    - name: Remove directories
+      ansible.builtin.file:
+        path: /tmp/somedir
+        state: absent
+      become: true
+      loop: "{{ uyuni_client_directories }}"
+
+
+- name: Delete System from Uyuni/SUMA Server
+  when: uyuni_bootstrap_accept_minion_key == 'True'
+  block:
+    - name: Login to Uyuni REST API
+      ansible.builtin.uri:
+        url: 'https://{{ uyuni_server }}/rhn/manager/api/auth/login'
+        method: POST
+        body_format: json
+        body: "{ login: {{ uyuni_username }}, password: {{ uyuni_password }} }"
+      register: sessioncookie
+
+    - name: Get ServerID from API
+      ansible.builtin.uri:
+        url: 'https://{{ uyuni_server }}/rhn/manager/api/system/getId?name={{ ansible_hostname }}'
+        method: GET
+        headers:
+          Content-Type: application/json
+          Cookie: "{{ sessioncookie.cookies_string }}"
+      register: systemID
+
+    # Delete System with uid, but dont cleanup the minion. This was already done
+    - name: Delete System from Uyuni without Cleanup based on SystemId
+      ansible.builtin.uri:
+        url: "https://{{ uyuni_server }}/rhn/manager/api/system/deleteSystem?sid={{ item }}&cleanupType=NO_CLEANUP"
+        method: POST
+        headers:
+          Content-Type: application/json
+          Cookie: "{{ sessioncookie.cookies_string }}"
+      loop: "{{ systemID.json | community.general.json_query('result[*].id') }}"

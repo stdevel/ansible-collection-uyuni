@@ -1,27 +1,44 @@
 ---
-- name: Check if Uyuni server was set
-  ansible.builtin.fail:
-    msg: Set uyuni_server to a valid server hostname/FQDN
-  when: uyuni_server is undefined
 
-- name: Download Uyuni bootstrap script
-  ansible.builtin.get_url:
-    url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
-    dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
-    owner: root
-    group: root
-    mode: '0755'
-    force: true
-  become: true
+- name: Bootstrap System via Bootstrap Script
+  block:
+    - name: Check if Uyuni server was set
+      ansible.builtin.fail:
+        msg: Set uyuni_server to a valid server hostname/FQDN
+      when: uyuni_server is undefined
 
-- name: Register with Uyuni
-  ansible.builtin.command: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
-  args:
-    creates: "{{ uyuni_repo_file }}"
-  become: true
+    - name: Download Uyuni bootstrap script
+      ansible.builtin.get_url:
+        url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
+        dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+        owner: root
+        group: root
+        mode: '0755'
+      become: true
 
-- name: Remove downloded bootsrap script
-  ansible.builtin.file:
-    path: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
-    state: absent
-  become: true
+    - name: Register with Uyuni
+      ansible.builtin.command: /opt/bootstrap.sh
+      args:
+        creates: "{{ uyuni_repo_file }}"
+      become: true
+
+
+
+- name: Accept Salt-key on Uyuni Server
+  when: uyuni_removal_cleanup_minion == 'True'
+  block:
+    - name: Login to uyuni api
+      ansible.builtin.uri:
+        url: 'https://{{ uyuni_server }}/rhn/manager/api/auth/login'
+        method: POST
+        body_format: json
+        body: "{ login: {{ uyuni_username }}, password: {{ uyuni_password }} }"
+      register: sessioncookie
+
+    - name: Accept Salt-Key for Host
+      ansible.builtin.uri:
+        url: 'https://{{ uyuni_server }}/rhn/manager/api/saltkey/accept?minionId={{ ansible_hostname }}'
+        method: POST
+        headers:
+          Content-Type: application/json
+          Cookie: "{{ sessioncookie.cookies_string }}"
