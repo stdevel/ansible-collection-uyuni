@@ -111,14 +111,14 @@ def _install_upgrades(module, api_instance):
                 upgrades = [x["to_package_id"] for x in all_upgrades]
 
         # install upgrades
-        api_instance.install_upgrades(
+        action_id = api_instance.install_upgrades(
             get_host_id(
                 module.params.get('name'),
                 api_instance
             ),
             upgrades
         )
-        module.exit_json(changed=True)
+        module.exit_json(changed=True, action_id=action_id)
     except EmptySetException as err:
         # exit if no upgrades available
         if not upgrades:
