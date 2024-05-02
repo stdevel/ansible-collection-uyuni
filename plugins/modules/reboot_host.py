@@ -68,13 +68,13 @@ def _reboot_host(module, api_instance):
     Reboots the host
     """
     try:
-        api_instance.reboot_host(
+        action_id = api_instance.reboot_host(
             get_host_id(
                 module.params.get('name'),
                 api_instance
             )
         )
-        module.exit_json(changed=True)
+        module.exit_json(changed=True, action_id=action_id)
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
     except EmptySetException as err:

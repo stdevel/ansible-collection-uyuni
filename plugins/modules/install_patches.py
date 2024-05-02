@@ -106,14 +106,14 @@ def _install_patches(module, api_instance):
             patches = [x["id"] for x in all_patches]
 
         # install patches
-        api_instance.install_patches(
+        action_id = api_instance.install_patches(
             get_host_id(
                 module.params.get('name'),
                 api_instance
             ),
             patches
         )
-        module.exit_json(changed=True)
+        module.exit_json(changed=True, action_id=action_id)
     except EmptySetException:
         # check if already installed
         if patch_already_installed(
