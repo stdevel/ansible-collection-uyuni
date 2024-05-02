@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.2.1
+
+- modules will now report the appropriate action ID
+
 ## 0.2.0
 
 - inventory plugin: add environment variable passthrough
