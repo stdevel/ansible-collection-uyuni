@@ -77,7 +77,7 @@ def _schedule_openscap_run(module, api_instance):
     """
     try:
         # module.fail_json(msg="About to schedule OpenSCAP run")
-        api_instance.schedule_openscap_run(
+        action_id = api_instance.schedule_openscap_run(
             get_host_id(
                 module.params.get('name'),
                 api_instance
@@ -85,7 +85,7 @@ def _schedule_openscap_run(module, api_instance):
             module.params.get('document'),
             module.params.get('arguments')
         )
-        module.exit_json(changed=True)
+        module.exit_json(changed=True, action_id=action_id)
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
     except EmptySetException as err:
