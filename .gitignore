@@ -2,6 +2,8 @@ TODO*
 *.pyc
 credentials*.yml
 *.uyuni.yml
+test-*.yml
+test-*.ini
 ansible.cfg
 *.tar.gz
 __pycache__
