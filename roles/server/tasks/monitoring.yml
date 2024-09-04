@@ -1,24 +1,14 @@
 ---
-- name: Install monitoring packages
-  community.general.zypper:
-    name: "{{ uyuni_monitoring_packages }}"
-  become: true
-
-- name: Install monitoring Salt formulas
-  become: true
-  community.general.zypper:
-    name: "{{ uyuni_monitoring_formulas_packages }}"
-  when: uyuni_install_monitoring_formulas
-
 - name: Get monitoring status
   become: true
-  ansible.builtin.command: mgr-monitoring-ctl status
+  ansible.builtin.command: podman exec -ti uyuni-server /usr/sbin/mgr-monitoring-ctl status
   register: monitoring_state
   changed_when: false
 
 - name: Enable monitoring
   become: true
-  ansible.builtin.command: mgr-monitoring-ctl enable "{'db_name':{{ uyuni_db_name }},'db_user':{{ uyuni_db_user }},'db_pass':{{ uyuni_db_pass }},'db_port':'5432','db_host':'localhost'}"
+  # ansible.builtin.command: podman exec -ti uyuni-server /usr/sbin/mgr-monitoring-ctl enable "{'db_name':{{ uyuni_db_name }},'db_user':{{ uyuni_db_user }},'db_pass':{{ uyuni_db_pass }},'db_port':'5432','db_host':'localhost'}"
+  ansible.builtin.command: podman exec -ti uyuni-server /usr/sbin/mgr-monitoring-ctl enable
   args:
     creates: /usr/lib/systemd/system/tomcat.service.d/jmx.conf
   when: "'error' in monitoring_state.stderr|lower"

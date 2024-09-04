@@ -1,0 +1,15 @@
+---
+uyuni_pkgs:
+  - mgradm
+  - mgrctl
+  - mgradm-bash-completion
+  - mgrctl-bash-completion
+  - netavark
+  - uyuni-storage-setup-server
+
+uyuni_gpg:
+  - https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/repodata/repomd.xml.key
+
+uyuni_repos:
+  - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/ContainerUtils/openSUSE_Leap_Micro_5.5/systemsmanagement:Uyuni:Stable:ContainerUtils.repo"
+    name: systemsmanagement_Uyuni_Stable_ContainerUtils

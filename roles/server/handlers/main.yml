@@ -1,5 +1,20 @@
 ---
+- name: Reboot system
+  ansible.builtin.reboot:
+    reboot_timeout: 3600
+  changed_when: false
+  become: true
+
+- name: Create initialization file
+  ansible.builtin.file:
+    path: /root/.MANAGER_INITIALIZATION_COMPLETE
+    owner: root
+    group: root
+    mode: '0644'
+    state: touch
+  become: true
+
 - name: Restart Uyuni
-  ansible.builtin.command: spacewalk-service restart
+  ansible.builtin.command: mgradm restart
   changed_when: false
   become: true

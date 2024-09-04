@@ -44,23 +44,6 @@ def test_ports_listen(host):
         assert host.socket("tcp://0.0.0.0:%s" % port).is_listening
 
 
-def test_firewall(host):
-    """
-    check if firewall is configured properly
-    """
-    # get variables from file
-    ansible_vars = host.ansible(
-        "include_vars",
-        "file=molecule/default/vars/main.yml"
-    )
-    # check if services are enabled
-    if ansible_vars["ansible_facts"]["uyuni_firewall_config"]:
-        with host.sudo():
-            cmd_fw = host.run("firewall-cmd --list-services")
-            for srv in ansible_vars["ansible_facts"]["uyuni_firewall_services"]:    # noqa: 204
-                assert srv in cmd_fw.stdout.strip()
-
-
 def test_org(host):
     """
     check if organization is accessible
@@ -77,28 +60,6 @@ def test_org(host):
         ansible_vars["ansible_facts"]["uyuni_org_password"]
         )
     assert cmd_org.stdout.strip() == ansible_vars["ansible_facts"]["uyuni_org_name"]    # noqa: 204
-
-
-def test_errata(host):
-    """
-    check if CEFS is installed properly
-    """
-    # get variables from file
-    ansible_vars = host.ansible(
-        "include_vars",
-        "file=molecule/default/vars/main.yml"
-    )
-    if ansible_vars["ansible_facts"]["uyuni_cefs_setup"]:
-        # check package dependencies
-        for pkg in ansible_vars["ansible_facts"]["uyuni_cefs_packages"]:
-            assert host.package(pkg).is_installed
-        # check script
-        assert host.file(
-            "{}/errata-import.pl" % ansible_vars["ansible_facts"]["uyuni_cefs_path"]    # noqa: 204
-            ).exists
-        # check cronjobs
-        if ansible_vars["ansible_facts"]["uyuni_cefs_setup_cronjob"]:
-            assert host.file("/etc/cron.d/errata-cefs").exists
 
 
 def test_channels(host):
@@ -150,8 +111,6 @@ def test_monitoring_packages(host):
     pkgs = []
     if ansible_vars["ansible_facts"]["uyuni_enable_monitoring"]:
         pkgs = pkgs + ansible_vars["ansible_facts"]["uyuni_monitoring_packages"]    # noqa: E501
-    if ansible_vars["ansible_facts"]["uyuni_install_monitoring_formulas"]:
-        pkgs = pkgs + ansible_vars["ansible_facts"]["uyuni_monitoring_formulas_packages"]   # noqa: E501
     # check packages
     for pkg in pkgs:
         print(pkg)

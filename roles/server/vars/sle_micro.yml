@@ -1,0 +1,11 @@
+---
+uyuni_pkgs:
+  - mgradm
+  - mgrctl
+  - mgradm-bash-completion
+  - mgrctl-bash-completion
+  - netavark
+
+uyuni_slm_modules:
+- name: "SUSE Manager Server Extension {{ uyuni_suma_release }} {{ ansible_architecture }}"
+  identifier: "SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }}"

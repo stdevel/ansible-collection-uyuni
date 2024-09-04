@@ -1,6 +1,5 @@
 ---
-- name: Install core utilities
+- name: Install requirements
   community.general.zypper:
-    name: "{{ uyuni_core_packages }}"
-    state: present
+    name: "{{ uyuni_packages }}"
   become: true
