@@ -4,7 +4,13 @@
     msg: Set uyuni_server to a valid server hostname/FQDN
   when: uyuni_server is undefined
 
+- name: Check if the uyuni_repo_file exists
+  ansible.builtin.stat:
+      path: "{{ uyuni_repo_file }}"
+  register: stat_uyuni_repo_file
+
 - name: Download Uyuni bootstrap script
+  when: stat_uyuni_repo_file.stat.exists == false
   ansible.builtin.get_url:
     url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
     dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
