@@ -1327,3 +1327,51 @@ class UyuniAPIClient:
             while datetime.now() < next_check:
                 pass
         raise TimeoutError(f"Action {action_id} did not complete within {timeout} seconds")
+
+    def full_pkg_update(self, system_id):
+        """
+        Schedule full package update
+
+        :param system_id: profile ID
+        :type system_id: int
+        """
+        earliest_execution = DateTime(datetime.now().timetuple())
+
+        try:
+            action_id = self._session.system.schedulePackageUpdate(
+                self._api_key, system_id, earliest_execution
+            )
+            return action_id
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise SessionException(
+                    f"System not found: {system_id!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+    
+    def get_outdated_pkgs(self, hostname):
+        """
+        Returns outdated packages of a particular system
+
+        :param hostname: system hostname
+        :type hostname: str
+        """
+        try:
+            outdated_pkgs = self._session.system.getId(
+                self._api_key, hostname
+            )
+            if outdated_pkgs:
+                return outdated_pkgs[0]["outdated_pkg_count"]
+            raise EmptySetException(
+                f"System not found: {hostname!r}"
+            )
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System not found: {hostname!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
