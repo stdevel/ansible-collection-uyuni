@@ -6,7 +6,7 @@ from __future__ import (absolute_import, division, print_function)
 import logging
 import ssl
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from xmlrpc.client import DateTime, Fault, ServerProxy
 
 from .utilities import split_rpm_filename
@@ -1307,3 +1307,23 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
+
+    def wait_for_action(self, action_id, system_id, timeout=3600, interval=30):
+        """
+        Waits for the action to complete.
+    
+        :param api_instance: The API instance to use for checking the action status.
+        :param action_id: The ID of the action to wait for.
+        :param timeout: The maximum time to wait for the action to complete (in seconds).
+        :param interval: The interval between status checks (in seconds).
+        """
+        start_time = datetime.now()
+        end_time = start_time + timedelta(seconds=timeout)
+        while datetime.now() < end_time:
+            status = self.get_host_action(system_id, action_id)
+            if status[0]['successful_count'] + status[0]['failed_count'] > 0:
+                return status
+            next_check = datetime.now() + timedelta(seconds=interval)
+            while datetime.now() < next_check:
+                pass
+        raise TimeoutError(f"Action {action_id} did not complete within {timeout} seconds")
