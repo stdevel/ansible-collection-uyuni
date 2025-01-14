@@ -676,20 +676,20 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
-    def get_host_action(self, system_id, task_id):
+    def get_host_action(self, system_id, action_id):
         """
         Retrieves information about a particular host action
 
         :param system_id: profile ID
         :type system_id: int
-        :param task_id: task ID
-        :type task_id: int
+        :param action_id: task ID
+        :type action_id: int
         """
         if not isinstance(system_id, int):
             raise EmptySetException(
                 "No system found - use system profile IDs"
             )
-        if not isinstance(task_id, int):
+        if not isinstance(action_id, int):
             raise EmptySetException(
                 "No task found - use task IDs"
             )
@@ -697,14 +697,14 @@ class UyuniAPIClient:
         try:
             # return particular action
             actions = self.get_host_actions(system_id)
-            action = [x for x in actions if x['id'] == task_id]
+            action = [x for x in actions if x['id'] == action_id]
             if not action:
                 raise EmptySetException("Action not found")
             return action
         except Fault as err:
             if "action not found" in err.faultString.lower():
                 raise EmptySetException(
-                    f"Action not found: {task_id!r}"
+                    f"Action not found: {action_id!r}"
                 ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
