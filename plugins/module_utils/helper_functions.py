@@ -90,3 +90,11 @@ def _configure_connection(connection_params):
     except Exception as err:
         raise BaseException(f"Failed to create API connection: {err}") from err
     return api_instance
+
+def get_outdated_pkgs(target, api_client):
+    """
+    Ensures that a number of outdated packages is returned
+    """
+    if isinstance(target, int) or target.isdigit():
+        return int(target)
+    return api_client.get_outdated_pkgs(target)
