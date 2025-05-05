@@ -32,14 +32,4 @@ uyuni_channels:
 
 # monitoring settings
 uyuni_enable_monitoring: true
-uyuni_monitoring_packages:
-  - golang-github-prometheus-node_exporter
-  - prometheus-postgres_exporter
-  - prometheus-jmx_exporter
-  - golang-github-lusitaniae-apache_exporter
-  - prometheus-jmx_exporter-tomcat
-uyuni_install_monitoring_formulas: true
-uyuni_monitoring_formulas_packages:
-  - grafana-formula
-  - prometheus-formula
-  - prometheus-exporters-formula
+
