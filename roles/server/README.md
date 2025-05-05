@@ -104,6 +104,22 @@ If you plan to bootstrap older Uyuni versions, set the Uyuni release:
       uyuni_release: '2024.07'
 ```
 
+## Development
+
+You'll need an customized openSUSE Tumbleweed podman container (with systemd and other utilities) for testing purposes:
+
+```command
+$ podman build -t opensuse-tumbleweed .
+```
+
+Use `molecule` for running the code:
+
+```command
+$ molecule create
+$ molecule converge
+$ molecule verify
+```
+
 ## License
 
 GPL 3.0

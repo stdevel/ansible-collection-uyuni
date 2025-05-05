@@ -3,41 +3,19 @@
   hosts: all
   become: true
   pre_tasks:
-    - name: Set hostname
-      block:
-        - name: Set (short) hostname
-          ansible.builtin.hostname:
-            name: uyuni
+    - name: Fix FQDN
+      ansible.builtin.set_fact:
+        ansible_fqdn: uyuni.podman.loc
 
-        - name: Update /etc/hosts
-          ansible.builtin.lineinfile:
-            path: /etc/hosts
-            regexp: '^127.0.0.1'
-            line: '127.0.0.1 localhost uyuni.vagrant.loc uyuni'
-
-    # - name: Remove package manager locks (required for Vagrantbox)
-    #   ansible.builtin.command: zypper rl "{{ item }}"
-    #   register: zypper_out
-    #   changed_when: "'successfully removed' in zypper_out.stdout"
-    #   loop:
-    #     - snapper
-    #     - snapper-zypp-plugin
-
-    # - name: Install required packages
-    #   community.general.zypper:
-    #     name:
-    #       - snapper
-    #       - snapper-zypp-plugin
-
-  # roles:
-  #   - role: stdevel.uyuni.server
-  #     uyuni_channels:
-  #       - name: almalinux9
-  #         arch: x86_64
-  #       - name: almalinux9-appstream
-  #         arch: x86_64
-  #       - name: almalinux9-uyuni-client
-  #         arch: x86_64
-  #     uyuni_enable_monitoring: true
-  #     # uyuni_release: '2023.03'
-  #     uyuni_firewall_config: true
+  roles:
+    - role: stdevel.uyuni.server
+      # uyuni_channels:
+      #   - name: almalinux9
+      #     arch: x86_64
+      #   - name: almalinux9-appstream
+      #     arch: x86_64
+      #   - name: almalinux9-uyuni-client
+      #     arch: x86_64
+      # uyuni_enable_monitoring: true
+      # # uyuni_release: '2023.03'
+      # uyuni_firewall_config: true
