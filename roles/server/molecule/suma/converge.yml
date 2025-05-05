@@ -19,8 +19,6 @@
     - role: stdevel.uyuni.server
       uyuni_scc_reg_code: "<insert code here>"
       uyuni_scc_mail: "<insert SCC mail here>"
-      uyuni_cefs_setup: true
-      uyuni_cefs_setup_cronjob: true
       uyuni_channels:
         - name: almalinux9
           arch: x86_64

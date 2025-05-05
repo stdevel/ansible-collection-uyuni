@@ -79,28 +79,6 @@ def test_org(host):
     assert cmd_org.stdout.strip() == ansible_vars["ansible_facts"]["uyuni_org_name"]    # noqa: 204
 
 
-def test_errata(host):
-    """
-    check if CEFS is installed properly
-    """
-    # get variables from file
-    ansible_vars = host.ansible(
-        "include_vars",
-        "file=molecule/suma/vars/main.yml"
-    )
-    if ansible_vars["ansible_facts"]["uyuni_cefs_setup"]:
-        # check package dependencies
-        for pkg in ansible_vars["ansible_facts"]["uyuni_cefs_packages"]:
-            assert host.package(pkg).is_installed
-        # check script
-        assert host.file(
-            "{}/errata-import.pl" % ansible_vars["ansible_facts"]["uyuni_cefs_path"]    # noqa: 204
-            ).exists
-        # check cronjobs
-        if ansible_vars["ansible_facts"]["uyuni_cefs_setup_cronjob"]:
-            assert host.file("/etc/cron.d/errata-cefs").exists
-
-
 def test_channels(host):
     """
     check if supplied channels were created
