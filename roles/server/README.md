@@ -1,19 +1,24 @@
 # server
 
-This role prepares, installs and configures [Uyuni](https://uyuni-project.org) and [SUSE Manager](https://www.suse.com/products/suse-manager/).
+This role prepares, installs and configures [Uyuni](https://uyuni-project.org) and [SUSE Multi-Linux Manager](https://www.suse.com/products/multi-linux-manager/).
 
 ## Requirements
 
 Make sure to install the `jmespath` and `xml` Python modules.
 
-The system needs access to the internet. Also, you will need an openSUSE Leap 15.x or SUSE Linux Enterprise Server 15.x installation.
+The system needs access to the internet. Also, you will need one of the following distributions:
+
+| Product | Distributions |
+| ------- | ------------- |
+| Uyuni | openSUSE Tumbleweed, Leap 15.x, Leap Micro 6.x |
+| Multi-Linux Manager | SL Micro 5.5, SLES 15 SP7 | 
 
 ## Role Variables
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `uyuni_check_requirements` | `true` | Check for hardware requirements |
-| `uyuni_suma_release` | `5.0` | SUSE Manager release to install |
+| `uyuni_suma_release` | `5.0` | SUSE Multi-Linux Manager release to install |
 | `uyuni_suma_airgapped` | `false` | Whether to get container image from RPM instead of online registry |
 | `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2024.08`*) |
 | `uyuni_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
@@ -21,7 +26,7 @@ The system needs access to the internet. Also, you will need an openSUSE Leap 15
 | `uyuni_scc_mail` | - | SUSE Customer Center mail address |
 | `uyuni_scc_check_registration` | `true` | Register system if unregistered |
 | `uyuni_scc_check_modules` | `true` | Activate required modules if not already enabled |
-| `uyuni_slm_modules` | (*Modules required for SUSE Manager 4.x*) | Modules to enable before installation |
+| `uyuni_slm_modules` | (*Modules required for SUSE Multi-Linux Manager 5.x*) | Modules to enable before installation |
 | `uyuni_mail` | `root@localhost` | Web server administrator mail |
 | `uyuni_cert_city` | `Darmstadt` | Certificate city |
 | `uyuni_cert_country` | `DE` | Certificate country |
@@ -83,14 +88,27 @@ Set variables if required, e.g.:
           arch: x86_64
 ```
 
-Don't forget setting SUSE-related variables when deploying SUSE Manager:
+Don't forget setting SUSE-related variables when deploying SUSE Multi-Linux Manager:
 
 ```yaml
 - hosts: servers
   roles:
     - role: stdevel.uyuni.server
-      uyuni_scc_reg_code: DERP1337LULZ
+      uyuni_scc_reg_code:
+        - DERP1337LULZ
       uyuni_scc_mail: bla@foo.bar
+```
+
+Installing Multi-Linux Manager on SLES requires an additional registration code as the MLM subscription only includes SL Micro:
+
+```yaml
+- hosts: servers
+  roles:
+    - role: stdevel.uyuni.server
+      uyuni_scc_reg_code:
+        - DERP1337LULZ
+        - RFL0815CPTR
+      uyuni_scc_mail: meh@foo.baz
 ```
 
 If you plan to bootstrap older Uyuni versions, set the Uyuni release:
