@@ -14,7 +14,7 @@
     group: root
   become: true
 
-- name: Download airgapped container image
+- name: Download air-gapped container image
   community.general.zypper:
     name: suse-manager-{{ uyuni_suma_release }}-{{ ansible_architecture }}-server-image
   notify: Reboot system (if immutable)

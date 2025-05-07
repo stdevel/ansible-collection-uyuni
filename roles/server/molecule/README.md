@@ -6,12 +6,9 @@ This folder contains molecule configuration and tests.
 
 Ensure to the following installed:
 
-- [Vagrant](https://vagrantup.com)
-- [Oracle VirtualBox](https://virtualbox.org)
 - Python modules
   - [`molecule`](https://pypi.org/project/molecule/)
-  - [`molecule-vagrant`](https://pypi.org/project/molecule-vagrant/)
-  - [`python-vagrant`](https://pypi.org/project/python-vagrant/)
+  - Podman and Molecule Podman plugin
 
 ## Environment
 
@@ -55,6 +52,4 @@ collected 8 items
 Verifier completed successfully.
 ```
 
-For running tests in the `mlm` scenario context, run the commands above with the `-s mlm` parameter.
-
-When creating your own Vagrantbox, you will need to edit `mlm/molecule/molecule.yml` and change the name.
+For running tests in the `mlm` scenario context, run the commands above with the `-s mlm` parameter.  
