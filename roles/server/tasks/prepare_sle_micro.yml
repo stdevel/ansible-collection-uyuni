@@ -27,7 +27,6 @@
   notify: Reboot system (if immutable)
   become: true
 
-# TODO: not idempotent, identifier in Name partner-related
 - name: Enable modules
   ansible.builtin.command: "transactional-update --continue register --url {{ uyuni_scc_url }} -p {{ item.identifier }}"
   loop: "{{ uyuni_suma_modules }}"
@@ -35,7 +34,7 @@
     - uyuni_scc_check_modules
     - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
   vars:
-    query_filter: "[?identifier == '{{ item.name }}'].status"
+    query_filter: "[?identifier == '{{ item.search }}'].status"
   notify: Reboot system (if immutable)
   become: true
 
