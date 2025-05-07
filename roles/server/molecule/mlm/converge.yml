@@ -13,7 +13,6 @@
       uyuni_scc_reg_code_mlm: "<insert MLM code here"
       uyuni_scc_mail: "<insert SCC mail here>"
       uyuni_enable_monitoring: true
-      uyuni_allow_unsupported: true
       # uyuni_channels:
       #   - name: almalinux9
       #     arch: x86_64
