@@ -1,35 +1,24 @@
 ---
 # packages
-uyuni_core_packages:
-  - man
-  - firewalld
-uyuni_repos:
-  - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-x86_64-Media1/"
-  - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable:/Patches/openSUSE_Leap_{{ ansible_distribution_version }}/systemsmanagement:Uyuni:Stable:Patches.repo"
+uyuni_pkgs:
+  - mgradm
+  - mgrctl
+  - netavark
+  - uyuni-storage-setup-server
 
 # Uyuni configuration
 uyuni_org_name: "Demo"
 uyuni_org_login: "admin"
 uyuni_org_password: "admin"
 
-# content settings
-uyuni_channels:
-  - name: almalinux9
-    arch: x86_64
-  - name: almalinux9-appstream
-    arch: x86_64
-  - name: almalinux9-uyuni-client
-    arch: x86_64
-
 # monitoring settings
 uyuni_enable_monitoring: true
-uyuni_monitoring_packages:
-  - golang-github-prometheus-node_exporter
-  - prometheus-postgres_exporter
-  - prometheus-jmx_exporter
-  - golang-github-lusitaniae-apache_exporter
-  - prometheus-jmx_exporter-tomcat
-uyuni_monitoring_formulas_packages:
-  - grafana-formula
-  - prometheus-formula
-  - prometheus-exporters-formula
+
+# content settings
+# uyuni_channels:
+#   - name: almalinux9
+#     arch: x86_64
+#   - name: almalinux9-appstream
+#     arch: x86_64
+#   - name: almalinux9-uyuni-client
+#     arch: x86_64
