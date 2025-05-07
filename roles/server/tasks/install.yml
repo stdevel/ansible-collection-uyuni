@@ -2,7 +2,7 @@
 - name: Install packages
   community.general.zypper:
     name: "{{ uyuni_pkgs }}"
-  notify: Reboot system
+  notify: Reboot system (if immutable)
   become: true
 
 - name: Stage deploy configuration
@@ -17,15 +17,15 @@
 - name: Download airgapped container image
   community.general.zypper:
     name: suse-manager-{{ uyuni_suma_release }}-{{ ansible_architecture }}-server-image
-  notify: Reboot system
+  notify: Reboot system (if immutable)
   when: uyuni_suma_airgapped
   become: true
 
-- name: Reboot system if required
+- name: Trigger reboot (if necessary)
   ansible.builtin.meta: flush_handlers
 
 - name: Run installation
-  ansible.builtin.command: "mgradm -c uyuni.yml install podman {{ ansible_fqdn }}"
+  ansible.builtin.command: "mgradm -c /root/uyuni.yml install podman {{ ansible_fqdn }}"
   args:
     creates: /root/.MANAGER_INITIALIZATION_COMPLETE
   become: true

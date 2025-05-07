@@ -9,6 +9,7 @@
 
   roles:
     - role: stdevel.uyuni.server
+      uyuni_enable_monitoring: true
       # uyuni_channels:
       #   - name: almalinux9
       #     arch: x86_64
@@ -16,6 +17,5 @@
       #     arch: x86_64
       #   - name: almalinux9-uyuni-client
       #     arch: x86_64
-      # uyuni_enable_monitoring: true
       # # uyuni_release: '2023.03'
       # uyuni_firewall_config: true

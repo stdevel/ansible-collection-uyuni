@@ -7,11 +7,12 @@ uyuni_core_packages:
   - man
   - firewalld
 
-uyuni_packages:
-  - spacewalk-utils
-  - spacecmd
+uyuni_packages: []
+# uyuni_packages:
+#   - spacewalk-utils
+#   - spacecmd
 
-uyuni_suma_release: 4.3
+uyuni_suma_release: 5.0
 
 uyuni_scc_url: https://scc.suse.com
 uyuni_scc_check_registration: true
@@ -38,6 +39,7 @@ uyuni_org_last_name: "Administrator"
 
 # additional settings
 uyuni_use_repo: true
+uyuni_suma_airgapped: false
 
 # firewall settings
 uyuni_firewall_config: true

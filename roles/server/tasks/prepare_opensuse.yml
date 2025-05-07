@@ -1,18 +1,16 @@
 ---
 - name: Add GPG key
-  ansible.builtin.command: "transactional-update --continue run rpm --import {{ item }}"
+  ansible.builtin.rpm_key:
+    key: "{{ item }}"
   loop: "{{ uyuni_gpg }}"
-  notify: Reboot system (if immutable)
   become: true
 
 - name: Add Uyuni repositories
-  ansible.builtin.command: "transactional-update --continue run zypper ar {{ item.url }}"
+  community.general.zypper_repository:
+    repo: "{{ item.url }}"
+    name: "{{ item.name }}"
   loop: "{{ uyuni_repos }}"
-  notify: Reboot system (if immutable)
   become: true
-
-- name: Trigger reboot (if necessary)
-  ansible.builtin.meta: flush_handlers
 
 - name: Set default image name
   ansible.builtin.set_fact:

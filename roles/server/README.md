@@ -20,9 +20,9 @@ The system needs access to the internet. Also, you will need one of the followin
 | `uyuni_check_requirements` | `true` | Check for hardware requirements |
 | `uyuni_suma_release` | `5.0` | SUSE Multi-Linux Manager release to install |
 | `uyuni_suma_airgapped` | `false` | Whether to get container image from RPM instead of online registry |
-| `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2024.08`*) |
+| `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2024.12`*) |
 | `uyuni_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
-| `uyuni_scc_reg_code` | - | [SUSE Customer Center](https://scc.suse.com) registration code (*received after trial registration or purchase*) |
+| `uyuni_scc_reg_code` | - | [SUSE Customer Center](https://scc.suse.com) registration code(s) (*received after trial registration or purchase*) |
 | `uyuni_scc_mail` | - | SUSE Customer Center mail address |
 | `uyuni_scc_check_registration` | `true` | Register system if unregistered |
 | `uyuni_scc_check_modules` | `true` | Activate required modules if not already enabled |

@@ -6,3 +6,5 @@ ansible.cfg
 *.tar.gz
 __pycache__
 demo_*.*
+.ansible
+.vscode

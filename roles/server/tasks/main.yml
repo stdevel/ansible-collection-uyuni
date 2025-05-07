@@ -6,24 +6,46 @@
       files:
         - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ ansible_distribution_version }}.yml"
         - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+        - "{{ ansible_distribution | split(' ') | first | lower }}.yml"
+        - "{{ ansible_os_family | lower }}.yml"
         - main.yml
       paths:
-        - 'vars'
+        - vars
 
 - name: Include check tasks (distribution-specific)
-  ansible.builtin.include_tasks: "check_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+  ansible.builtin.include_tasks: "{{ lookup('ansible.builtin.first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "check_{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ ansible_distribution_version }}.yml"
+        - "check_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+        - "check_{{ ansible_distribution | split(' ') | first | lower }}.yml"
+        - "check_{{ ansible_os_family | lower }}.yml"
+      skip: true
+      paths:
+        - tasks
   tags: prepare
 
-- name: Include check tasks
+- name: Include check tasks (generic)
   ansible.builtin.import_tasks: check.yml
   tags: prepare
 
 - name: Include preparation tasks (distribution-specific)
-  ansible.builtin.include_tasks: "prepare_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+  ansible.builtin.include_tasks: "{{ lookup('ansible.builtin.first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "prepare_{{ ansible_distribution | regex_replace(' ', '_') | lower }}-{{ ansible_distribution_version }}.yml"
+        - "prepare_{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
+        - "prepare_{{ ansible_distribution | split(' ') | first | lower }}.yml"
+        - "prepare_{{ ansible_os_family | lower }}.yml"
+      skip: true
+      paths:
+        - tasks
   tags: prepare
 
-- name: Include preparation tasks
-  ansible.builtin.import_tasks: prepare.yml
+- name: Include preparation tasks (generic)
+  ansible.builtin.include_tasks: "prepare.yml"
   tags: prepare
 
 - name: Include install tasks
@@ -34,7 +56,7 @@
   ansible.builtin.import_tasks: content.yml
   tags: content
 
-# - name: Include monitoring tasks
-#   ansible.builtin.include_tasks: monitoring.yml
-#   tags: monitoring
-#   when: uyuni_enable_monitoring | bool
+- name: Include monitoring tasks
+  ansible.builtin.include_tasks: monitoring.yml
+  tags: monitoring
+  when: uyuni_enable_monitoring | bool
