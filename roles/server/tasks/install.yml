@@ -24,6 +24,9 @@
 - name: Enable netavark workaround
   community.general.ini_file:
     path: /etc/systemd/system/uyuni-server.service.d/netavark.conf
+    owner: root
+    group: root
+    mode: '0640'
     section: Service
     option: Environment
     value: NETAVARK_FW=iptables

@@ -7,6 +7,6 @@ uyuni_pkgs:
   - netavark
 
 uyuni_suma_modules:
-- name: "SUSE Manager Server Extension {{ uyuni_suma_release }} {{ ansible_architecture }}"
-  identifier: "SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }}"
-  search: SUSE-Manager-Server
+  - name: "SUSE Manager Server Extension {{ uyuni_suma_release }} {{ ansible_architecture }}"
+    identifier: "SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }}"
+    search: SUSE-Manager-Server
