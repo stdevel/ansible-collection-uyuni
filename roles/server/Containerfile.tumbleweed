@@ -1,0 +1,4 @@
+FROM opensuse/tumbleweed AS tumbleweed
+RUN zypper in -y systemd sudo python3 python312 podman iproute
+RUN echo 'root:root' | chpasswd
+CMD exec /sbin/init

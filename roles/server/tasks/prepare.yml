@@ -1,6 +1,19 @@
 ---
-- name: Install core utilities
+- name: Install requirements
   community.general.zypper:
-    name: "{{ uyuni_core_packages }}"
-    state: present
+    name: "{{ uyuni_packages }}"
+  become: true
+
+- name: Prepare storage for volumes and database
+  ansible.builtin.command:
+    cmd: "mgr-storage-server {{ uyuni_disk_volumes }} {{ uyuni_disk_database }}"
+  when:
+    - uyuni_disk_volumes is defined
+    - uyuni_disk_database is defined
+  become: true
+
+- name: Prepare storage for volumes
+  ansible.builtin.command:
+    cmd: "mgr-storage-server {{ uyuni_disk_volumes }}"
+  when: uyuni_disk_volumes is defined
   become: true

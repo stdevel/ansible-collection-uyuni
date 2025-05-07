@@ -1,5 +1,5 @@
 ---
-# check hardware requirements
+# check requirements
 uyuni_check_requirements: true
 
 # required core packages
@@ -7,11 +7,12 @@ uyuni_core_packages:
   - man
   - firewalld
 
-uyuni_packages:
-  - spacewalk-utils
-  - spacecmd
+uyuni_packages: []
+# uyuni_packages:
+#   - spacewalk-utils
+#   - spacecmd
 
-uyuni_suma_release: 4.3
+uyuni_suma_release: 5.0
 
 uyuni_scc_url: https://scc.suse.com
 uyuni_scc_check_registration: true
@@ -38,6 +39,7 @@ uyuni_org_last_name: "Administrator"
 
 # additional settings
 uyuni_use_repo: true
+uyuni_suma_airgapped: false
 
 # firewall settings
 uyuni_firewall_config: true
@@ -53,15 +55,6 @@ uyuni_firewall_ports_monitoring:
   - 9800/tcp
 
 # content settings
-uyuni_cefs_setup: false
-uyuni_cefs_setup_cronjob: false
-uyuni_cefs_path: "/opt/errata-import"
-uyuni_cefs_packages:
-  - perl
-  - perl-Text-Unidecode
-  - perl-XML-Simple
-  - perl-TimeDate
-  - cron
 uyuni_channels: []
 # create dict items like this:
 # - {"name": "centos7", "arch": "x86_64"}
@@ -71,14 +64,3 @@ uyuni_bootstrap_repos: false
 
 # monitoring settings
 uyuni_enable_monitoring: false
-uyuni_monitoring_packages:
-  - golang-github-prometheus-node_exporter
-  - prometheus-postgres_exporter
-  - prometheus-jmx_exporter
-  - golang-github-lusitaniae-apache_exporter
-  - prometheus-jmx_exporter-tomcat
-uyuni_install_monitoring_formulas: false
-uyuni_monitoring_formulas_packages:
-  - grafana-formula
-  - prometheus-formula
-  - prometheus-exporters-formula
