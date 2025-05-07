@@ -1,15 +1,12 @@
 ---
 - name: Get monitoring status
   become: true
-  ansible.builtin.command: podman exec -ti uyuni-server /usr/sbin/mgr-monitoring-ctl status
+  ansible.builtin.command: mgrctl exec '/usr/sbin/mgr-monitoring-ctl status'
   register: monitoring_state
   changed_when: false
 
 - name: Enable monitoring
   become: true
-  # ansible.builtin.command: podman exec -ti uyuni-server /usr/sbin/mgr-monitoring-ctl enable "{'db_name':{{ uyuni_db_name }},'db_user':{{ uyuni_db_user }},'db_pass':{{ uyuni_db_pass }},'db_port':'5432','db_host':'localhost'}"
-  ansible.builtin.command: podman exec -ti uyuni-server /usr/sbin/mgr-monitoring-ctl enable
-  args:
-    creates: /usr/lib/systemd/system/tomcat.service.d/jmx.conf
+  ansible.builtin.command: mgrctl exec '/usr/sbin/mgr-monitoring-ctl enable'
   when: "'error' in monitoring_state.stderr|lower"
   notify: Restart Uyuni
