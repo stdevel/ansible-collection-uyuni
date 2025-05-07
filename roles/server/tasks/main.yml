@@ -8,7 +8,6 @@
         - "{{ ansible_distribution | regex_replace(' ', '_') | lower }}.yml"
         - "{{ ansible_distribution | split(' ') | first | lower }}.yml"
         - "{{ ansible_os_family | lower }}.yml"
-        - main.yml
       paths:
         - vars
 
