@@ -62,14 +62,3 @@ uyuni_bootstrap_repos: false
 
 # monitoring settings
 uyuni_enable_monitoring: false
-uyuni_monitoring_packages:
-  - golang-github-prometheus-node_exporter
-  - prometheus-postgres_exporter
-  - prometheus-jmx_exporter
-  - golang-github-lusitaniae-apache_exporter
-  - prometheus-jmx_exporter-tomcat
-uyuni_install_monitoring_formulas: false
-uyuni_monitoring_formulas_packages:
-  - grafana-formula
-  - prometheus-formula
-  - prometheus-exporters-formula
