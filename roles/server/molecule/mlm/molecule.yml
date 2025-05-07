@@ -14,8 +14,8 @@ lint: |
     ansible-lint
     flake8
 platforms:
-  - name: sles-156
-    image: sles-156-mlm
+  - name: sles-157
+    image: sles-157-mlm
     privileged: true
     command: /sbin/init
 verifier:

@@ -144,7 +144,7 @@ $ molecule verify [--scenario-name mlm]
 SUSE Multi-Linux Manager requires a dedicated container image:
 
 ```command
-$ podman build -t sles-156-mlm -f Containerfile.sles
+$ podman build -t sles-157-mlm -f Containerfile.sles
 ```
 
 ## License
