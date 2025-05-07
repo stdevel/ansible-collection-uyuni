@@ -4,7 +4,7 @@
     msg: "SUSE MLM releases older than 5.0 are unsupported - use an older version of this collection"
   when:
     - uyuni_suma_release is defined
-    - "uyuni_suma_release is version('5.0', '<=')"
+    - "uyuni_suma_release is version('5.0', '<')"
 
 - name: Ensure having supported SL Micro release for SUSE MLM 5.1
   ansible.builtin.fail:
