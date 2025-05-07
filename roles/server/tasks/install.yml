@@ -27,6 +27,7 @@
     section: Service
     option: Environment
     value: NETAVARK_FW=iptables
+    no_extra_spaces: true
     backup: true
   when: ansible_distribution | lower in ['opensuse microos', 'opensuse tumbleweed']
   become: true
