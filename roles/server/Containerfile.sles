@@ -1,4 +1,4 @@
 FROM registry.suse.com/bci/bci-base:15.6 AS sles156
-RUN zypper in -y systemd sudo python3 python312 podman iproute
+RUN zypper in -y suseconnect-ng systemd sudo python3 python312 podman iproute
 RUN echo 'root:root' | chpasswd
 CMD exec /sbin/init

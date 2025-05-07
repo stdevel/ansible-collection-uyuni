@@ -1,6 +1,7 @@
 ---
-# check hardware requirements
+# check requirements
 uyuni_check_requirements: true
+uyuni_allow_unsupported: false
 
 # required core packages
 uyuni_core_packages:

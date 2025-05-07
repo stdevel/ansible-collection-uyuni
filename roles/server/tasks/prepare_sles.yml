@@ -7,7 +7,7 @@
   become: true
 
 - name: Register system
-  ansible.builtin.command: "transactional-update register --url {{ uyuni_scc_url }} -p SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }} -r {{ item }} -e {{ uyuni_scc_mail }}"
+  ansible.builtin.command: "suseconnect --url {{ uyuni_scc_url }} -p SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }} -r {{ item }} -e {{ uyuni_scc_mail }}"
   when:
     - uyuni_scc_check_registration
     - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
@@ -17,7 +17,7 @@
   become: true
 
 - name: Enable modules
-  ansible.builtin.command: "transactional-update register --url {{ uyuni_scc_url }} -p {{ item.identifier }}"
+  ansible.builtin.command: "suseconnect --url {{ uyuni_scc_url }} -p {{ item.identifier }}"
   loop: "{{ uyuni_slm_modules }}"
   when:
     - uyuni_scc_check_modules

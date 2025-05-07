@@ -4,7 +4,7 @@
     msg: "SUSE MLM releases older than 5.0 are unsupported - use an older version of this collection"
   when:
     - uyuni_suma_release is defined
-    - "uyuni_suma_release is version('5.0', '<=')"
+    - "uyuni_suma_release is version('5.0', '<')"
 
 - name: Ensure having supported SP release for SUSE MLM 5.1
   ansible.builtin.fail:
@@ -15,6 +15,6 @@
 
 - name: Ensure having supported SP release for SUMA 5.0
   ansible.builtin.fail:
-    msg: "SLES is not supported for SUMA 5.0"
+    msg: "SLES 15 is not supported for SUMA 5.0"
   when:
     - uyuni_suma_release == 5.0

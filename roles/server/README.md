@@ -13,6 +13,8 @@ The system needs access to the internet. Also, you will need one of the followin
 | Uyuni | openSUSE Tumbleweed, Leap 15.x, Leap Micro 6.x |
 | Multi-Linux Manager | SL Micro 5.5, SLES 15 SP7 | 
 
+TODO: Using non-SUSE distributions?
+
 ## Role Variables
 
 | Variable | Default | Description |
@@ -20,6 +22,7 @@ The system needs access to the internet. Also, you will need one of the followin
 | `uyuni_check_requirements` | `true` | Check for hardware requirements |
 | `uyuni_suma_release` | `5.0` | SUSE Multi-Linux Manager release to install |
 | `uyuni_suma_airgapped` | `false` | Whether to get container image from RPM instead of online registry |
+| `uyuni_allow_unsupported` | `false` | Whether to also allow unsupported setups (e.g. Uyuni on non-SUSE) |
 | `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2024.12`*) |
 | `uyuni_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
 | `uyuni_scc_reg_code` | - | [SUSE Customer Center](https://scc.suse.com) registration code(s) (*received after trial registration or purchase*) |
@@ -133,9 +136,9 @@ $ podman build -t opensuse-tumbleweed-uyuni -f Containerfile.uyuni
 Use `molecule` for running the code:
 
 ```command
-$ molecule create
-$ molecule converge
-$ molecule verify
+$ molecule create [--scenario-name mlm]
+$ molecule converge [--scenario-name mlm]
+$ molecule verify [--scenario-name mlm]
 ```
 
 SUSE Multi-Linux Manager requires a dedicated container image:
