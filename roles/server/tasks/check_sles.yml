@@ -1,4 +1,10 @@
 ---
+- name: Ensure having proper architecture
+  ansible.builtin.fail:
+    msg: "SUSE MLM only supports x86_64, aarch64, ppc64l and s390x"
+  when:
+    - ansible_architecture not in ['x86_64', 'aarch64', 'ppc64l', 's390x']
+
 - name: Ensure having SUSE MLM release equal/greater than 5.0
   ansible.builtin.fail:
     msg: "SUSE MLM releases older than 5.0 are unsupported - use an older version of this collection"
