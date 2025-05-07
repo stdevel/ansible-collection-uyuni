@@ -128,7 +128,7 @@ If you plan to bootstrap older Uyuni versions, set the Uyuni release:
 You'll need an customized openSUSE Tumbleweed Podman container (with systemd and other utilities) for testing Uyuni:
 
 ```command
-$ podman build -t opensuse-tumbleweed-uyuni -f Containerfile.uyuni
+$ podman build -t opensuse-tumbleweed-uyuni -f Containerfile.tumbleweed
 ```
 
 Use `molecule` for running the code:
