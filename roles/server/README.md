@@ -13,8 +13,6 @@ The system needs access to the internet. Also, you will need one of the followin
 | Uyuni | openSUSE Tumbleweed, Leap 15.x, Leap Micro 6.x |
 | Multi-Linux Manager | SL Micro 5.5, SLES 15 SP7 | 
 
-TODO: Using non-SUSE distributions?
-
 ## Role Variables
 
 | Variable | Default | Description |
@@ -25,7 +23,8 @@ TODO: Using non-SUSE distributions?
 | `uyuni_allow_unsupported` | `false` | Whether to also allow unsupported setups (e.g. Uyuni on non-SUSE) |
 | `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2024.12`*) |
 | `uyuni_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
-| `uyuni_scc_reg_code` | - | [SUSE Customer Center](https://scc.suse.com) registration code(s) (*received after trial registration or purchase*) |
+| `uyuni_scc_reg_code_os` | - | [SUSE Customer Center](https://scc.suse.com) registration code for the OS (optional) |
+| `uyuni_scc_reg_code_mlm` | - | [SUSE Customer Center](https://scc.suse.com) registration code (*received after trial registration or purchase*) |
 | `uyuni_scc_mail` | - | SUSE Customer Center mail address |
 | `uyuni_scc_check_registration` | `true` | Register system if unregistered |
 | `uyuni_scc_check_modules` | `true` | Activate required modules if not already enabled |
@@ -108,9 +107,8 @@ Installing Multi-Linux Manager on SLES requires an additional registration code 
 - hosts: servers
   roles:
     - role: stdevel.uyuni.server
-      uyuni_scc_reg_code:
-        - DERP1337LULZ
-        - RFL0815CPTR
+      uyuni_scc_reg_code_os: DERP1337LULZ
+      uyuni_scc_reg_code_mlm: RFL0815CPTR
       uyuni_scc_mail: meh@foo.baz
 ```
 

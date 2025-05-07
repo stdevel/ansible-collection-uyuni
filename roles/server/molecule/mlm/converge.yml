@@ -9,9 +9,8 @@
 
   roles:
     - role: stdevel.uyuni.server
-      uyuni_scc_reg_code:
-        - "<insert SLES code here>"
-        - "<insert MLM code here>"
+      uyuni_scc_reg_code_os: "<insert SLES code here>"
+      uyuni_scc_reg_code_mlm: "<insert MLM code here"
       uyuni_scc_mail: "<insert SCC mail here>"
       uyuni_enable_monitoring: true
       uyuni_allow_unsupported: true

@@ -7,23 +7,36 @@
   become: true
 
 - name: Register system
-  ansible.builtin.command: "transactional-update register --url {{ uyuni_scc_url }} -p SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }} -r {{ item }} -e {{ uyuni_scc_mail }}"
+  ansible.builtin.command: "transactional-update --continue register --url {{ uyuni_scc_url }} -r {{ uyuni_scc_reg_code_os }} -e {{ uyuni_scc_mail }}"
+  when:
+    - uyuni_scc_check_registration
+    - uyuni_scc_reg_code_os
+    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+  vars:
+    query_filter: "[?identifier == 'SLE-Micro'].status"
+  notify: Reboot system (if immutable)
+  become: true
+
+- name: Register MLM
+  ansible.builtin.command: "transactional-update --continue register --url {{ uyuni_scc_url }} -p SUSE-Manager-Server/{{ uyuni_suma_release }}/{{ ansible_architecture }} -r {{ uyuni_scc_reg_code_mlm }} -e {{ uyuni_scc_mail }}"
   when:
     - uyuni_scc_check_registration
     - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
   vars:
     query_filter: "[?identifier == 'SUSE-Manager-Server'].status"
-  loop: "{{ uyuni_scc_reg_code }}"
+  notify: Reboot system (if immutable)
   become: true
 
+# TODO: not idempotent, identifier in Name partner-related
 - name: Enable modules
-  ansible.builtin.command: "transactional-update register --url {{ uyuni_scc_url }} -p {{ item.identifier }}"
-  loop: "{{ uyuni_slm_modules }}"
+  ansible.builtin.command: "transactional-update --continue register --url {{ uyuni_scc_url }} -p {{ item.identifier }}"
+  loop: "{{ uyuni_suma_modules }}"
   when:
     - uyuni_scc_check_modules
     - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
   vars:
     query_filter: "[?identifier == '{{ item.name }}'].status"
+  notify: Reboot system (if immutable)
   become: true
 
 - name: Set default image name
@@ -35,3 +48,6 @@
   ansible.builtin.set_fact:
     uyuni_image_name: registry.suse.com/suse/manager/{{ uyuni_suma_release }}/{{ ansible_architecture }}/server
   when: uyuni_suma_release is defined
+
+- name: Trigger reboot (if necessary)
+  ansible.builtin.meta: flush_handlers
