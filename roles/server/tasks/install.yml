@@ -21,6 +21,16 @@
   when: uyuni_suma_airgapped
   become: true
 
+- name: Enable netavark workaround
+  community.general.ini_file:
+    path: /etc/systemd/system/uyuni-server.service.d/netavark.conf
+    section: Service
+    option: Environment
+    value: NETAVARK_FW=iptables
+    backup: true
+  when: ansible_distribution | lower in ['opensuse microos', 'opensuse tumbleweed']
+  become: true
+
 - name: Trigger reboot (if necessary)
   ansible.builtin.meta: flush_handlers
 
