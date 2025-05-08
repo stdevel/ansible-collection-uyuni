@@ -5,6 +5,11 @@
   notify: Reboot system (if immutable)
   become: true
 
+- name: Ensure that Podman volumes work as expected
+  containers.podman.podman_volume:
+    name: test_volume
+  become: true
+
 - name: Prepare storage for volumes and database
   ansible.builtin.command:
     cmd: "mgr-storage-server {{ uyuni_disk_volumes }} {{ uyuni_disk_database }}"
