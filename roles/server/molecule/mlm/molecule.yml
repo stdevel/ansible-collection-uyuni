@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  name: default
+  options:
+    managed: False
+    login_cmd_template: 'ssh root@{instance}'
+    ansible_connection_options:
+      ansible_connection: ssh
+      ansible_user: root
+lint: |
+    yamllint .
+    ansible-lint
+    flake8
+platforms:
+  - name: instance
+    hostname: <ip-address>
+    address: <ip-address>
+    user: root
+verifier:
+  name: testinfra
+  directory: ../default/tests

@@ -5,10 +5,13 @@
   pre_tasks:
     - name: Fix FQDN
       ansible.builtin.set_fact:
-        ansible_fqdn: uyuni.podman.loc
+        ansible_fqdn: mlm.podman.loc
 
   roles:
     - role: stdevel.uyuni.server
+      uyuni_scc_reg_code_os: "<insert SLES code here>"
+      uyuni_scc_reg_code_mlm: "<insert MLM code here"
+      uyuni_scc_mail: "<insert SCC mail here>"
       uyuni_enable_monitoring: true
       # uyuni_channels:
       #   - name: almalinux9

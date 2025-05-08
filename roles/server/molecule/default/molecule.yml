@@ -1,18 +1,22 @@
 ---
 dependency:
   name: galaxy
+  options:
+    requirements-file: requirements.yml
 driver:
-  name: vagrant
+  options:
+    managed: false
+    login_cmd_template: "podman exec -ti {instance} bash"
+    ansible_connection_options:
+      ansible_connection: podman
 lint: |
-    yamllint .
-    ansible-lint
-    flake8
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
-  - name: opensuse-leap15
-    box: opensuse/Leap-15.5.x86_64
-    cpus: 4
-    memory: 16384
-provisioner:
-  name: ansible
+  - name: opensuse-tumbleweed
+    image: opensuse-tumbleweed-uyuni
+    privileged: true
+    command: /sbin/init
 verifier:
   name: testinfra
