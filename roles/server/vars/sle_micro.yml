@@ -1,4 +1,7 @@
 ---
+uyuni_requirements:
+  - podman
+  
 uyuni_pkgs:
   - mgradm
   - mgrctl
