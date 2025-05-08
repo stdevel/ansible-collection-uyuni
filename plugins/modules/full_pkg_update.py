@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-Ansible Module tp perform full package update on a managed host
+Ansible Module to perform full package update on a managed host
 
 2022 Christian Stankowic
 
