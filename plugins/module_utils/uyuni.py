@@ -6,7 +6,7 @@ from __future__ import (absolute_import, division, print_function)
 import logging
 import ssl
 import base64
-from datetime import datetime
+from datetime import datetime, timedelta
 from xmlrpc.client import DateTime, Fault, ServerProxy
 
 from .utilities import split_rpm_filename
@@ -676,20 +676,20 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
-    def get_host_action(self, system_id, task_id):
+    def get_host_action(self, system_id, action_id):
         """
         Retrieves information about a particular host action
 
         :param system_id: profile ID
         :type system_id: int
-        :param task_id: task ID
-        :type task_id: int
+        :param action_id: task ID
+        :type action_id: int
         """
         if not isinstance(system_id, int):
             raise EmptySetException(
                 "No system found - use system profile IDs"
             )
-        if not isinstance(task_id, int):
+        if not isinstance(action_id, int):
             raise EmptySetException(
                 "No task found - use task IDs"
             )
@@ -697,14 +697,14 @@ class UyuniAPIClient:
         try:
             # return particular action
             actions = self.get_host_actions(system_id)
-            action = [x for x in actions if x['id'] == task_id]
+            action = [x for x in actions if x['id'] == action_id]
             if not action:
                 raise EmptySetException("Action not found")
             return action
         except Fault as err:
             if "action not found" in err.faultString.lower():
                 raise EmptySetException(
-                    f"Action not found: {task_id!r}"
+                    f"Action not found: {action_id!r}"
                 ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
@@ -1303,6 +1303,74 @@ class UyuniAPIClient:
             if "no such system" in err.faultString.lower():
                 raise SessionException(
                     f"System not found: {system_id!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def wait_for_action(self, action_id, system_id, timeout=3600, interval=30):
+        """
+        Waits for the action to complete.
+    
+        :param api_instance: The API instance to use for checking the action status.
+        :param action_id: The ID of the action to wait for.
+        :param timeout: The maximum time to wait for the action to complete (in seconds).
+        :param interval: The interval between status checks (in seconds).
+        """
+        start_time = datetime.now()
+        end_time = start_time + timedelta(seconds=timeout)
+        while datetime.now() < end_time:
+            status = self.get_host_action(system_id, action_id)
+            if status[0]['successful_count'] + status[0]['failed_count'] > 0:
+                return status
+            next_check = datetime.now() + timedelta(seconds=interval)
+            while datetime.now() < next_check:
+                pass
+        raise TimeoutError(f"Action {action_id} did not complete within {timeout} seconds")
+
+    def full_pkg_update(self, system_id):
+        """
+        Schedule full package update
+
+        :param system_id: profile ID
+        :type system_id: int
+        """
+        earliest_execution = DateTime(datetime.now().timetuple())
+
+        try:
+            action_id = self._session.system.schedulePackageUpdate(
+                self._api_key, system_id, earliest_execution
+            )
+            return action_id
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise SessionException(
+                    f"System not found: {system_id!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+    
+    def get_outdated_pkgs(self, hostname):
+        """
+        Returns outdated packages of a particular system
+
+        :param hostname: system hostname
+        :type hostname: str
+        """
+        try:
+            outdated_pkgs = self._session.system.getId(
+                self._api_key, hostname
+            )
+            if outdated_pkgs:
+                return outdated_pkgs[0]["outdated_pkg_count"]
+            raise EmptySetException(
+                f"System not found: {hostname!r}"
+            )
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise EmptySetException(
+                    f"System not found: {hostname!r}"
                 ) from err
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
