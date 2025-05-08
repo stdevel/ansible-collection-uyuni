@@ -1,8 +1,8 @@
 #!/usr/bin/python
 """
-Ansible Module to perform full package update on a managed host
+Ansible Module to perform a full synchronous package update on a managed host
 
-2022 Christian Stankowic
+2025 Luca Kinzel
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,9 +30,9 @@ DOCUMENTATION = '''
 module: full_pkg_update
 short_description: Perform full package update
 description:
-  - Perform full package update on a managed host without any exceptions!
+  - Perform full synchronous package update on a managed host
 author:
-  - "Christian Stankowic (@stdevel)"
+  - "Luca Kinzel"
 extends_documentation_fragment:
   - stdevel.uyuni.uyuni_auth
 options:
