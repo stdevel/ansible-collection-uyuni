@@ -1,6 +1,6 @@
 ---
 - name: Create software channels
-  ansible.builtin.command: podman exec -ti uyuni-server /usr/bin/spacewalk-common-channels -u {{ uyuni_org_login }} -p {{ uyuni_org_password }} -a {{ item.arch }} {{ item.name }}
+  ansible.builtin.command: mgrctl exec /usr/bin/spacewalk-common-channels -u {{ uyuni_org_login }} -p {{ uyuni_org_password }} -a {{ item.arch }} {{ item.name }}
   loop: "{{ uyuni_channels }}"
   register: create_result
   changed_when:
