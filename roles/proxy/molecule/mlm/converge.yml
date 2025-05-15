@@ -1,0 +1,15 @@
+---
+- name: Converge machines
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Fix FQDN
+      ansible.builtin.set_fact:
+        ansible_fqdn: mlm-proxy.podman.loc
+
+  roles:
+    - role: stdevel.uyuni.proxy
+      proxy_scc_reg_code_os: "<insert SLES code here>"
+      proxy_scc_reg_code_mlm: "<insert MLM code here>"
+      proxy_scc_mail: "<insert SCC mail here>"
+      proxy_config_file: /root/foo.bar

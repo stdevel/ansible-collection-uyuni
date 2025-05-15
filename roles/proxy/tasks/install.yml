@@ -1,0 +1,49 @@
+---
+- name: Install packages
+  community.general.zypper:
+    name: "{{ proxy_pkgs }}"
+  notify: Reboot system (if immutable)
+  become: true
+
+- name: Ensure that Podman volumes work as expected
+  containers.podman.podman_volume:
+    name: test_volume
+  become: true
+
+- name: Prepare storage for volumes and database
+  ansible.builtin.command:
+    cmd: "mgr-storage-proxy {{ proxy_disk_volumes }}"
+  when:
+    - proxy_disk is defined
+  become: true
+
+- name: Download air-gapped container image
+  community.general.zypper:
+    name: suse-manager-{{ proxy_suma_release }}-{{ ansible_architecture }}-proxy-image
+  notify: Reboot system (if immutable)
+  when: proxy_suma_airgapped
+  become: true
+
+- name: Trigger reboot (if necessary)
+  ansible.builtin.meta: flush_handlers
+
+- name: Run installation
+  ansible.builtin.command: "mgrpxy install podman {{ proxy_config_file }}"
+  args:
+    creates: /root/.MANAGER_INITIALIZATION_COMPLETE
+  become: true
+  # notify: Create initialization file
+
+# - name: Enable netavark workaround
+#   community.general.ini_file:
+#     path: /etc/systemd/system/uyuni-proxy.service.d/netavark.conf
+#     owner: root
+#     group: root
+#     mode: '0640'
+#     section: Service
+#     option: Environment
+#     value: NETAVARK_FW=iptables
+#     no_extra_spaces: true
+#     backup: true
+#   when: ansible_distribution | lower in ['opensuse microos', 'opensuse tumbleweed']
+#   become: true

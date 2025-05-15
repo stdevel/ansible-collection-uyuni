@@ -1,0 +1,17 @@
+---
+# check requirements
+proxy_check_requirements: true
+
+# required core packages
+proxy_core_packages:
+  - man
+  - firewalld
+
+# SCC settings
+proxy_scc_url: https://scc.suse.com
+proxy_scc_check_registration: true
+proxy_scc_check_modules: true
+
+# SUMA-related settings
+proxy_suma_release: 5.0
+proxy_suma_airgapped: false

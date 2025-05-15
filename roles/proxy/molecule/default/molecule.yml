@@ -1,0 +1,22 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  options:
+    managed: false
+    login_cmd_template: "podman exec -ti {instance} bash"
+    ansible_connection_options:
+      ansible_connection: podman
+lint: |
+  yamllint .
+  ansible-lint
+  flake8
+platforms:
+  - name: opensuse-tumbleweed
+    image: opensuse-tumbleweed-uyuni
+    privileged: true
+    command: /sbin/init
+verifier:
+  name: testinfra

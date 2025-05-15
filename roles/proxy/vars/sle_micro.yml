@@ -1,0 +1,12 @@
+---
+proxy_requirements:
+  - podman
+
+proxy_pkgs:
+  - mgrpxy
+  - mgrpxy-bash-completion
+
+proxy_suma_modules:
+  - name: "SUSE Manager Server Proxy Extension {{ proxy_suma_release }} {{ ansible_architecture }}"
+    identifier: "SUSE-Manager-Proxy/{{ proxy_suma_release }}/{{ ansible_architecture }}"
+    search: SUSE-Manager-Proxy

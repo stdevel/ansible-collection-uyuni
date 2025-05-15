@@ -1,0 +1,5 @@
+---
+# packages
+proxy_pkgs:
+  - mgrpxy
+  - mgrpxy-bash-completion

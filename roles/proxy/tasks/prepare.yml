@@ -1,0 +1,5 @@
+---
+- name: Install requirements
+  community.general.zypper:
+    name: "{{ proxy_requirements }}"
+  become: true
