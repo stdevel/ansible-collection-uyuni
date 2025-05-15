@@ -10,5 +10,5 @@
   ansible.builtin.fail:
     msg: "Please ensure having at least 8 GB of memory"
   when:
-    - ansible_memtotal_mb < 8000
+    - ansible_memtotal_mb < 7900
     - proxy_check_requirements
