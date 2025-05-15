@@ -30,20 +30,19 @@
 - name: Run installation
   ansible.builtin.command: "mgrpxy install podman {{ proxy_config_file }}"
   args:
-    creates: /root/.MANAGER_INITIALIZATION_COMPLETE
+    creates: /var/lib/containers/storage/volumes/uyuni-proxy-squid-cache/_data
   become: true
-  # notify: Create initialization file
 
-# - name: Enable netavark workaround
-#   community.general.ini_file:
-#     path: /etc/systemd/system/uyuni-proxy.service.d/netavark.conf
-#     owner: root
-#     group: root
-#     mode: '0640'
-#     section: Service
-#     option: Environment
-#     value: NETAVARK_FW=iptables
-#     no_extra_spaces: true
-#     backup: true
-#   when: ansible_distribution | lower in ['opensuse microos', 'opensuse tumbleweed']
-#   become: true
+- name: Enable netavark workaround
+  community.general.ini_file:
+    path: /etc/systemd/system/uyuni-proxy-pod.service.d/netavark.conf
+    owner: root
+    group: root
+    mode: '0640'
+    section: Service
+    option: Environment
+    value: NETAVARK_FW=iptables
+    no_extra_spaces: true
+    backup: true
+  when: ansible_distribution | lower in ['opensuse microos', 'opensuse tumbleweed']
+  become: true
