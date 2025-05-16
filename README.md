@@ -21,6 +21,10 @@ Ansible Collection for managing Uyuni / SUSE Manager installations and ressource
 
 Check-out [issues](https://github.com/stdevel/ansible-collection-uyuni/issues) for known issues, missing and upcoming functionality.
 
+## Notes
+
+When using SLES or SL(E) Micro for using this collection you will most likely have to install an additional Python interpreter - the system-wide installation (3.6) is way too old.
+
 ## Demonstration
 
 See [the following GitHub repository](https://github.com/stdevel/susecon-suma-aap-demo) for a demonstration of using this collection with AWX.
