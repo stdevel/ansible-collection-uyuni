@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2 (16.08.2025)
+
+- added `proxy` role for installing containerized proxy servers
+- added note about using this collection on SLES or SL(E) Micro with outdated Python versions
+
 ## 0.3.0 (08.05.2025)
 
 - added **support for containerized setups** (SUMA 5.0+ and Uyuni 2024.10+)
