@@ -1,0 +1,46 @@
+---
+- name: Check system registration
+  ansible.builtin.command: SUSEConnect --status
+  changed_when: false
+  register: scc_registration
+  when: proxy_scc_check_registration or proxy_scc_check_modules
+  become: true
+
+- name: Register system
+  ansible.builtin.command: "suseconnect --url {{ proxy_scc_url }} -r {{ proxy_scc_reg_code_os | upper }} -e {{ proxy_scc_mail }}"
+  when:
+    - proxy_scc_check_registration
+    - proxy_scc_reg_code_os
+    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+  vars:
+    query_filter: "[?identifier == 'SLES'].status"
+  become: true
+
+- name: Register MLM
+  ansible.builtin.command: "suseconnect --url {{ proxy_scc_url }} -p SUSE-Manager-Proxy/{{ proxy_suma_release }}/{{ ansible_architecture }} -r {{ proxy_scc_reg_code_mlm | upper }} -e {{ proxy_scc_mail }}"
+  when:
+    - proxy_scc_check_registration
+    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+  vars:
+    query_filter: "[?identifier == 'SUSE-Manager-Proxy'].status"
+  become: true
+
+- name: Enable modules
+  ansible.builtin.command: "suseconnect --url {{ proxy_scc_url }} -p {{ item.identifier }}"
+  loop: "{{ proxy_suma_modules }}"
+  when:
+    - proxy_scc_check_modules
+    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+  vars:
+    query_filter: "[?identifier == '{{ item.name }}'].status"
+  become: true
+
+- name: Set default image name
+  ansible.builtin.set_fact:
+    proxy_image_name: registry.suse.com/suse/manager/5.0/{{ ansible_architecture }}/proxy
+  when: proxy_suma_release is not defined
+
+- name: Set default image name (release-specific)
+  ansible.builtin.set_fact:
+    proxy_image_name: registry.suse.com/suse/manager/{{ proxy_suma_release }}/{{ ansible_architecture }}/proxy
+  when: proxy_suma_release is defined

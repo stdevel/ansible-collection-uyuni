@@ -1,9 +1,8 @@
----
 galaxy_info:
-  role_name: server
+  role_name: proxy
   author: Christian Stankowic
   namespace: stdevel
-  description: Prepares, installs and configures Uyuni or SUSE Manager
+  description: Prepares, installs and configures Uyuni or SUSE Manager proxy server
   issue_tracker_url: https://github.com/stdevel/ansible-collection-uyuni/issues
   license: GPL-3.0-only
 

@@ -1,0 +1,25 @@
+---
+- name: Add GPG key
+  ansible.builtin.command: "transactional-update --continue run rpm --import {{ item }}"
+  loop: "{{ proxy_gpg }}"
+  notify: Reboot system (if immutable)
+  become: true
+
+- name: Add Uyuni repositories
+  ansible.builtin.command: "transactional-update --continue run zypper ar {{ item.url }}"
+  loop: "{{ proxy_repos }}"
+  notify: Reboot system (if immutable)
+  become: true
+
+- name: Trigger reboot (if necessary)
+  ansible.builtin.meta: flush_handlers
+
+- name: Set default image name
+  ansible.builtin.set_fact:
+    proxy_image_name: registry.opensuse.org/uyuni/proxy
+  when: proxy_release is not defined
+
+- name: Set default image name (release-specific)
+  ansible.builtin.set_fact:
+    proxy_image_name: "registry.opensuse.org/systemsmanagement/uyuni/snapshots/{{ proxy_release }}/containers/uyuni/proxy"
+  when: proxy_release is defined

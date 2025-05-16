@@ -1,0 +1,23 @@
+---
+- name: Add GPG key
+  ansible.builtin.rpm_key:
+    key: "{{ item }}"
+  loop: "{{ proxy_gpg }}"
+  become: true
+
+- name: Add Uyuni repositories
+  community.general.zypper_repository:
+    repo: "{{ item.url }}"
+    name: "{{ item.name }}"
+  loop: "{{ proxy_repos }}"
+  become: true
+
+- name: Set default image name
+  ansible.builtin.set_fact:
+    proxy_image_name: registry.opensuse.org/uyuni/proxy
+  when: proxy_release is not defined
+
+- name: Set default image name (release-specific)
+  ansible.builtin.set_fact:
+    proxy_image_name: "registry.opensuse.org/systemsmanagement/uyuni/snapshots/{{ proxy_release }}/containers/uyuni/proxy"
+  when: proxy_release is defined

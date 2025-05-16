@@ -1,0 +1,12 @@
+---
+- name: Converge machines
+  hosts: all
+  become: true
+  pre_tasks:
+    - name: Fix FQDN
+      ansible.builtin.set_fact:
+        ansible_fqdn: uyuni-proxy.podman.loc
+
+  roles:
+    - role: stdevel.uyuni.proxy
+      proxy_config_file: /root/foo.bar
