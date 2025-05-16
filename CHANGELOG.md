@@ -4,6 +4,7 @@
 
 - added `proxy` role for installing containerized proxy servers
 - added note about using this collection on SLES or SL(E) Micro with outdated Python versions
+- `server` - ensure that registration codes are always uppercase
 
 ## 0.3.0 (08.05.2025)
 
