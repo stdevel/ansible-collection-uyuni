@@ -7,7 +7,7 @@
   become: true
 
 - name: Register system
-  ansible.builtin.command: "transactional-update --continue register --url {{ proxy_scc_url }} -r {{ proxy_scc_reg_code_os }} -e {{ proxy_scc_mail }}"
+  ansible.builtin.command: "transactional-update --continue register --url {{ proxy_scc_url }} -r {{ proxy_scc_reg_code_os | upper }} -e {{ proxy_scc_mail }}"
   when:
     - proxy_scc_check_registration
     - proxy_scc_reg_code_os
@@ -18,7 +18,7 @@
   become: true
 
 - name: Register MLM
-  ansible.builtin.command: "transactional-update --continue register --url {{ proxy_scc_url }} -p SUSE-Manager-Proxy/{{ proxy_suma_release }}/{{ ansible_architecture }} -r {{ proxy_scc_reg_code_mlm }} -e {{ proxy_scc_mail }}"
+  ansible.builtin.command: "transactional-update --continue register --url {{ proxy_scc_url }} -p SUSE-Manager-Proxy/{{ proxy_suma_release }}/{{ ansible_architecture }} -r {{ proxy_scc_reg_code_mlm | upper }} -e {{ proxy_scc_mail }}"
   when:
     - proxy_scc_check_registration
     - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
