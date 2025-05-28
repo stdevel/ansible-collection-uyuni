@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.3 (28.05.2025)
+
+- fixed a bug where installing SUSE Manager 5.0 wasn't supported on SLES 15 SP6
+
 ## 0.3.2 (16.08.2025)
 
 - added `proxy` role for installing containerized proxy servers
