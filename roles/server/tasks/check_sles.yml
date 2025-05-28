@@ -21,6 +21,7 @@
 
 - name: Ensure having supported SP release for SUMA 5.0
   ansible.builtin.fail:
-    msg: "SLES 15 is not supported for SUMA 5.0"
+    msg: "Please upgrade to SLES 15 SP6"
   when:
     - uyuni_suma_release == 5.0
+    - ansible_distribution_version != '15.6'
