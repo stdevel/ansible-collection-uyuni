@@ -11,7 +11,8 @@ The system needs access to the internet. Also, you will need one of the followin
 | Product | Distributions |
 | ------- | ------------- |
 | Uyuni | openSUSE Tumbleweed, Leap 15.x, Leap Micro 6.x |
-| Multi-Linux Manager | SL Micro 5.5, SLES 15 SP7 | 
+| SUSE Manager 5.0 | SL Micro 5.5, SLES 15 SP6 |
+| SUSE Multi-Linux Manager 5.1 | SL Micro 5.5, SLES 15 SP7 | 
 
 ## Role Variables
 
