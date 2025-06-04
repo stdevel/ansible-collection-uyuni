@@ -627,7 +627,7 @@ class UyuniAPIClient:
             self.LOGGER.debug("No upgrades for %s", system_id)
             raise EmptySetException("No patches supplied")
 
-        earliest_execution = DateTime(datetime.now().timetuple())
+        earliest_execution = DateTime(datetime.utcnow().timetuple())
 
         try:
             action_id = self._session.system.schedulePackageInstall(
@@ -661,7 +661,7 @@ class UyuniAPIClient:
                 f"No system found - use system profile IDs {system_id}"
             )
 
-        earliest_execution = DateTime(datetime.now().timetuple())
+        earliest_execution = DateTime(datetime.utcnow().timetuple())
         try:
             action_id = self._session.system.scheduleReboot(
                 self._api_key, system_id, earliest_execution
@@ -1014,7 +1014,7 @@ class UyuniAPIClient:
                 "No system found - use system profile IDs"
             )
 
-        earliest_execution = DateTime(datetime.now().timetuple())
+        earliest_execution = DateTime(datetime.utcnow().timetuple())
         # add shebang if not found
         if not command.startswith("#!/"):
             command = f'#!/bin/sh\n{command}'
@@ -1099,7 +1099,7 @@ class UyuniAPIClient:
         :type chain_label: str
         """
         try:
-            earliest_execution = DateTime(datetime.now().timetuple())
+            earliest_execution = DateTime(datetime.utcnow().timetuple())
             chain_id = self._session.actionchain.scheduleChain(
                 self._api_key, chain_label, earliest_execution
             )
@@ -1317,14 +1317,14 @@ class UyuniAPIClient:
         :param timeout: The maximum time to wait for the action to complete (in seconds).
         :param interval: The interval between status checks (in seconds).
         """
-        start_time = datetime.now()
+        start_time = datetime.utcnow()
         end_time = start_time + timedelta(seconds=timeout)
-        while datetime.now() < end_time:
+        while datetime.utcnow() < end_time:
             status = self.get_host_action(system_id, action_id)
             if status[0]['successful_count'] + status[0]['failed_count'] > 0:
                 return status
-            next_check = datetime.now() + timedelta(seconds=interval)
-            while datetime.now() < next_check:
+            next_check = datetime.utcnow() + timedelta(seconds=interval)
+            while datetime.utcnow() < next_check:
                 pass
         raise TimeoutError(f"Action {action_id} did not complete within {timeout} seconds")
 
@@ -1335,7 +1335,7 @@ class UyuniAPIClient:
         :param system_id: profile ID
         :type system_id: int
         """
-        earliest_execution = DateTime(datetime.now().timetuple())
+        earliest_execution = DateTime(datetime.utcnow().timetuple())
 
         try:
             action_id = self._session.system.schedulePackageUpdate(
