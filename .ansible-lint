@@ -1,0 +1,4 @@
+---
+warn_list:
+  - no-changed-when
+  - line-length

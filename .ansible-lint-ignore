@@ -15,3 +15,9 @@ roles/proxy/vars/opensuse.yml line-length
 roles/server/tasks/monitoring.yml no-changed-when
 roles/server/tasks/install.yml no-changed-when
 roles/server/tasks/content.yml line-length
+roles/server/tasks/prepare_sles.yml no-changed-when
+roles/server/tasks/prepare_sles.yml line-length
+roles/server/tasks/prepare_sle_micro.yml no-changed-when
+roles/server/tasks/prepare_sle_micro.yml line-length
+roles/server/tasks/prepare_opensuse_leap_micro.yml no-changed-when
+roles/server/tasks/prepare_opensuse_leap_micro.yml line-length
