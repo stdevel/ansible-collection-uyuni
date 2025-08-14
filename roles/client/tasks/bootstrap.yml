@@ -7,10 +7,10 @@
 - name: Check if the client_repo_file exists
   ansible.builtin.stat:
     path: "{{ client_repo_file }}"
-  register: stat_client_repo_file
+  register: client_stat_repo_file
 
 - name: Download Uyuni bootstrap script
-  when: not stat_client_repo_file.stat.exists
+  when: not client_stat_repo_file.stat.exists
   ansible.builtin.get_url:
     url: "http://{{ client_uyuni_server }}/pub/bootstrap/{{ client_bootstrap_filename }}"
     dest: "{{ client_bootstrap_folder }}/bootstrap.sh"

@@ -4,10 +4,10 @@
     name: "{{ client_minion_service }}"
     state: stopped
     enabled: false
-  register: service_stop
+  register: client_service_stop
   failed_when:
-    - service_stop.failed
-    - "'not find' not in service_stop.msg"
+    - client_service_stop.failed
+    - "'not find' not in client_service_stop.msg"
   become: true
 
 - name: Remove packages
