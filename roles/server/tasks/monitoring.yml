@@ -2,11 +2,11 @@
 - name: Get monitoring status
   become: true
   ansible.builtin.command: mgrctl exec '/usr/sbin/mgr-monitoring-ctl status'
-  register: monitoring_state
+  register: server_monitoring_state
   changed_when: false
 
 - name: Enable monitoring
   become: true
   ansible.builtin.command: mgrctl exec '/usr/sbin/mgr-monitoring-ctl enable'
-  when: "'error' in monitoring_state.stderr|lower"
+  when: "'error' in server_monitoring_state.stderr|lower"
   notify: Restart Uyuni
