@@ -9,6 +9,7 @@
 - **Breaking change**: `client` role variable names have changed
   - `uyuni_*` --> `client_*`
   - `uyuni_server` --> `client_uyuni_server`
+- fixed linting, refactored code
 
 ## 0.3.4 (04.06.2025)
 
