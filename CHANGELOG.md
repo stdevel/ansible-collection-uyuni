@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.5 (??.08.2025)
+## 0.3.5 (14.08.2025)
 
 - fixed mgrctl parameter (added missing --)
 - added `apply_highstate` and `apply_states` modules
