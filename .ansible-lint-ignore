@@ -1,0 +1,6 @@
+# This file contains ignores rule violations for ansible-lint
+roles/proxy/tasks/prepare_sles.yml no-changed-when
+roles/proxy/tasks/prepare_sle_micro.yml no-changed-when
+roles/proxy/tasks/prepare_opensuse_leap_micro.yml no-changed-when
+roles/proxy/tasks/prepare_sle_micro.yml line-length
+roles/proxy/tasks/install.yml no-changed-when
