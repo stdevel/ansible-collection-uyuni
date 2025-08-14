@@ -44,6 +44,7 @@ options:
     description: Only simulate applying the highstate
     required: False
     type: bool
+    default: False
 '''
 
 EXAMPLES = '''

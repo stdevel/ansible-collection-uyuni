@@ -32,7 +32,7 @@ short_description: Perform full package update
 description:
   - Perform full synchronous package update on a managed host
 author:
-  - "Luca Kinzel"
+  - "Luca Kinzel (@KinzelL)"
 extends_documentation_fragment:
   - stdevel.uyuni.uyuni_auth
 options:

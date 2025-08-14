@@ -43,11 +43,13 @@ options:
   states:
     description: Name of states to apply
     required: True
-    type: str
+    type: list
+    elements: str
   test_mode:
     description: Only simulate applying the states
     required: False
     type: bool
+    default: False
 '''
 
 EXAMPLES = '''
