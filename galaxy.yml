@@ -18,7 +18,9 @@ tags:
   - suse
   - manager
 
-dependencies: {}
+dependencies:
+  "community.general": "*"
+  "containers.podman": "*"
 
 repository: https://github.com/stdevel/ansible-collection-uyuni
 documentation: https://github.com/stdevel/ansible-collection-uyuni/blob/main/README.md
