@@ -1,3 +1,4 @@
+---
 - name: Destroy molecule containers
   hosts: molecule
   gather_facts: false
