@@ -12,7 +12,7 @@
 
 - name: Remove packages
   ansible.builtin.package:
-    name: "{{ uyuni_client_packages }}"
+    name: "{{ client_packages }}"
     state: absent
   become: true
 
@@ -21,4 +21,4 @@
     path: "{{ item }}"
     state: absent
   become: true
-  loop: "{{ uyuni_client_directories }}"
+  loop: "{{ client_directories }}"

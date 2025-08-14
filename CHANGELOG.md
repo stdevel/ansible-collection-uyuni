@@ -4,6 +4,10 @@
 
 - fixed mgrctl parameter (added missing --)
 - added `apply_highstate` and `apply_states` modules
+- **Breaking change** `client` role variable names have changed
+  - `uyuni_bootstrap_filename` --> `client_bootstrap_filename`
+  - `uyuni_bootstrap_folder` --> `client_bootstrap_folder`
+  - `uyuni_client_state` --> `client_state`
 
 ## 0.3.4 (04.06.2025)
 

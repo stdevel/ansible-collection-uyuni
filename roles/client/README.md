@@ -13,9 +13,9 @@ No requirements.
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `uyuni_server` | **empty** | Uyuni server hostname or FQDN |
-| `uyuni_bootstrap_filename` | `(distro)(version).sh` | Bootstrap file to download |
-| `uyuni_bootstrap_folder` | `/opt` | Bootstrap file download folder |
-| `uyuni_client_state` | `present` | Bootstrap (`present`) or remove (`absent`) client |
+| `client_bootstrap_filename` | `(distro)(version).sh` | Bootstrap file to download |
+| `client_bootstrap_folder` | `/opt` | Bootstrap file download folder |
+| `client_state` | `present` | Bootstrap (`present`) or remove (`absent`) client |
 
 ## Dependencies
 
@@ -40,18 +40,18 @@ Set variables if required, e.g.:
   roles:
     - role: stdevel.uyuni.client
       uyuni_server: uyuni01.evilcorp.lan
-      uyuni_bootstrap_filename: bootstrap-dummy.sh
-      uyuni_bootstrap_folder: /tmp
+      client_bootstrap_filename: bootstrap-dummy.sh
+      client_bootstrap_folder: /tmp
 ```
 
-To remove `salt-minion` and managed software repositories, set `uyuni_client_state` to `absent`:
+To remove `salt-minion` and managed software repositories, set `client_state` to `absent`:
 
 ```yaml
 ---
 - hosts: clients
   roles:
     - role: stdevel.uyuni.client
-      uyuni_client_state: absent
+      client_state: absent
 ```
 
 **NOTE**: This will **not** remove the appropriate system profile from Uyuni/SUSE Manager.

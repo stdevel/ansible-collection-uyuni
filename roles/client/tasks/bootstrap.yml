@@ -12,8 +12,8 @@
 - name: Download Uyuni bootstrap script
   when: not stat_uyuni_repo_file.stat.exists
   ansible.builtin.get_url:
-    url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
-    dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    url: "http://{{ uyuni_server }}/pub/bootstrap/{{ client_bootstrap_filename }}"
+    dest: "{{ client_bootstrap_folder }}/bootstrap.sh"
     owner: root
     group: root
     mode: '0755'
@@ -21,13 +21,13 @@
   become: true
 
 - name: Register with Uyuni
-  ansible.builtin.command: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+  ansible.builtin.command: "{{ client_bootstrap_folder }}/bootstrap.sh"
   args:
     creates: "{{ uyuni_repo_file }}"
   become: true
 
 - name: Remove downloaded bootstrap script
   ansible.builtin.file:
-    path: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    path: "{{ client_bootstrap_folder }}/bootstrap.sh"
     state: absent
   become: true

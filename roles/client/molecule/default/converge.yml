@@ -6,4 +6,4 @@
   roles:
     - role: stdevel.uyuni.client
       uyuni_server: CHANGEME
-      # uyuni_client_state: absent
+      # client_state: absent
