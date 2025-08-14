@@ -62,4 +62,4 @@ GPL 3.0
 
 ## Author Information
 
-Christian Stankowic (info@cstan.io)
+Christian Stankowic
