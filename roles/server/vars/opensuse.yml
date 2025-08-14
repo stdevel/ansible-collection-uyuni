@@ -1,16 +1,16 @@
 ---
-uyuni_requirements:
+server_requirements:
   - podman
 
-uyuni_pkgs:
+server_pkgs:
   - mgradm
   - mgrctl
   - netavark
   - uyuni-storage-setup-server
 
-uyuni_gpg:
+server_gpg:
   - "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-{{ ansible_architecture }}-Media1/repodata/repomd.xml.key"
 
-uyuni_repos:
+server_repos:
   - url: "https://download.opensuse.org/repositories/systemsmanagement:/Uyuni:/Stable/images/repo/Uyuni-Server-POOL-{{ ansible_architecture }}-Media1/"
     name: systemsmanagement_Uyuni_Stable_ContainerUtils

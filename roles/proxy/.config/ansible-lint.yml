@@ -1,4 +1,0 @@
----
-skip_list:
-  - line-length
-  - no-changed-when

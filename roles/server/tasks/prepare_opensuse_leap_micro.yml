@@ -1,13 +1,13 @@
 ---
 - name: Add GPG key
   ansible.builtin.command: "transactional-update --continue run rpm --import {{ item }}"
-  loop: "{{ uyuni_gpg }}"
+  loop: "{{ server_gpg }}"
   notify: Reboot system (if immutable)
   become: true
 
 - name: Add Uyuni repositories
   ansible.builtin.command: "transactional-update --continue run zypper ar {{ item.url }}"
-  loop: "{{ uyuni_repos }}"
+  loop: "{{ server_repos }}"
   notify: Reboot system (if immutable)
   become: true
 
@@ -16,10 +16,10 @@
 
 - name: Set default image name
   ansible.builtin.set_fact:
-    uyuni_image_name: registry.opensuse.org/uyuni/server
-  when: uyuni_release is not defined
+    server_image_name: registry.opensuse.org/uyuni/server
+  when: server_release is not defined
 
 - name: Set default image name (release-specific)
   ansible.builtin.set_fact:
-    uyuni_image_name: "registry.opensuse.org/systemsmanagement/uyuni/snapshots/{{ uyuni_release }}/containers/uyuni/server"
-  when: uyuni_release is defined
+    server_image_name: "registry.opensuse.org/systemsmanagement/uyuni/snapshots/{{ server_release }}/containers/uyuni/server"
+  when: server_release is defined

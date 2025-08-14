@@ -1,5 +1,6 @@
 ---
-- hosts: localhost
+- name: Run role
+  hosts: localhost
   remote_user: root
   roles:
     - proxy

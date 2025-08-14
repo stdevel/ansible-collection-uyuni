@@ -1,53 +1,53 @@
 ---
 # check requirements
-uyuni_check_requirements: true
+server_check_requirements: true
 
 # required core packages
-uyuni_core_packages:
+server_core_packages:
   - man
   - firewalld
 
-uyuni_packages: []
-# uyuni_packages:
+server_packages: []
+# server_packages:
 #   - spacewalk-utils
 #   - spacecmd
 
-uyuni_suma_release: 5.0
+server_suma_release: 5.0
 
-uyuni_scc_url: https://scc.suse.com
-uyuni_scc_check_registration: true
-uyuni_scc_check_modules: true
+server_scc_url: https://scc.suse.com
+server_scc_check_registration: true
+server_scc_check_modules: true
 
 # Uyuni configuration
-uyuni_mail: "root@localhost"
-uyuni_db_name: "uyuni"
-uyuni_db_user: "uyuni"
-uyuni_db_pass: "Uyuni1337"
-uyuni_cert_city: "Darmstadt"
-uyuni_cert_country: "DE"
-uyuni_cert_mail: "root@localhost"
-uyuni_cert_o: "Darmstadt"
-uyuni_cert_ou: "Darmstadt"
-uyuni_cert_state: "Hessen"
-uyuni_cert_pass: "uyuni"
-uyuni_org_name: "Demo"
-uyuni_org_login: "admin"
-uyuni_org_password: "admin"
-uyuni_org_mail: "root@localhost"
-uyuni_org_first_name: "Anton"
-uyuni_org_last_name: "Administrator"
+server_mail: "root@localhost"
+server_db_name: "uyuni"
+server_db_user: "uyuni"
+server_db_pass: "Uyuni1337"
+server_cert_city: "Darmstadt"
+server_cert_country: "DE"
+server_cert_mail: "root@localhost"
+server_cert_o: "Darmstadt"
+server_cert_ou: "Darmstadt"
+server_cert_state: "Hessen"
+server_cert_pass: "uyuni"
+server_org_name: "Demo"
+server_org_login: "admin"
+server_org_password: "admin"
+server_org_mail: "root@localhost"
+server_org_first_name: "Anton"
+server_org_last_name: "Administrator"
 
 # additional settings
-uyuni_use_repo: true
-uyuni_suma_airgapped: false
+server_use_repo: true
+server_suma_airgapped: false
 
 # firewall settings
-uyuni_firewall_config: true
-uyuni_firewall_default_zone: internal
-uyuni_firewall_services:
+server_firewall_config: true
+server_firewall_default_zone: internal
+server_firewall_services:
   - suse-manager-server
-uyuni_firewall_ports: []
-uyuni_firewall_ports_monitoring:
+server_firewall_ports: []
+server_firewall_ports_monitoring:
   - 5556/tcp
   - 5557/tcp
   - 9100/tcp
@@ -55,12 +55,12 @@ uyuni_firewall_ports_monitoring:
   - 9800/tcp
 
 # content settings
-uyuni_channels: []
+server_channels: []
 # create dict items like this:
 # - {"name": "centos7", "arch": "x86_64"}
 # - {"name": "centos7-updates", "arch": "x86_64"}
-uyuni_sync_channels: false
-uyuni_bootstrap_repos: false
+server_sync_channels: false
+server_bootstrap_repos: false
 
 # monitoring settings
-uyuni_enable_monitoring: false
+server_enable_monitoring: false
