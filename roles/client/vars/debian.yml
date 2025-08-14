@@ -1,9 +1,9 @@
 ---
-uyuni_repo_file: /etc/apt/sources.list.d/susemanager:channels.list
+client_repo_file: /etc/apt/sources.list.d/susemanager:channels.list
 
 client_packages:
   - venv-salt-minion
-uyuni_minion_service: venv-salt-minion
+client_minion_service: venv-salt-minion
 client_directories:
   - /etc/venv-salt-minion
   - /var/cache/venv-salt-minion

@@ -1,7 +1,7 @@
 ---
 - name: Stop services
   ansible.builtin.service:
-    name: "{{ uyuni_minion_service }}"
+    name: "{{ client_minion_service }}"
     state: stopped
     enabled: false
   register: service_stop

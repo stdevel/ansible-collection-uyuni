@@ -8,6 +8,9 @@
   - `uyuni_bootstrap_filename` --> `client_bootstrap_filename`
   - `uyuni_bootstrap_folder` --> `client_bootstrap_folder`
   - `uyuni_client_state` --> `client_state`
+  - `uyuni_server` --> `client_uyuni_server`
+  - `uyuni_repo_file` --> `client_repo_file`
+  - `uyuni_minion_service` --> `client_minion_service`
 
 ## 0.3.4 (04.06.2025)
 

@@ -12,7 +12,7 @@ No requirements.
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `uyuni_server` | **empty** | Uyuni server hostname or FQDN |
+| `client_uyuni_server` | **empty** | Uyuni server hostname or FQDN |
 | `client_bootstrap_filename` | `(distro)(version).sh` | Bootstrap file to download |
 | `client_bootstrap_folder` | `/opt` | Bootstrap file download folder |
 | `client_state` | `present` | Bootstrap (`present`) or remove (`absent`) client |
@@ -29,7 +29,7 @@ Refer to the following example:
 - hosts: clients
   roles:
     - role: stdevel.uyuni.client
-      uyuni_server: uyuni01.evilcorp.lan
+      client_uyuni_server: uyuni01.evilcorp.lan
 ```
 
 Set variables if required, e.g.:
@@ -39,7 +39,7 @@ Set variables if required, e.g.:
 - hosts: clients
   roles:
     - role: stdevel.uyuni.client
-      uyuni_server: uyuni01.evilcorp.lan
+      client_uyuni_server: uyuni01.evilcorp.lan
       client_bootstrap_filename: bootstrap-dummy.sh
       client_bootstrap_folder: /tmp
 ```

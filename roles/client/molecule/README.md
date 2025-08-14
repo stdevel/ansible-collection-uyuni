@@ -33,7 +33,7 @@ Edit [`default/converge.yml`](default/converge.yml) and enter a valid Uyuni serv
 ...
   roles:
     - role: stdevel.uyuni.client
-      uyuni_server: uyuni.evilcorp.lan
+      client_uyuni_server: uyuni.evilcorp.lan
 ```
 
 Run the Ansible role:
