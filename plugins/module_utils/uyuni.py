@@ -1363,7 +1363,7 @@ class UyuniAPIClient:
     def wait_for_action(self, action_id, system_id, timeout=3600, interval=30):
         """
         Waits for the action to complete.
-    
+
         :param api_instance: The API instance to use for checking the action status.
         :param action_id: The ID of the action to wait for.
         :param timeout: The maximum time to wait for the action to complete (in seconds).

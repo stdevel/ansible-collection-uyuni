@@ -4,9 +4,9 @@
 
 - fixed mgrctl parameter (added missing --)
 - added `apply_highstate` and `apply_states` modules
-- **Breaking change** `server` role variable names have changed
+- **Breaking change**: `server` role variable names have changed
   - `uyuni_*` --> `server_*`
-- **Breaking change** `client` role variable names have changed
+- **Breaking change**: `client` role variable names have changed
   - `uyuni_*` --> `client_*`
   - `uyuni_server` --> `client_uyuni_server`
 

@@ -23,11 +23,7 @@ Examples:
 """
 import asyncio
 from typing import Any, Dict
-import random
 from pyuyuni.management import JSONHTTPClient
-from pyuyuni.exceptions import (
-    InvalidCredentialsException
-)
 from pyuyuni.hosts import list_systems_requiring_reboot
 import logging
 

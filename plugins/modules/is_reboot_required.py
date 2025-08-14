@@ -62,6 +62,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.exceptions import SSLCertVerificationError
 from ..module_utils.helper_functions import _configure_connection, get_host_id
 
+
 def _is_reboot_required(module, api_instance):
     """
     Check if host requires a reboot
@@ -72,14 +73,15 @@ def _is_reboot_required(module, api_instance):
             get_host_id(
                 module.params.get('name'),
                 api_instance
-                )
-      )
+            )
+        )
         if reboot_required is True:
             module.exit_json(changed=True, reboot_required=reboot_required)
         if reboot_required is False:
             module.exit_json(changed=False, reboot_required=reboot_required)
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
+
 
 def main():
     """
@@ -106,6 +108,7 @@ def main():
 
     api_instance = _configure_connection(connection_params)
     _is_reboot_required(module, api_instance)
+
 
 if __name__ == '__main__':
     main()
