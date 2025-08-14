@@ -1,10 +1,10 @@
 ---
 - name: Create software channels
-  ansible.builtin.command: mgrctl exec -- /usr/bin/spacewalk-common-channels -u {{ uyuni_org_login }} -p {{ uyuni_org_password }} -a {{ item.arch }} {{ item.name }}
-  loop: "{{ uyuni_channels }}"
-  register: create_result
+  ansible.builtin.command: mgrctl exec -- /usr/bin/spacewalk-common-channels -u {{ server_org_login }} -p {{ server_org_password }} -a {{ item.arch }} {{ item.name }}
+  loop: "{{ server_channels }}"
+  register: server_create_result
   changed_when:
-    - '"exists" not in create_result.stdout | lower'
-    - '"already in use" not in create_result.stderr | lower'
+    - '"exists" not in server_create_result.stdout | lower'
+    - '"already in use" not in server_create_result.stderr | lower'
   become: true
-  when: uyuni_channels | length > 0
+  when: server_channels | length > 0

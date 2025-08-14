@@ -1,7 +1,7 @@
 ---
 namespace: stdevel
 name: uyuni
-version: 0.3.4
+version: 0.3.5
 readme: README.md
 authors:
   - Christian Stankowic <info@cstan.io>
@@ -10,12 +10,17 @@ license:
   - GPL-3.0-only
 
 tags:
+  - infrastructure
+  - eda
+  - linux
   - systemsmanagement
   - uyuni
   - suse
   - manager
 
-dependencies: {}
+dependencies:
+  "community.general": "*"
+  "containers.podman": "*"
 
 repository: https://github.com/stdevel/ansible-collection-uyuni
 documentation: https://github.com/stdevel/ansible-collection-uyuni/blob/main/README.md

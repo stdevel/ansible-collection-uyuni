@@ -1,5 +1,5 @@
 ---
-requires_ansible: '>=2.9.10'
+requires_ansible: '>=2.15.0'
 
 # Content that Ansible needs to load from another location or that has
 # been deprecated/removed

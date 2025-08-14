@@ -1,3 +1,4 @@
+---
 - name: Create
   hosts: localhost
   gather_facts: false
@@ -74,7 +75,7 @@
         that: "'molecule' in groups"
         fail_msg: |
           molecule group was not found inside inventory groups: {{ groups }}
-      run_once: true # noqa: run-once[task]
+      run_once: true  # noqa: run-once[task]
 
 # we want to avoid errors like "Failed to create temporary directory"
 - name: Validate that inventory was refreshed

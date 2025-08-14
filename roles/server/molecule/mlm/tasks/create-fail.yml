@@ -1,3 +1,4 @@
+---
 - name: Retrieve container log
   ansible.builtin.command:
     cmd: >-

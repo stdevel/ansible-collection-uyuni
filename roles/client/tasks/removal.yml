@@ -1,18 +1,18 @@
 ---
 - name: Stop services
   ansible.builtin.service:
-    name: "{{ uyuni_minion_service }}"
+    name: "{{ client_minion_service }}"
     state: stopped
     enabled: false
-  register: service_stop
+  register: client_service_stop
   failed_when:
-    - service_stop.failed
-    - "'not find' not in service_stop.msg"
+    - client_service_stop.failed
+    - "'not find' not in client_service_stop.msg"
   become: true
 
 - name: Remove packages
   ansible.builtin.package:
-    name: "{{ uyuni_client_packages }}"
+    name: "{{ client_packages }}"
     state: absent
   become: true
 
@@ -21,4 +21,4 @@
     path: "{{ item }}"
     state: absent
   become: true
-  loop: "{{ uyuni_client_directories }}"
+  loop: "{{ client_directories }}"

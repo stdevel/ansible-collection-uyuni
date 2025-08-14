@@ -1,8 +1,8 @@
 #!/usr/bin/python
 """
-Ansible Module tp perform full package update on a managed host
+Ansible Module for applying a host's highstate
 
-2022 Christian Stankowic
+2025 Christian Stankowic
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -27,10 +27,10 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = '''
 ---
-module: is_reboot_required
-short_description: Check if system requires reboot
+module: apply_highstate
+short_description: Apply a host's highstate
 description:
-  - Check if a managed host needs to be rebooted!
+  - Apply a host's highstate
 author:
   - "Christian Stankowic (@stdevel)"
 extends_documentation_fragment:
@@ -40,52 +40,64 @@ options:
     description: Name or profile ID of the managed host
     required: True
     type: str
+  test_mode:
+    description: Only simulate applying the highstate
+    required: False
+    type: bool
+    default: False
 '''
 
 EXAMPLES = '''
-- name: Check if system requires reboot
-  stdevel.uyuni.is_reboot_required:
+- name: Apply highstate
+  stdevel.uyuni.apply_highstate:
     uyuni_host: 192.168.1.1
     uyuni_user: admin
     uyuni_password: admin
     name: server.localdomain.loc
+
+- name: Simulate applying highstate
+  stdevel.uyuni.apply_highstate:
+    uyuni_host: 192.168.1.1
+    uyuni_user: admin
+    uyuni_password: admin
+    name: server.localdomain.loc
+    test_mode: true
 '''
 
 RETURN = '''
 entity:
-  description: State whether package host needs reboot or not
+  description: State whether highstate was scheduled successfully
   returned: success
   type: bool
 '''
 
 from ansible.module_utils.basic import AnsibleModule
-from ..module_utils.exceptions import SSLCertVerificationError
+from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
 from ..module_utils.helper_functions import _configure_connection, get_host_id
 
 
-def _is_reboot_required(module, api_instance):
+def _apply_highstate(module, api_instance):
     """
-    Check if host requires a reboot
+    Applies a host's highstate
     """
     try:
-        # is reboot required
-        reboot_required = api_instance.is_reboot_required(
+        action_id = api_instance.apply_highstate(
             get_host_id(
                 module.params.get('name'),
                 api_instance
-            )
+            ),
+            module.params.get('test_mode')
         )
-        if reboot_required is True:
-            module.exit_json(changed=True, reboot_required=reboot_required)
-        if reboot_required is False:
-            module.exit_json(changed=False, reboot_required=reboot_required)
+        module.exit_json(changed=True, action_id=action_id)
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
+    except EmptySetException as err:
+        module.fail_json(msg=f"Exception when calling UyuniAPI->apply_highstate: {err}")
 
 
 def main():
     """
-    Main functions
+    Default function, calls module
     """
     argument_spec = dict(
         uyuni_host=dict(required=True),
@@ -93,7 +105,8 @@ def main():
         uyuni_password=dict(required=True, no_log=True),
         uyuni_port=dict(default=443, type='int'),
         uyuni_verify_ssl=dict(default=True, type='bool'),
-        name=dict(required=True)
+        name=dict(required=True),
+        test_mode=dict(default=False, type='bool')
     )
 
     module = AnsibleModule(argument_spec=argument_spec)
@@ -107,7 +120,7 @@ def main():
     )
 
     api_instance = _configure_connection(connection_params)
-    _is_reboot_required(module, api_instance)
+    _apply_highstate(module, api_instance)
 
 
 if __name__ == '__main__':

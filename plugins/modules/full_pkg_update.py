@@ -32,7 +32,7 @@ short_description: Perform full package update
 description:
   - Perform full synchronous package update on a managed host
 author:
-  - "Luca Kinzel"
+  - "Luca Kinzel (@KinzelL)"
 extends_documentation_fragment:
   - stdevel.uyuni.uyuni_auth
 options:
@@ -62,6 +62,7 @@ from ansible.module_utils.basic import AnsibleModule
 from ..module_utils.exceptions import EmptySetException, SSLCertVerificationError
 from ..module_utils.helper_functions import _configure_connection, get_host_id, get_outdated_pkgs
 
+
 def _full_pkg_update(module, api_instance):
     """
     Performs full package update on host
@@ -82,8 +83,8 @@ def _full_pkg_update(module, api_instance):
             get_host_id(
                 module.params.get('name'),
                 api_instance
-                )
-      )
+            )
+        )
         # wait for all packages to be updated
         api_instance.wait_for_action(action_id, host)
         module.exit_json(changed=True, installed_updates=upgrades)
@@ -95,6 +96,7 @@ def _full_pkg_update(module, api_instance):
         module.fail_json(msg=f"Upgrade(s) not found or applicable: {err}")
     except SSLCertVerificationError:
         module.fail_json(msg="Failed to verify SSL certificate")
+
 
 def main():
     """
@@ -124,6 +126,7 @@ def main():
 
     api_instance = _configure_connection(module_params)
     _full_pkg_update(module, api_instance)
+
 
 if __name__ == '__main__':
     main()

@@ -1,19 +1,19 @@
 ---
 - name: Check if Uyuni server was set
   ansible.builtin.fail:
-    msg: Set uyuni_server to a valid server hostname/FQDN
-  when: uyuni_server is undefined
+    msg: Set client_uyuni_server to a valid server hostname/FQDN
+  when: client_uyuni_server is undefined
 
-- name: Check if the uyuni_repo_file exists
+- name: Check if the client_repo_file exists
   ansible.builtin.stat:
-      path: "{{ uyuni_repo_file }}"
-  register: stat_uyuni_repo_file
+    path: "{{ client_repo_file }}"
+  register: client_stat_repo_file
 
 - name: Download Uyuni bootstrap script
-  when: stat_uyuni_repo_file.stat.exists == false
+  when: not client_stat_repo_file.stat.exists
   ansible.builtin.get_url:
-    url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
-    dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    url: "http://{{ client_uyuni_server }}/pub/bootstrap/{{ client_bootstrap_filename }}"
+    dest: "{{ client_bootstrap_folder }}/bootstrap.sh"
     owner: root
     group: root
     mode: '0755'
@@ -21,13 +21,13 @@
   become: true
 
 - name: Register with Uyuni
-  ansible.builtin.command: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+  ansible.builtin.command: "{{ client_bootstrap_folder }}/bootstrap.sh"
   args:
-    creates: "{{ uyuni_repo_file }}"
+    creates: "{{ client_repo_file }}"
   become: true
 
 - name: Remove downloaded bootstrap script
   ansible.builtin.file:
-    path: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
+    path: "{{ client_bootstrap_folder }}/bootstrap.sh"
     state: absent
   become: true

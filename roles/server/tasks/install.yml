@@ -1,7 +1,7 @@
 ---
 - name: Install packages
   community.general.zypper:
-    name: "{{ uyuni_pkgs }}"
+    name: "{{ server_pkgs }}"
   notify: Reboot system (if immutable)
   become: true
 
@@ -12,16 +12,16 @@
 
 - name: Prepare storage for volumes and database
   ansible.builtin.command:
-    cmd: "mgr-storage-server {{ uyuni_disk_volumes }} {{ uyuni_disk_database }}"
+    cmd: "mgr-storage-server {{ server_disk_volumes }} {{ server_disk_database }}"
   when:
-    - uyuni_disk_volumes is defined
-    - uyuni_disk_database is defined
+    - server_disk_volumes is defined
+    - server_disk_database is defined
   become: true
 
 - name: Prepare storage for volumes
   ansible.builtin.command:
-    cmd: "mgr-storage-server {{ uyuni_disk_volumes }}"
-  when: uyuni_disk_volumes is defined
+    cmd: "mgr-storage-server {{ server_disk_volumes }}"
+  when: server_disk_volumes is defined
   become: true
 
 - name: Stage deploy configuration
@@ -35,9 +35,9 @@
 
 - name: Download air-gapped container image
   community.general.zypper:
-    name: suse-manager-{{ uyuni_suma_release }}-{{ ansible_architecture }}-server-image
+    name: suse-manager-{{ server_suma_release }}-{{ ansible_architecture }}-server-image
   notify: Reboot system (if immutable)
-  when: uyuni_suma_airgapped
+  when: server_suma_airgapped
   become: true
 
 - name: Enable netavark workaround

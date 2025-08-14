@@ -9,13 +9,13 @@
 
   roles:
     - role: stdevel.uyuni.server
-      uyuni_enable_monitoring: true
-      # uyuni_channels:
+      server_enable_monitoring: true
+      # server_channels:
       #   - name: almalinux9
       #     arch: x86_64
       #   - name: almalinux9-appstream
       #     arch: x86_64
       #   - name: almalinux9-uyuni-client
       #     arch: x86_64
-      # # uyuni_release: '2023.03'
-      # uyuni_firewall_config: true
+      # # server_release: '2023.03'
+      # server_firewall_config: true

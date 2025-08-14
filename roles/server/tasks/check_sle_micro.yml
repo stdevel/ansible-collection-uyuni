@@ -9,19 +9,19 @@
   ansible.builtin.fail:
     msg: "SUSE MLM releases older than 5.0 are unsupported - use an older version of this collection"
   when:
-    - uyuni_suma_release is defined
-    - "uyuni_suma_release is version('5.0', '<')"
+    - server_suma_release is defined
+    - "server_suma_release is version('5.0', '<')"
 
 - name: Ensure having supported SL Micro release for SUSE MLM 5.1
   ansible.builtin.fail:
     msg: "Please upgrade to SL Micro 6.1"
   when:
-    - uyuni_suma_release == 5.1
+    - server_suma_release == 5.1
     - ansible_distribution_version != '6.1'
 
 - name: Ensure having supported SLE Micro release for SUMA 5.0
   ansible.builtin.fail:
     msg: "Please upgrade to SLE Micro 5.5"
   when:
-    - uyuni_suma_release == 5.0
+    - server_suma_release == 5.0
     - ansible_distribution_version != '5.5'

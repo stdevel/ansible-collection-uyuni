@@ -1,10 +1,10 @@
 ---
-uyuni_repo_file: /etc/zypp/repos.d/susemanager:channels.repo
+client_repo_file: /etc/zypp/repos.d/susemanager:channels.repo
 
-uyuni_client_packages:
+client_packages:
   - salt-minion
-uyuni_minion_service: salt-minion
-uyuni_client_directories:
+client_minion_service: salt-minion
+client_directories:
   - /etc/salt-minion
   - /etc/salt
   - /var/cache/salt/minion

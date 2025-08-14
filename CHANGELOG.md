@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.3.5 (14.08.2025)
+
+- fixed mgrctl parameter (added missing --)
+- added `apply_highstate` and `apply_states` modules
+- **Breaking change**: `server` role variable names have changed
+  - `uyuni_*` --> `server_*`
+- **Breaking change**: `client` role variable names have changed
+  - `uyuni_*` --> `client_*`
+  - `uyuni_server` --> `client_uyuni_server`
+- fixed linting, refactored code
+
 ## 0.3.4 (04.06.2025)
 
 - fix a bug where local timezone was preferred over UTC timezone when scheduling actions
@@ -17,10 +28,10 @@
 ## 0.3.0 (08.05.2025)
 
 - added **support for containerized setups** (SUMA 5.0+ and Uyuni 2024.10+)
-    - openSUSE Tumbleweed, Slowroll, Leap, Leap Micro, SUSE Linux Enterprise Server and SUSE Linux Enterprise Micro/SUSE Linux Micro are supported installation targets
+  - openSUSE Tumbleweed, Slowroll, Leap, Leap Micro, SUSE Linux Enterprise Server and SUSE Linux Enterprise Micro/SUSE Linux Micro are supported installation targets
 - **Breaking change**: removed support for legacy installations (SUMA 4.x and Uyuni up to 2024.08)
 - **Breaking change**: removed Ansible role `stdevel.uyuni.storage` as it's not needed anymore for containerized setups
-    - see variables `uyuni_disk_volumes` and `uyuni_disk_database`
+  - see variables `uyuni_disk_volumes` and `uyuni_disk_database`
 - `server`: added CPU architecture prerequisite check
 - `server`: removed CEFS support as CentOS 7 reached EOL
 - `server`: enabling SL(E) modules is now idempotent

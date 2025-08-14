@@ -18,35 +18,35 @@ The system needs access to the internet. Also, you will need one of the followin
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `uyuni_check_requirements` | `true` | Check for hardware requirements |
-| `uyuni_suma_release` | `5.0` | SUSE Multi-Linux Manager release to install |
-| `uyuni_disk_volumes` | - | Dedicated disk for container volumes |
-| `uyuni_disk_database` | - | Dedicated disk for database container volume |
-| `uyuni_suma_airgapped` | `false` | Whether to get container image from RPM instead of online registry |
-| `uyuni_release` | *empty* | Uyuni release to install (*e.g. `2024.12`*) |
-| `uyuni_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
-| `uyuni_scc_reg_code_os` | - | [SUSE Customer Center](https://scc.suse.com) registration code for the OS (optional) |
-| `uyuni_scc_reg_code_mlm` | - | [SUSE Customer Center](https://scc.suse.com) registration code (*received after trial registration or purchase*) |
-| `uyuni_scc_mail` | - | SUSE Customer Center mail address |
-| `uyuni_scc_check_registration` | `true` | Register system if unregistered |
-| `uyuni_scc_check_modules` | `true` | Activate required modules if not already enabled |
-| `uyuni_slm_modules` | (*Modules required for SUSE Multi-Linux Manager 5.x*) | Modules to enable before installation |
-| `uyuni_mail` | `root@localhost` | Web server administrator mail |
-| `uyuni_cert_city` | `Darmstadt` | Certificate city |
-| `uyuni_cert_country` | `DE` | Certificate country |
-| `uyuni_cert_mail` | `root@localhost` | Certificate mail |
-| `uyuni_cert_o` | `Darmstadt` | Certificate organization |
-| `uyuni_cert_ou` | `Darmstadt` | Certificate organization unit |
-| `uyuni_cert_state` | `Hessen` | Certificate state |
-| `uyuni_cert_pass` | `uyuni` | Certificate password |
-| `uyuni_org_name` | `Demo` | Organization name |
-| `uyuni_org_login` | `admin` | Organization administrator username |
-| `uyuni_org_password` | `admin` | Organization administrator password |
-| `uyuni_org_mail` | `root@localhost` | Organization administrator mail |
-| `uyuni_org_first_name`| `Anton` | Organization administrator first name |
-| `uyuni_org_last_name`| `Administrator` | Organization administrator last name |
-| `uyuni_channels`| *empty* | Common channels to synchronize (*e.g. `almalinux9` and `epel9`*) |
-| `uyuni_enable_monitoring` | `false` | Flag whether integrated monitoring stack should be enabled |
+| `server_check_requirements` | `true` | Check for hardware requirements |
+| `server_suma_release` | `5.0` | SUSE Multi-Linux Manager release to install |
+| `server_disk_volumes` | - | Dedicated disk for container volumes |
+| `server_disk_database` | - | Dedicated disk for database container volume |
+| `server_suma_airgapped` | `false` | Whether to get container image from RPM instead of online registry |
+| `server_release` | *empty* | Uyuni release to install (*e.g. `2024.12`*) |
+| `server_scc_url` | `https://scc.suse.com` | [SUSE Customer Center](https://scc.suse.com) URL to use (*may be different for some hyperscalers*) |
+| `server_scc_reg_code_os` | - | [SUSE Customer Center](https://scc.suse.com) registration code for the OS (optional) |
+| `server_scc_reg_code_mlm` | - | [SUSE Customer Center](https://scc.suse.com) registration code (*received after trial registration or purchase*) |
+| `server_scc_mail` | - | SUSE Customer Center mail address |
+| `server_scc_check_registration` | `true` | Register system if unregistered |
+| `server_scc_check_modules` | `true` | Activate required modules if not already enabled |
+| `server_slm_modules` | (*Modules required for SUSE Multi-Linux Manager 5.x*) | Modules to enable before installation |
+| `server_mail` | `root@localhost` | Web server administrator mail |
+| `server_cert_city` | `Darmstadt` | Certificate city |
+| `server_cert_country` | `DE` | Certificate country |
+| `server_cert_mail` | `root@localhost` | Certificate mail |
+| `server_cert_o` | `Darmstadt` | Certificate organization |
+| `server_cert_ou` | `Darmstadt` | Certificate organization unit |
+| `server_cert_state` | `Hessen` | Certificate state |
+| `server_cert_pass` | `uyuni` | Certificate password |
+| `server_org_name` | `Demo` | Organization name |
+| `server_org_login` | `admin` | Organization administrator username |
+| `server_org_password` | `admin` | Organization administrator password |
+| `server_org_mail` | `root@localhost` | Organization administrator mail |
+| `server_org_first_name`| `Anton` | Organization administrator first name |
+| `server_org_last_name`| `Administrator` | Organization administrator last name |
+| `server_channels`| *empty* | Common channels to synchronize (*e.g. `almalinux9` and `epel9`*) |
+| `server_enable_monitoring` | `false` | Flag whether integrated monitoring stack should be enabled |
 
 When supplying channels to create in `channels`, ensure passing a list with dicts like this:
 
@@ -83,7 +83,7 @@ Set variables if required, e.g.:
   remote_user: root
   roles:
     - role: stdevel.uyuni.server
-      uyuni_channels:
+      server_channels:
         - name: almalinux9
           arch: x86_64
         - name: almalinux9-appstream
@@ -98,9 +98,9 @@ Don't forget setting SUSE-related variables when deploying SUSE Multi-Linux Mana
 - hosts: servers
   roles:
     - role: stdevel.uyuni.server
-      uyuni_scc_reg_code:
+      server_scc_reg_code:
         - DERP1337LULZ
-      uyuni_scc_mail: bla@foo.bar
+      server_scc_mail: bla@foo.bar
 ```
 
 Installing Multi-Linux Manager on SLES requires an additional registration code as the MLM subscription only includes SL Micro:
@@ -109,9 +109,9 @@ Installing Multi-Linux Manager on SLES requires an additional registration code 
 - hosts: servers
   roles:
     - role: stdevel.uyuni.server
-      uyuni_scc_reg_code_os: DERP1337LULZ
-      uyuni_scc_reg_code_mlm: RFL0815CPTR
-      uyuni_scc_mail: meh@foo.baz
+      server_scc_reg_code_os: DERP1337LULZ
+      server_scc_reg_code_mlm: RFL0815CPTR
+      server_scc_mail: meh@foo.baz
 ```
 
 If you plan to bootstrap older Uyuni versions, set the Uyuni release:
@@ -122,7 +122,7 @@ If you plan to bootstrap older Uyuni versions, set the Uyuni release:
   remote_user: root
   roles:
     - role: stdevel.uyuni.server
-      uyuni_release: '2024.07'
+      server_release: '2024.07'
 ```
 
 ## Development

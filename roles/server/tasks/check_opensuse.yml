@@ -9,5 +9,5 @@
   ansible.builtin.fail:
     msg: "Uyuni releases older than 2024.03 are unsupported - use an older version of this collection"
   when:
-    - uyuni_release is defined
-    - "uyuni_release is version('2024.03', '<=')"
+    - server_release is defined
+    - "server_release is version('2024.03', '<=')"

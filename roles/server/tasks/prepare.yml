@@ -1,5 +1,5 @@
 ---
 - name: Install requirements
   community.general.zypper:
-    name: "{{ uyuni_requirements }}"
+    name: "{{ server_requirements }}"
   become: true

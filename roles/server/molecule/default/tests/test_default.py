@@ -18,7 +18,7 @@ def test_packages(host):
     # get variables from file
     ansible_vars = host.ansible("include_vars", "file=main.yml")
     # check dependencies and Uyuni packages
-    for pkg in ansible_vars["ansible_facts"]["uyuni_pkgs"]:
+    for pkg in ansible_vars["ansible_facts"]["server_pkgs"]:
         assert host.package(pkg).is_installed
 
 
@@ -51,11 +51,11 @@ def test_org(host):
     # check if organization exists
     cmd_org = host.run(
         "mgrctl exec 'spacecmd -q -u %s -p %s org_list'",
-        ansible_vars["ansible_facts"]["uyuni_org_login"],
-        ansible_vars["ansible_facts"]["uyuni_org_password"],
+        ansible_vars["ansible_facts"]["server_org_login"],
+        ansible_vars["ansible_facts"]["server_org_password"],
     )
     assert (
-        cmd_org.stdout.strip() == ansible_vars["ansible_facts"]["uyuni_org_name"]
+        cmd_org.stdout.strip() == ansible_vars["ansible_facts"]["server_org_name"]
     )  # noqa: 204
 
 
@@ -67,8 +67,8 @@ def test_channels(host):
     ansible_vars = host.ansible("include_vars", "file=main.yml")
     # check channels if defined
     if (
-        "uyuni_channels" in ansible_vars["ansible_facts"]
-        and len(ansible_vars["ansible_facts"]["uyuni_channels"]) > 0
+        "server_channels" in ansible_vars["ansible_facts"]
+        and len(ansible_vars["ansible_facts"]["server_channels"]) > 0
     ):
         # get spacewalk-common-channels definitions from client
         with host.sudo():
@@ -82,10 +82,10 @@ def test_channels(host):
         with host.sudo():
             cmd_channels = host.run(
                 "mgrctl exec 'spacecmd -q -u %s -p %s repo_list'",
-                ansible_vars["ansible_facts"]["uyuni_org_login"],
-                ansible_vars["ansible_facts"]["uyuni_org_password"],
+                ansible_vars["ansible_facts"]["server_org_login"],
+                ansible_vars["ansible_facts"]["server_org_password"],
             )
-        for channel in ansible_vars["ansible_facts"]["uyuni_channels"]:
+        for channel in ansible_vars["ansible_facts"]["server_channels"]:
             # get repository name (it ain't nice, but it's honest work)
             repo_name = definitions[channel["name"]]["name"]
             repo_name = "External - %s" % repo_name.replace("%(arch)s", channel["arch"])
@@ -100,7 +100,7 @@ def test_monitoring_enabled(host):
     # get variables from file
     ansible_vars = host.ansible("include_vars", "file=main.yml")
     # check configuration
-    if ansible_vars["ansible_facts"]["uyuni_enable_monitoring"]:
+    if ansible_vars["ansible_facts"]["server_enable_monitoring"]:
         with host.sudo():
             rhn_cfg = host.file(
                 "/var/lib/containers/storage/volumes/etc-rhn/_data/rhn.conf"

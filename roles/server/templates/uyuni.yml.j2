@@ -1,26 +1,26 @@
 # Image settings
-image: {{ uyuni_image_name }}
+image: {{ server_image_name }}
 tag: latest
 
 # SSL settings
 ssl:
-  city: {{ uyuni_cert_city }}
-  country: {{ uyuni_cert_country }}
-  org: {{ uyuni_cert_o }}
-  ou: {{ uyuni_cert_ou }}
-  password: {{ uyuni_cert_pass }}
-  state: {{ uyuni_cert_state }}
+  city: {{ server_cert_city }}
+  country: {{ server_cert_country }}
+  org: {{ server_cert_o }}
+  ou: {{ server_cert_ou }}
+  password: {{ server_cert_pass }}
+  state: {{ server_cert_state }}
 
 # Organization name
-organization: {{ uyuni_org_name }}
+organization: {{ server_org_name }}
 
 # Email address sending the notifications
-emailFrom: {{ uyuni_mail }}
+emailFrom: {{ server_mail }}
 
 # Administrators account details
 admin:
-  password: {{ uyuni_org_password }}
-  login: {{ uyuni_org_login }}
-  firstName: {{ uyuni_org_first_name }}
-  lastName: {{ uyuni_org_last_name }}
-  email: {{ uyuni_org_mail }}
+  password: {{ server_org_password }}
+  login: {{ server_org_login }}
+  firstName: {{ server_org_first_name }}
+  lastName: {{ server_org_last_name }}
+  email: {{ server_org_mail }}
