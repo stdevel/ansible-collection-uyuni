@@ -21,3 +21,5 @@ roles/server/tasks/prepare_sle_micro.yml no-changed-when
 roles/server/tasks/prepare_sle_micro.yml line-length
 roles/server/tasks/prepare_opensuse_leap_micro.yml no-changed-when
 roles/server/tasks/prepare_opensuse_leap_micro.yml line-length
+roles/server/vars/sle_micro.yml line-length
+roles/server/vars/opensuse.yml line-length
