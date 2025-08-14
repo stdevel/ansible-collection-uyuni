@@ -10,6 +10,9 @@ license:
   - GPL-3.0-only
 
 tags:
+  - infrastructure
+  - eda
+  - linux
   - systemsmanagement
   - uyuni
   - suse

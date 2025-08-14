@@ -16,5 +16,5 @@
         uyuni_host: 192.168.1.10
         uyuni_user: admin
         uyuni_password: admin
-        uyuni_verify_ssl:
+        uyuni_verify_ssl: false
         name: "{{ ansible_eda.event.host }}"

@@ -6,11 +6,11 @@
 
 - name: Check if the uyuni_repo_file exists
   ansible.builtin.stat:
-      path: "{{ uyuni_repo_file }}"
+    path: "{{ uyuni_repo_file }}"
   register: stat_uyuni_repo_file
 
 - name: Download Uyuni bootstrap script
-  when: stat_uyuni_repo_file.stat.exists == false
+  when: not stat_uyuni_repo_file.stat.exists
   ansible.builtin.get_url:
     url: "http://{{ uyuni_server }}/pub/bootstrap/{{ uyuni_bootstrap_filename }}"
     dest: "{{ uyuni_bootstrap_folder }}/bootstrap.sh"
