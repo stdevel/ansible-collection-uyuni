@@ -649,6 +649,58 @@ class UyuniAPIClient:
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
 
+    def apply_states(self, system_id, states, test_mode=False):
+        """
+        Applies the highstate for a system.
+
+        :param system_id: profile ID
+        :type system_id: int
+        :param states: list of state names
+        :type states: str array
+        :param test_mode: Salt State test mode
+        :type test_mode: bool
+        """
+        earliest_execution = DateTime(datetime.utcnow().timetuple())
+
+        try:
+            action_id = self._session.system.scheduleApplyStates(
+                self._api_key, system_id, states, earliest_execution, test_mode
+            )
+            return action_id
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise SessionException(
+                    f"System not found: {system_id!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
+    def apply_highstate(self, system_id, test_mode=False):
+        """
+        Applies the highstate for a system.
+
+        :param system_id: profile ID
+        :type system_id: int
+        :param test_mode: Salt State test mode
+        :type test_mode: bool
+        """
+        earliest_execution = DateTime(datetime.utcnow().timetuple())
+
+        try:
+            action_id = self._session.system.scheduleApplyHighstate(
+                self._api_key, system_id, earliest_execution, test_mode
+            )
+            return action_id
+        except Fault as err:
+            if "no such system" in err.faultString.lower():
+                raise SessionException(
+                    f"System not found: {system_id!r}"
+                ) from err
+            raise SessionException(
+                f"Generic remote communication error: {err.faultString!r}"
+            ) from err
+
     def reboot_host(self, system_id):
         """
         Reboots a system
@@ -1350,7 +1402,7 @@ class UyuniAPIClient:
             raise SessionException(
                 f"Generic remote communication error: {err.faultString!r}"
             ) from err
-    
+
     def get_outdated_pkgs(self, hostname):
         """
         Returns outdated packages of a particular system
