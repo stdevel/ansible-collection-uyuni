@@ -2,7 +2,7 @@
 - name: Check system registration
   ansible.builtin.command: SUSEConnect --status
   changed_when: false
-  register: scc_registration
+  register: server_scc_registration
   when: server_scc_check_registration or server_scc_check_modules
   become: true
 
@@ -11,7 +11,7 @@
   when:
     - server_scc_check_registration
     - server_scc_reg_code_os
-    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+    - 'server_scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
   vars:
     query_filter: "[?identifier == 'SLE-Micro'].status"
   notify: Reboot system (if immutable)
@@ -21,7 +21,7 @@
   ansible.builtin.command: "transactional-update --continue register --url {{ server_scc_url }} -p SUSE-Manager-Server/{{ server_suma_release }}/{{ ansible_architecture }} -r {{ server_scc_reg_code_mlm | upper }} -e {{ server_scc_mail }}"
   when:
     - server_scc_check_registration
-    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+    - 'server_scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
   vars:
     query_filter: "[?identifier == 'SUSE-Manager-Server'].status"
   notify: Reboot system (if immutable)
@@ -32,7 +32,7 @@
   loop: "{{ server_suma_modules }}"
   when:
     - server_scc_check_modules
-    - 'scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
+    - 'server_scc_registration.stdout | from_json | json_query(query_filter) | join | lower != "registered"'
   vars:
     query_filter: "[?identifier == '{{ item.search }}'].status"
   notify: Reboot system (if immutable)

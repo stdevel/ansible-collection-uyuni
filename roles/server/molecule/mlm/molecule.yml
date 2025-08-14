@@ -6,7 +6,7 @@ dependency:
 driver:
   name: default
   options:
-    managed: False
+    managed: false
     login_cmd_template: 'ssh root@{instance}'
     ansible_connection_options:
       ansible_connection: ssh
