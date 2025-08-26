@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.3.6 (26.08.2025)
+
+- `server` - added variable `server_fqdn` to set a custom FQDN if `ansible_fqdn` doesn't work for you
+
 ## 0.3.5 (14.08.2025)
 
 - fixed mgrctl parameter (added missing --)
