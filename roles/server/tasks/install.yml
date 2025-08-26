@@ -57,8 +57,13 @@
 - name: Trigger reboot (if necessary)
   ansible.builtin.meta: flush_handlers
 
+- name: Set default FQDN
+  ansible.builtin.set_fact:
+    server_fqdn: "{{ ansible_fqdn }}"
+  when: server_fqdn is not defined
+
 - name: Run installation
-  ansible.builtin.command: "mgradm -c /root/uyuni.yml install podman {{ ansible_fqdn }}"
+  ansible.builtin.command: "mgradm -c /root/uyuni.yml install podman {{ server_fqdn }}"
   args:
     creates: /root/.MANAGER_INITIALIZATION_COMPLETE
   become: true

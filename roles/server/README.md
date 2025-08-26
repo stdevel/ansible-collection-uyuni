@@ -47,6 +47,7 @@ The system needs access to the internet. Also, you will need one of the followin
 | `server_org_last_name`| `Administrator` | Organization administrator last name |
 | `server_channels`| *empty* | Common channels to synchronize (*e.g. `almalinux9` and `epel9`*) |
 | `server_enable_monitoring` | `false` | Flag whether integrated monitoring stack should be enabled |
+| `server_fqdn` | - | Set custom FQDN if `ansible_fqdn` doesn't work for you |
 
 When supplying channels to create in `channels`, ensure passing a list with dicts like this:
 
