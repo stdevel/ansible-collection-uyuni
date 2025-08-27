@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.3.6 (26.08.2025)
+## 0.3.6 (27.08.2025)
 
 - `server` - added variable `server_fqdn` to set a custom FQDN if `ansible_fqdn` doesn't work for you
 
