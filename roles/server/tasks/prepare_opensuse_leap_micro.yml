@@ -21,5 +21,5 @@
 
 - name: Set default image name (release-specific)
   ansible.builtin.set_fact:
-    server_image_name: "registry.opensuse.org/systemsmanagement/uyuni/snapshots/{{ server_release }}/containers/uyuni/server"
+    server_image_name: "registry.opensuse.org/uyuni/server:{{ server_release }}"
   when: server_release is defined
