@@ -10,12 +10,24 @@
     name: test_volume
   become: true
 
+- name: Check if volumes are already configured
+  ansible.builtin.shell:
+    cmd: |
+      type=$(wipefs -O type -p {{ item }})
+      echo -n "$vol:"
+      [[ $type == "0" ]] && echo "available" || echo "in-use"
+      done
+  loop:
+    - "{{ server_disk_volumes if server_disk_volumes is defined }}"
+    - "{{ server_disk_database if server_disk_database is defined }}"
+  register: volume_usage
+
 - name: Prepare storage for volumes and database
   ansible.builtin.command:
     cmd: "mgr-storage-server {{ server_disk_volumes }} {{ server_disk_database }}"
   when:
-    - server_disk_volumes is defined
-    - server_disk_database is defined
+    - server_disk_volumes is defined and volume_usage.server_disk_volumes is "available"
+    - server_disk_database is defined and volume_usage.server_disk_database is "available"
   become: true
 
 - name: Prepare storage for volumes
