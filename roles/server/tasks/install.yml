@@ -13,27 +13,32 @@
 - name: Check if volumes are already configured
   ansible.builtin.shell:
     cmd: |
-      type=$(wipefs -O type -p {{ item }})
-      echo -n "$vol:"
-      [[ $type == "0" ]] && echo "available" || echo "in-use"
+      for vol in {{ server_disk_volumes }} {{ server_disk_database }}; do
+      type=$(wipefs -O type -p $vol)
+      [[ ${{ '{' ~ '#' }}type} -eq 0 ]] && echo "${vol}: true" || echo "${vol}: false"
       done
-  loop:
-    - "{{ server_disk_volumes if server_disk_volumes is defined }}"
-    - "{{ server_disk_database if server_disk_database is defined }}"
   register: volume_usage
+  become: true
+
+- name: Save volume config status to dict
+  set_fact:
+    vols: "{{ volume_usage.stdout | from_yaml }}"
+  become: true
 
 - name: Prepare storage for volumes and database
   ansible.builtin.command:
     cmd: "mgr-storage-server {{ server_disk_volumes }} {{ server_disk_database }}"
   when:
-    - server_disk_volumes is defined and volume_usage.server_disk_volumes is "available"
-    - server_disk_database is defined and volume_usage.server_disk_database is "available"
+    - server_disk_volumes is defined and vols[server_disk_volumes]
+    - server_disk_database is defined and vols[server_disk_database]
   become: true
 
 - name: Prepare storage for volumes
   ansible.builtin.command:
     cmd: "mgr-storage-server {{ server_disk_volumes }}"
-  when: server_disk_volumes is defined
+  when:
+    - server_disk_volumes is defined and vols[server_disk_volumes]
+    - server_disk_database is not defined
   become: true
 
 - name: Stage deploy configuration
