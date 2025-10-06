@@ -24,11 +24,18 @@
   when: server_disk_volumes is defined
   become: true
 
-- name: Mount volumes
-  ansible.builtin.command: mount -a
-  register: result_remount
-  failed_when: result_remount.rc != 0
+- name: Mount volumes volume
+  ansible.posix.mount:
+    path: /var/lib/containers/storage/volumes
+    state: remounted
   when: server_disk_volumes is defined
+  become: true
+
+- name: Mount database volume
+  ansible.posix.mount:
+    path: /var/lib/containers/storage/volumes/var-pgsql
+    state: remounted
+  when: server_disk_database is defined
   become: true
 
 - name: Stage deploy configuration
