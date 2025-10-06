@@ -24,6 +24,13 @@
   when: server_disk_volumes is defined
   become: true
 
+- name: Mount volumes
+  ansible.builtin.command: mount -a
+  register: result_remount
+  failed_when: result_remount.rc != 0
+  when: server_disk_volumes is defined
+  become: true
+
 - name: Stage deploy configuration
   ansible.builtin.template:
     src: uyuni.yml.j2
