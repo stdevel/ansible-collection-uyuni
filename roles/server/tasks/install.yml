@@ -17,27 +17,27 @@
       type=$(wipefs -O type -p $vol)
       [[ ${{ '{' ~ '#' }}type} -eq 0 ]] && echo "${vol}: true" || echo "${vol}: false"
       done
-  register: volume_usage
+  register: server_volume_usage
   become: true
 
 - name: Save volume config status to dict
-  set_fact:
-    vols: "{{ volume_usage.stdout | from_yaml }}"
+  ansible.builtin.set_fact:
+    server_vols: "{{ server_volume_usage.stdout | from_yaml }}"
   become: true
 
 - name: Prepare storage for volumes and database
   ansible.builtin.command:
     cmd: "mgr-storage-server {{ server_disk_volumes }} {{ server_disk_database }}"
   when:
-    - server_disk_volumes is defined and vols[server_disk_volumes]
-    - server_disk_database is defined and vols[server_disk_database]
+    - server_disk_volumes is defined and server_vols[server_disk_volumes]
+    - server_disk_database is defined and server_vols[server_disk_database]
   become: true
 
 - name: Prepare storage for volumes
   ansible.builtin.command:
     cmd: "mgr-storage-server {{ server_disk_volumes }}"
   when:
-    - server_disk_volumes is defined and vols[server_disk_volumes]
+    - server_disk_volumes is defined and server_vols[server_disk_volumes]
     - server_disk_database is not defined
   become: true
 
@@ -85,3 +85,4 @@
     creates: /root/.MANAGER_INITIALIZATION_COMPLETE
   become: true
   notify: Create initialization file
+
